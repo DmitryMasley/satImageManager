@@ -203,7 +203,7 @@ QMimeData* StandardModel::mimeData(const QModelIndexList &indexes) const
     }
     mimeData->setText(getItemClassName());
     mimeData->setData(getItemClassName(), array);
-    mimeData->setIndes(newIndexList);
+    mimeData->setIndexes(newIndexList);
     return mimeData;
 }
 QString StandardModel::getItemClassName() const {
