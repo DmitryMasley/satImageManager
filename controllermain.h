@@ -26,6 +26,7 @@ signals:
     void MainViewSelectionChanged(ImageItem*);
     void SelectionRemoved();
     void ImageAdded(cv::Mat, QString);
+    void ImageAdded();
 public slots:
     void mainViewSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
     void RemoveSelectedImage();

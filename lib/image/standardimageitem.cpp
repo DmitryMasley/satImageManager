@@ -6,20 +6,23 @@ StandardImageItem::StandardImageItem(QObject *parent) :
 }
 #include "imageitem.h"
 
-StandardImageItem::StandardImageItem(Mat image, QString name, QString fileName, int channel, QObject *parent, bool isRoot) :
-    AbstractItem(isRoot, parent)
+StandardImageItem::StandardImageItem(Mat image, QString name, QString fileName, bool isRoot, QObject *parent) :
+    AbstractItem(parent)
 {
-    this->initImageData(image, name, fileName, channel);
+    setRoot(isRoot);
+    this->initImageData(image, name, fileName);
 
 }
-StandardImageItem::StandardImageItem(QString name, QString fileName, bool isColored, bool isRoot) :
-    AbstractItem(isRoot, 0)
+StandardImageItem::StandardImageItem(QString name, QString fileName, bool isRoot, QObject *parent) :
+    AbstractItem(parent)
 {
+    setRoot(isRoot);
     initImageData(name, fileName);
 }
 StandardImageItem::StandardImageItem(const QList<QMap<int, QVariant> > &data, bool isRoot) :
-    AbstractItem(isRoot, 0)
+    AbstractItem()
 {
+    setRoot(isRoot);
     QStringList headers;
     headers << QString("Item Title");
     setHeaders(headers);
@@ -42,6 +45,18 @@ StandardImageItem::StandardImageItem(StandardImageItem &item):AbstractItem(item)
 StandardImageItem::~StandardImageItem()
 {
     delete _tempimage;
+}
+bool StandardImageItem::isMultichannel(){
+    return _isMultiChannel;
+}
+void StandardImageItem::setIsMultichannel(bool value){
+    _isMultiChannel = value;
+}
+bool StandardImageItem::root(){
+    return _isRoot;
+}
+void StandardImageItem::setRoot(bool value){
+    _isRoot = value;
 }
 Mat StandardImageItem::getCVImage()
 {
@@ -79,7 +94,7 @@ QImage* StandardImageItem::getQImage()
 bool StandardImageItem::canAcceptMoreChildren()
 {
     bool result = false;
-    if((canHaveChildren() && this->childCount()<4) || this->isRoot())
+    if((canHaveChildren() && this->childCount()<4) || this->root())
     {
         result = true;
     }
@@ -127,8 +142,7 @@ bool StandardImageItem::isValid()
 }
 bool StandardImageItem::canHaveChildren()
 {
-    int channel = getChannel();
-    return getChannel()==-1;
+    return isMultichannel() || root();
 }
 void StandardImageItem::_addCharacteristicsModel()
 {
@@ -149,17 +163,12 @@ void StandardImageItem::_addCharacteristicsModel()
 //        Characteristics.append(new CharacteristicsItem(data, QString(ChList.value(i))));
     }
 }
-bool StandardImageItem::isMultichannel()
-{
-    Mat image = this->getCVImage();
-    return this->childCount()>0 && image.channels() > 1;
-}
 QString StandardImageItem::getName()
 {
     return this->data(0, Qt::DisplayRole).toString();
 }
 
-void StandardImageItem::initImageData(Mat image, QString name, QString fileName, int channel)
+void StandardImageItem::initImageData(Mat image, QString name, QString fileName)
 {
     QIcon icon;
     if(image.rows && image.cols)
@@ -190,11 +199,6 @@ void StandardImageItem::initImageData(Mat image, QString name, QString fileName,
     QMap<int, QVariant> fileData;
     fileData.insert(Qt::DisplayRole, fileName);
     this->addData(fileData);
-
-    //channels data
-    QMap<int, QVariant> channelsData;
-    channelsData.insert(Qt::DisplayRole, channel);
-    this->addData(channelsData);
 
     //headers
     QStringList headers;

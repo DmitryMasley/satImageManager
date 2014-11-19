@@ -344,12 +344,6 @@ bool BasicModel::dropMimeData(const QMimeData* data,
     {
         beginRow = rowCount(point.parent);
     }
-//    foreach(const QList<QList<QVariant> > itemData, DDdata)
-//    {
-//        insertRows(beginRow, 1, itemData, point.parent);
-//        beginRow++;
-//        break;
-//    }
     foreach (QModelIndex index, indexes)
     {
         if(index.isValid())

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.3.1
+** Created by: Qt User Interface Compiler version 5.3.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -809,7 +809,7 @@ public:
         MI_TreeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         MI_TreeView->setTabKeyNavigation(true);
         MI_TreeView->setDragEnabled(true);
-        MI_TreeView->setDragDropOverwriteMode(true);
+        MI_TreeView->setDragDropOverwriteMode(false);
         MI_TreeView->setDragDropMode(QAbstractItemView::DragDrop);
         MI_TreeView->setDefaultDropAction(Qt::MoveAction);
         MI_TreeView->setAlternatingRowColors(true);
@@ -1033,7 +1033,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1052, 21));
+        menuBar->setGeometry(QRect(0, 0, 1052, 26));
         menuBar->setDefaultUp(false);
         menu_file = new QMenu(menuBar);
         menu_file->setObjectName(QStringLiteral("menu_file"));

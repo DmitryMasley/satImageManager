@@ -198,8 +198,13 @@ QMimeData* StandardModel::mimeData(const QModelIndexList &indexes) const
     StandardMimeData *mimeData = new StandardMimeData();
     QByteArray array;
     QModelIndexList newIndexList;
+    QList<AbstractItem*> items;
     foreach (QModelIndex index, indexes) {
-        newIndexList << index;
+        AbstractItem* item = getItem(index);
+        if(!items.contains(item)){
+           newIndexList << index;
+           items.append(item);
+        }
     }
     mimeData->setText(getItemClassName());
     mimeData->setData(getItemClassName(), array);

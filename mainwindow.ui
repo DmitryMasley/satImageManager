@@ -1117,7 +1117,7 @@ p, li { white-space: pre-wrap; }
               <bool>true</bool>
              </property>
              <property name="dragDropOverwriteMode">
-              <bool>true</bool>
+              <bool>false</bool>
              </property>
              <property name="dragDropMode">
               <enum>QAbstractItemView::DragDrop</enum>
@@ -1489,7 +1489,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>1052</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="defaultUp">

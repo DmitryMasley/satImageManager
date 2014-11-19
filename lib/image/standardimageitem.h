@@ -14,10 +14,13 @@ class StandardImageItem : public AbstractItem
     Q_OBJECT
 public:
     Q_INVOKABLE explicit StandardImageItem(QObject *parent = 0);
-    Q_INVOKABLE explicit StandardImageItem(Mat image, QString name, QString fileName=QString(), int channel = -1, QObject *parent = 0, bool isRoot = false);
-    Q_INVOKABLE explicit StandardImageItem(QString name, QString fileName=QString(), bool isColored = true, bool isRoot = false);
+    Q_INVOKABLE explicit StandardImageItem(Mat image, QString name, QString fileName=QString(), bool isRoot = false, QObject *parent = 0);
+    Q_INVOKABLE explicit StandardImageItem(QString name, QString fileName=QString(), bool isRoot = false, QObject *parent = 0);
     Q_INVOKABLE explicit StandardImageItem(const QList<QMap<int, QVariant> > &data, bool isRoot = false);
     Q_INVOKABLE explicit StandardImageItem(StandardImageItem& item);
+    Q_PROPERTY(bool _isMultiChannel READ isMultichannel WRITE setIsMultichannel)
+    Q_PROPERTY(bool _isRoot READ root WRITE setRoot)
+
     ~StandardImageItem();
     Mat getCVImage();
     void setCVImage(Mat image);
@@ -26,11 +29,14 @@ public:
     QString getName();
     bool isValid();
     bool canHaveChildren();
-    bool isMultichannel();
     StandardImageItem* findImage(QString fileName);
-    void initImageData(Mat image, QString name, QString fileName=QString(), int channel=-1);
+    void initImageData(Mat image, QString name, QString fileName=QString());
     void initImageData(QString name, QString fileName=QString());
     int getChannel();
+    bool isMultichannel();
+    void setIsMultichannel(bool value);
+    bool root();
+    void setRoot(bool value);
     QStringList ChList;
 
 signals:
@@ -41,8 +47,8 @@ protected:
 public slots:
 private:
    QImage* _tempimage = 0;
-   bool _isColored;
-   bool _isRoot;
+   bool _isMultiChannel = false;
+   bool _isRoot = false;
    void _addCharacteristicsModel();
 };
 
