@@ -102,7 +102,8 @@ HEADERS  +=stdafx.h \
     lib/standardmimedata.h \
     lib/image/standardimagemodel.h \
     lib/image/standardimageitem.h \
-    multichannel/controllermultichannelimages.h
+    multichannel/controllermultichannelimages.h \
+    metatypes.h
 
 FORMS+= mainwindow.ui
 
@@ -116,51 +117,67 @@ FORMS+= mainwindow.ui
 #  LIBS += $$files($$OPENCV_LIB/*242d.lib)
 #}
 INCLUDEPATH += "C:/opencv/build/include"#C:/opencvQt/include
-#LIBS += "C:/opencvQt/lib/libopencv_calib3d242.dll.a" \
-#"C:/opencvQt/lib/libopencv_contrib242.dll.a" \
-#"C:/opencvQt/lib/libopencv_core242.dll.a" \
-#"C:/opencvQt/lib/libopencv_imgproc242.dll.a" \
-#"C:/opencvQt/lib/libopencv_highgui242.dll.a"
 
-LIBS += "C:/openCVBuild/lib/libopencv_core246.dll.a"
-LIBS += "C:/openCVBuild/lib/libopencv_calib3d246.dll.a"
-LIBS += "C:/openCVBuild/lib/libopencv_contrib246.dll.a"
 
-LIBS += "C:/openCVBuild/lib/libopencv_features2d246.dll.a"
-LIBS += "C:/openCVBuild/lib/libopencv_flann246.dll.a"
+# custom build mingw
+#LIBS += "C:/openCVBuild/lib/libopencv_core246.dll.a"
+#LIBS += "C:/openCVBuild/lib/libopencv_calib3d246.dll.a"
+#LIBS += "C:/openCVBuild/lib/libopencv_contrib246.dll.a"
 
-LIBS += "C:/openCVBuild/lib/libopencv_gpu246.dll.a"
-LIBS += "C:/openCVBuild/lib/libopencv_highgui246.dll.a"
-LIBS += "C:/openCVBuild/lib/libopencv_imgproc246.dll.a"
-LIBS += "C:/openCVBuild/lib/libopencv_legacy246.dll.a"
+#LIBS += "C:/openCVBuild/lib/libopencv_features2d246.dll.a"
+#LIBS += "C:/openCVBuild/lib/libopencv_flann246.dll.a"
 
-LIBS += "C:/openCVBuild/lib/libopencv_ml246.dll.a"
-LIBS += "C:/openCVBuild/lib/libopencv_nonfree246.dll.a"
-LIBS += "C:/openCVBuild/lib/libopencv_objdetect246.dll.a"
+#LIBS += "C:/openCVBuild/lib/libopencv_gpu246.dll.a"
+#LIBS += "C:/openCVBuild/lib/libopencv_highgui246.dll.a"
+#LIBS += "C:/openCVBuild/lib/libopencv_imgproc246.dll.a"
+#LIBS += "C:/openCVBuild/lib/libopencv_legacy246.dll.a"
 
-#LIBS += "C:/opencv/build/x86/mingw/lib/libopencv_calib3d242.dll.a \"
+#LIBS += "C:/openCVBuild/lib/libopencv_ml246.dll.a"
+#LIBS += "C:/openCVBuild/lib/libopencv_nonfree246.dll.a"
+#LIBS += "C:/openCVBuild/lib/libopencv_objdetect246.dll.a"
+# custom build mingw end
 
-#"C:/opencv/build/x86/mingw/lib/libopencv_contrib242.dll.a" \
-#"C:/opencv/build/x86/mingw/lib/libopencv_core242.dll.a" \
-#"C:/opencv/build/x86/mingw/lib/libopencv_imgproc242.dll.a" \
-#"C:/opencv/build/x86/mingw/lib/libopencv_highgui242.dll.a"
-#LIBS += "C:/opencv/build/x86/mingw/lib/libopencv_ml242.dll.a"
-#LIBS += "C:/opencv/build/x86/mingw/lib/libopencv_video242.dll.a"
-#LIBS += "C:/opencv/build/x86/mingw/lib/libopencv_features2d242.dll.a"
 
-#LIBS += "C:/opencv/build/x86/mingw/lib/libopencv_objdetect242.dll.a"
-#LIBS += "C:/opencv/build/x86/mingw/lib/libopencv_legacy242.dll.a"
-#LIBS += "C:/opencv/build/x86/mingw/lib/libopencv_flann242.dll.a"
 
-#LIBS += C:/opencv/build/x86/mingw/lib/libopencv_gpu242.dll.a
-#LIBS += C:/opencv/build/x86/mingw/lib/libopencv_nonfree242.dll.a
-#LIBS += C:/opencv/build/x86/mingw/lib/libopencv_photo242.dll.a
-#LIBS += C:/opencv/build/x86/mingw/lib/libopencv_stitching242.dll.a
-#LIBS += C:/opencv/build/x86/mingw/lib/libopencv_ts242.a
-#LIBS += C:/opencv/build/x86/mingw/lib/libopencv_videostab242.dll.a
+LIBS += "C:/opencv/build-current/lib/libopencv_calib3d300.dll.a"
+LIBS += "C:/opencv/build-current/lib/libopencv_core300.dll.a"
+LIBS += "C:/opencv/build-current/lib/libopencv_features2d300.dll.a"
+LIBS += "C:/opencv/build-current/lib/libopencv_flann300.dll.a"
+LIBS += "C:/opencv/build-current/lib/libopencv_highgui300.dll.a"
+LIBS += "C:/opencv/build-current/lib/libopencv_imgcodecs300.dll.a"
+LIBS += "C:/opencv/build-current/lib/libopencv_imgproc300.dll.a"
+LIBS += "C:/opencv/build-current/lib/libopencv_java300.dll.a"
 
-#LIBS += "C:/opencv/build/x86/vc10/lib/opencv_calib3d242.lib" \
-#"C:/opencv/build/x86/vc10/lib/opencv_contrib242.lib" \
+LIBS += "C:/opencv/build-current/lib/libopencv_ml300.dll.a"
+LIBS += "C:/opencv/build-current/lib/libopencv_objdetect300.dll.a"
+LIBS += "C:/opencv/build-current/lib/libopencv_photo300.dll.a"
+LIBS += "C:/opencv/build-current/lib/libopencv_shape300.dll.a"
+LIBS += "C:/opencv/build-current/lib/libopencv_stitching300.dll.a"
+LIBS += "C:/opencv/build-current/lib/libopencv_superres300.dll.a"
+LIBS += "C:/opencv/build-current/lib/libopencv_video300.dll.a"
+LIBS += "C:/opencv/build-current/lib/libopencv_videoio300.dll.a"
+LIBS += "C:/opencv/build-current/lib/libopencv_videostab300.dll.a"
+
+#LIBS += "C:/opencv/build-current/bin/libopencv_calib3d300.dll"
+#LIBS += "C:/opencv/build-current/bin/libopencv_core300.dll"
+#LIBS += "C:/opencv/build-current/bin/libopencv_features2d300.dll"
+#LIBS += "C:/opencv/build-current/bin/libopencv_flann300.dll"
+#LIBS += "C:/opencv/build-current/bin/libopencv_highgui300.dll"
+#LIBS += "C:/opencv/build-current/bin/libopencv_imgcodecs300.dll"
+#LIBS += "C:/opencv/build-current/bin/libopencv_imgproc300.dll"
+#LIBS += "C:/opencv/build-current/bin/libopencv_java300.dll"
+
+#LIBS += "C:/opencv/build-current/bin/libopencv_ml300.dll"
+#LIBS += "C:/opencv/build-current/bin/libopencv_objdetect300.dll"
+#LIBS += "C:/opencv/build-current/bin/libopencv_photo300.dll"
+#LIBS += "C:/opencv/build-current/bin/libopencv_shape300.dll"
+#LIBS += "C:/opencv/build-current/bin/libopencv_stitching300.dll"
+
+#LIBS += "C:/opencv/build-current/bin/libopencv_superres300.dll"
+#LIBS += "C:/opencv/build-current/bin/libopencv_video300.dll"
+#LIBS += "C:/opencv/build-current/bin/libopencv_videoio300.dll"
+#LIBS += "C:/opencv/build-current/bin/libopencv_videostab300.dll"
+#"C:/opencv/build/x86/vc1/lib/opencv_contrib242.lib" \
 #"C:/opencv/build/x86/vc10/lib/opencv_core242.lib" \
 #"C:/opencv/build/x86/vc10/lib/opencv_imgproc242.lib" \
 #"C:/opencv/build/x86/vc10/lib/opencv_highgui242.lib"

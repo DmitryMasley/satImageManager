@@ -2,7 +2,9 @@
 #define MAINWINDOW_H
 #include <QMainWindow>
 #include <QFileDialog>
+#include <QProgressDialog>
 #include <stdafx.h>
+#include <opencv2/opencv.hpp>
 #include "imagetreemodel.h"
 #include "controllermain.h"
 #include "imageFusion/controllerimagefusion.h"
@@ -11,6 +13,7 @@
 #include "controllercharacteristics.h"
 #include "controllermultichannel.h"
 #include "./multichannel/controllermultichannelimages.h"
+#include "metatypes.h"
 namespace Ui {
 class MainWindow;
 }

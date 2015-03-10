@@ -1,6 +1,12 @@
 #ifndef IMAGECHARACTERISTICSMODEL_H
 #define IMAGECHARACTERISTICSMODEL_H
 #include "stdafx.h"
+#include "characteristicsitem.h"
+#include "imageitem.h"
+#include <QList>
+#include <QVariant>
+#include <QAbstractItemModel>
+#include <QModelIndex>
 
 class CharacteristicsModel : public QAbstractItemModel
 {

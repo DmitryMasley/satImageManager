@@ -1,10 +1,11 @@
 #include "StdAfx.h"
+#include <opencv2/core.hpp>
 #include "ImagePropertiesEvaluating.h"
 
 ImagePropertiesEvaluating::~ImagePropertiesEvaluating(void)
 {
 }
-double ImagePropertiesEvaluating::ShannonEntropyEval(Mat & image)
+double ImagePropertiesEvaluating::ShannonEntropyEval(cv::Mat & image)
 {
     int maxValue;
 	switch (image.depth())
@@ -22,7 +23,7 @@ double ImagePropertiesEvaluating::ShannonEntropyEval(Mat & image)
         break;
 	}
 }
-double ImagePropertiesEvaluating::SignalEntropyEval(Mat& image)
+double ImagePropertiesEvaluating::SignalEntropyEval(cv::Mat& image)
 {
     int maxValue;
     switch (image.depth())
@@ -40,7 +41,7 @@ double ImagePropertiesEvaluating::SignalEntropyEval(Mat& image)
         break;
     }
 }
-double ImagePropertiesEvaluating::AdaptationLevelEval(Mat& image)
+double ImagePropertiesEvaluating::AdaptationLevelEval(cv::Mat& image)
 {
     int maxValue;
     switch (image.depth())
@@ -58,7 +59,7 @@ double ImagePropertiesEvaluating::AdaptationLevelEval(Mat& image)
         break;
     }
 }
-double ImagePropertiesEvaluating::GradiationsUsingCoefficientEval(Mat & image)
+double ImagePropertiesEvaluating::GradiationsUsingCoefficientEval(cv::Mat & image)
 {
     int maxValue;
     switch (image.depth())
@@ -76,7 +77,7 @@ double ImagePropertiesEvaluating::GradiationsUsingCoefficientEval(Mat & image)
         break;
     }
 }
-double ImagePropertiesEvaluating::MaxDynamicContrastEval(Mat & image)
+double ImagePropertiesEvaluating::MaxDynamicContrastEval(cv::Mat & image)
 {
     int maxValue;
     switch (image.depth())
@@ -99,39 +100,39 @@ void ImagePropertiesEvaluating::EvalAllCharatceristics()
     //ImagePropertiesEvaluating::ShannonEntropyEval();
 }
 template<class T>
-double ImagePropertiesEvaluating::ShannonEntropy(Mat & image, int maxValue)
+double ImagePropertiesEvaluating::ShannonEntropy(cv::Mat & image, int maxValue)
 {
 
-    Mat p = GetFrequenses<T>(image, maxValue);
-	Mat pnew = Mat::ones(1, maxValue+1, CV_64F);
+    cv::Mat p = GetFrequenses<T>(image, maxValue);
+    cv::Mat pnew = cv::Mat::ones(1, maxValue+1, CV_64F);
     double scale = image.rows*image.cols*image.channels();
 	pnew = p/scale;
     pnew = pnew+7e-16;
-	Mat logP = Mat::zeros(1, maxValue+1, CV_64F);
+    cv::Mat logP = cv::Mat::zeros(1, maxValue+1, CV_64F);
 	cv::log(pnew, logP);
     return -cv::sum(pnew.dot(logP/std::log(2.0)))[0];
 }
 template<class T>
-double ImagePropertiesEvaluating::SignalEntropy(Mat & image, int maxValue)
+double ImagePropertiesEvaluating::SignalEntropy(cv::Mat & image, int maxValue)
 {
-    Mat p = GetFrequenses<T>(image, maxValue);
+    cv::Mat p = GetFrequenses<T>(image, maxValue);
     for (int m=0; m<maxValue+1; m++)
     {
         p.at<double>(m) = p.at<double>(m)*m;
     }
 
-    Mat pnew = Mat::ones(1, maxValue+1, CV_64F);
+    cv::Mat pnew = cv::Mat::ones(1, maxValue+1, CV_64F);
     pnew = p/(cv::sum(p)[0]);
     pnew = pnew+7e-16;
-    Mat logP = Mat::zeros(1, maxValue+1, CV_64F);
+    cv::Mat logP = cv::Mat::zeros(1, maxValue+1, CV_64F);
     cv::log(pnew, logP);
     return -cv::sum(pnew.dot(logP/std::log(2.0)))[0];
 }
 template<class T>
-double ImagePropertiesEvaluating::GradiationsUsingCoefficient(Mat & image, double n, int maxValue)
+double ImagePropertiesEvaluating::GradiationsUsingCoefficient(cv::Mat & image, double n, int maxValue)
 {
     double threshold = image.cols*image.rows*n;
-    Mat p = GetFrequenses<T>(image, maxValue);
+    cv::Mat p = GetFrequenses<T>(image, maxValue);
     double S=0;
     for (int i=0; i<=maxValue; i++)
     {
@@ -147,10 +148,10 @@ double ImagePropertiesEvaluating::GradiationsUsingCoefficient(Mat & image, doubl
 
 }
 template<class T>
-Mat ImagePropertiesEvaluating::GetFrequenses(Mat & matrix, int maxValue)
+cv::Mat ImagePropertiesEvaluating::GetFrequenses(cv::Mat & matrix, int maxValue)
 {
-    Mat p = Mat::zeros(1, maxValue+1, CV_64F);
-    vector<Mat> channels;
+    cv::Mat p = cv::Mat::zeros(1, maxValue+1, CV_64F);
+    vector<cv::Mat> channels;
     cv::split(matrix, channels);
     int rows =  matrix.rows;
     int cols = matrix.cols;
@@ -168,17 +169,17 @@ Mat ImagePropertiesEvaluating::GetFrequenses(Mat & matrix, int maxValue)
     return p;
 }
 template<class T>
-double ImagePropertiesEvaluating::AdaptationLevel(Mat & image, int maxValue)
+double ImagePropertiesEvaluating::AdaptationLevel(cv::Mat & image, int maxValue)
 {
     double meanValue = cv::mean(image)[0];
     return 1-(std::abs(meanValue-maxValue/2)/(maxValue/2));
 }
 template<class T>
-double ImagePropertiesEvaluating::MaxDynamicContrast(Mat & image, int maxValue)
+double ImagePropertiesEvaluating::MaxDynamicContrast(cv::Mat & image, int maxValue)
 {
     vector<double> drop;
     vector<double> el;
-    vector<Mat> channels;
+    vector<cv::Mat> channels;
     cv::split(image, channels);
     bool direction=false;
     int rows =  image.rows;

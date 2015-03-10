@@ -1,6 +1,14 @@
 #ifndef PREVIEWGRAPHICSVIEW_H
 #define PREVIEWGRAPHICSVIEW_H
 #include "stdafx.h"
+#include <QGraphicsView>
+#include "metatypes.h"
+#include "imageitem.h"
+#include <QGraphicsPixmapItem>
+#include "ddmimedata.h"
+#include <QDropEvent>
+#include <QDragMoveEvent>
+#include <QWheelEvent>
 class previewGraphicsView : public QGraphicsView
 {
     Q_OBJECT

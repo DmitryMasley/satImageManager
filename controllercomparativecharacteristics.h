@@ -3,6 +3,8 @@
 #include "stdafx.h"
 #include <QObject>
 #include "ui_mainwindow.h"
+#include "basicmodel.h"
+#include <QFileDialog>
 
 class ControllerComparativeCharacteristics : public QObject
 {

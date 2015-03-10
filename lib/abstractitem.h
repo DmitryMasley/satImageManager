@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QMap>
+#include <QStringList>
+#include <QVariant>
 
 typedef QMap<int, QVariant> IntStringMap;
 class AbstractItem : public QObject
@@ -14,8 +16,10 @@ public:
     Q_INVOKABLE explicit AbstractItem(QList<QMap<int, QVariant> > _data, QObject* parent = 0, bool isRoot = false);
     Q_INVOKABLE explicit AbstractItem(const AbstractItem& item);
     Q_PROPERTY(IntStringMap _header READ header WRITE setHeader NOTIFY headerChanged)
-
+    Q_PROPERTY(bool _root READ root WRITE setRoot NOTIFY rootChanged)
     ~AbstractItem();
+    bool root();
+    void setRoot(bool isRoot);
     QMap<int, QVariant> header() const;
     void setHeader(QMap<int, QVariant> header);
     bool isRoot(); // depracted
@@ -56,9 +60,11 @@ protected:
     QList<QMap<int, QVariant> > _data;
     QStringList _headers;
     QString _type;
+    bool _root=false;
     QMap<int, QVariant> _header;
 signals:
     void headerChanged(QMap<int, QVariant> header);
+    void rootChanged();
 public slots:
 private:
 

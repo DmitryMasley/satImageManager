@@ -1,7 +1,12 @@
 #ifndef BASICMODEL_H
 #define BASICMODEL_H
 #include "stdafx.h"
+#include <QModelIndex>
+#include <QAbstractItemModel>
 #include <QObject>
+#include "basicmodelitem.h"
+#include "ddmimedata.h"
+#include "imageitem.h"
 struct DropPoint
 {
     int row;

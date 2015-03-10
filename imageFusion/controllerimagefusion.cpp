@@ -179,7 +179,7 @@ void ControllerImageFusion::fusion()
     processor->exec();
     processor->moveToThread(QApplication::instance()->thread());
     delete thread;
-    Mat result = processor->result;
+    cv::Mat result = processor->result;
 
     delete processor;
 
@@ -188,7 +188,7 @@ void ControllerImageFusion::fusion()
 //    int windowSize = _WindowSize->value();
     for(int i = 0; i<result.cols; i++)
     {
-        Mat temp;
+        cv::Mat temp;
         ImageItem* sourceItem = static_cast<ImageItem*>(sources.at(i));
         result.col(i).copyTo(temp);
         temp = temp.reshape(0, panRows);
@@ -316,7 +316,7 @@ void ControllerImageFusion::windowNormalization(Mat &image, Mat source)
     }
 }
 
-void ControllerImageFusion::correctBritness(Mat& image, Mat source)
+void ControllerImageFusion::correctBritness(cv::Mat& image, cv::Mat source)
 {
     float colRatioDb = image.cols/source.cols;
     float rowRatioDb = image.rows/source.rows;
@@ -332,7 +332,7 @@ void ControllerImageFusion::correctBritness(Mat& image, Mat source)
     {
         return;
     }
-    Mat sourceConverted;
+    cv::Mat sourceConverted;
     source.convertTo(sourceConverted, CV_32F);
     int rows = source.rows;
     int cols = source.cols;
@@ -341,8 +341,8 @@ void ControllerImageFusion::correctBritness(Mat& image, Mat source)
         const float* Mi = sourceConverted.ptr<float>(i);
         for(int j = 0; j<cols-1; j++)
         {
-            Mat temp = Mat(image, Rect(j*colRatio, i*rowRatio, colRatio, rowRatio));
-            Scalar mean = cv::mean(temp);
+            cv::Mat temp = cv::Mat(image, Rect(j*colRatio, i*rowRatio, colRatio, rowRatio));
+            cv::Scalar mean = cv::mean(temp);
             mean.val[0] = Mi[j]-mean.val[0];
             cv::add(temp, mean, temp);
         }
@@ -365,8 +365,8 @@ void ControllerImageFusion::ResultPreview()
         if(item->isValid())
         {
             QString name = item->data(0, Qt::DisplayRole).toString();
-            namedWindow(ProcessingCore::convertToStdString(name), CV_WINDOW_NORMAL | CV_WINDOW_KEEPRATIO);
-            imshow(ProcessingCore::convertToStdString(name), ProcessingCore::RGB2BGR(item->getCVImage()));
+            cv::namedWindow(ProcessingCore::convertToStdString(name), cv::WINDOW_NORMAL | cv::WINDOW_KEEPRATIO);
+            cv::imshow(ProcessingCore::convertToStdString(name), ProcessingCore::RGB2BGR(item->getCVImage()));
         }
     }
 }
@@ -384,7 +384,7 @@ void ControllerImageFusion::SaveImage()
         item = static_cast<ImageItem*>(index.internalPointer());
         if(item->isValid())
         {
-            Mat image = item->getCVImage();
+            cv::Mat image = item->getCVImage();
             QString fileName = QFileDialog::getSaveFileName(_MainWindow, QString("Save Image"), QString(), tr("Images (*.jpg *.png *.tif *.tiff *.jpeg);;(*.png);;(*.jpg *.jpeg);;(*.tif *.tiff)"));
             if(!fileName.isEmpty())
             {

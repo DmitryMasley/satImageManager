@@ -8,6 +8,7 @@
 #include "grayscaleimagemodel.h"
 #include "../lib/image/standardimagemodel.h"
 #include "../lib/image/standardimageitem.h"
+#include <QMessageBox>
 
 class ControllerImageFusion : public QObject
 {

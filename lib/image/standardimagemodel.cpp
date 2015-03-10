@@ -3,14 +3,18 @@
 StandardImageModel::StandardImageModel(QObject *parent) :
     StandardModel(parent)
 {
-    setRoot(new StandardImageItem());
+    StandardImageItem* root = new StandardImageItem();
+    root->setRoot(true);
+    setRoot(root);
 }
 #include "imagemodel.h"
 
 StandardImageModel::StandardImageModel(const QList<QMap<int, QVariant> > &data, QObject *parent) :
 StandardModel(parent)
 {
-    setRoot(new StandardImageItem(data, true));
+    StandardImageItem* root = new StandardImageItem(data);
+    root->setRoot(true);
+    setRoot(root);
 }
 void StandardImageModel::AddBlankItem()
 {

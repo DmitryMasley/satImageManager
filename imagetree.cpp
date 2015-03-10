@@ -20,7 +20,7 @@ void imagetree::addItemCustom()
 void imagetree::selectionChangedSlot()
 {
     imageTreeNode* item =  (imageTreeNode*)this->selectedItems().at(0);
-    Mat m = imread(ProcessingCore::convertToStdString(item->fileName), -1);
+    cv::Mat m = cv::imread(ProcessingCore::convertToStdString(item->fileName), -1);
     if (item->channel>=0)
     {
         m = ProcessingCore::getChannel((Channels)item->channel, m);

@@ -1,6 +1,7 @@
 #ifndef IMAGETREENODE_H
 #define IMAGETREENODE_H
 #include "stdafx.h"
+#include "ProcessingCore.h"
 #include <QtWidgets/QTreeWidget>
 class imageTreeNode : public QTreeWidgetItem
 {

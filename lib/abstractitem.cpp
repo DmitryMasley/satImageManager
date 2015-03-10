@@ -6,12 +6,12 @@ AbstractItem::AbstractItem(QObject *parent) :
 }
 AbstractItem::AbstractItem(bool isRoot, QObject *parent) : QObject(parent)
 {
-    _isRoot = isRoot;
+    setRoot(isRoot);
 }
 AbstractItem::AbstractItem(QList<QMap<int, QVariant> > data, QObject *parent, bool isRoot) : QObject(parent)
 {
     _data = data;
-    _isRoot = isRoot;
+    setRoot(isRoot);
 }
 AbstractItem::AbstractItem(const AbstractItem &item)
 {
@@ -26,11 +26,16 @@ QString AbstractItem::getClassName()
 {
     return this->staticMetaObject.className();
 }
-
-bool AbstractItem::isRoot()
+bool AbstractItem::root()
 {
-    return _isRoot;
+    return _root;
 }
+void AbstractItem::setRoot(bool isRoot)
+{
+    _root=isRoot;
+    emit this->rootChanged();
+}
+
 
 void AbstractItem::appendChild(QObject *item, int row)
 {
@@ -133,7 +138,7 @@ bool AbstractItem::removeChildren(int position, int count)
 }
 bool AbstractItem::canAcceptDrops(QString type)
 {
-    return this->getType()== type && (isRoot() || (this->canHaveChildren() && this->canAcceptMoreChildren()));
+    return this->getType()== type && (root() || (this->canHaveChildren() && this->canAcceptMoreChildren()));
 }
 bool AbstractItem::canAcceptMoreChildren()
 {

@@ -177,7 +177,7 @@ MainWindow QToolTip
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -1489,7 +1489,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>1052</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="defaultUp">
@@ -1576,7 +1576,7 @@ p, li { white-space: pre-wrap; }
   <customwidget>
    <class>previewGraphicsView</class>
    <extends>QGraphicsView</extends>
-   <header>previewgraphicsview.h</header>
+   <header location="global">previewgraphicsview.h</header>
    <slots>
     <slot>showPreview(QImage*)</slot>
    </slots>

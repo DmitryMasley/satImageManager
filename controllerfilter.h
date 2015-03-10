@@ -10,8 +10,8 @@ class ControllerFilter : public QObject
 public:
     explicit ControllerFilter(Ui::MainWindow *ui,
                               QMainWindow* mainWindow);
-    Mat filterImage(Mat image);
-    Mat BuildFilter(Size imageSize);
+    cv::Mat filterImage(cv::Mat image);
+    cv::Mat BuildFilter(cv::Size imageSize);
 signals:
     void imageSaved(QString fileName);
 public slots:
@@ -33,7 +33,7 @@ private:
     QMainWindow* _MainWindow;
     QTableView* _table1;
     QTableView* _table2;
-    Mat _result;
+    cv::Mat _result;
 };
 
 #endif // CONTROLLERFILTER_H

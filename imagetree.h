@@ -1,8 +1,10 @@
 #ifndef IMAGETREE_H
 #define IMAGETREE_H
 #include <QTreeWidget>
+#include <QFileDialog>
+#include <opencv2/core.hpp>
+#include "ProcessingCore.h"
 #include "imagetreenode.h"
-using namespace cv;
 class imagetree : public QTreeWidget
 {
     Q_OBJECT

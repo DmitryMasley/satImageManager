@@ -5,6 +5,7 @@
 #include <QObject>
 #include "ui_mainwindow.h"
 #include "imagemodel.h"
+#include <QFileDialog>
 
 class ControllerMultichannel : public QObject
 {

@@ -19,7 +19,7 @@ bool MainModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int r
             QRegExp regex = QRegExp(this->fileExtentions);
             if(regex.exactMatch(fileName))
             {
-                Mat image = ProcessingCore::readImage(fileName);
+                cv::Mat image = ProcessingCore::readImage(fileName);
                 if(!!image.data)
                 {
                     this->AddImage(image, fileName);
@@ -29,7 +29,7 @@ bool MainModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int r
         }
     }
 }
-void MainModel::AddImage(const Mat image, const QString fileName)
+void MainModel::AddImage(const cv::Mat image, const QString fileName)
 {
     ImageModel::AddImage(image, fileName);
     emit imageAdded(image, fileName);

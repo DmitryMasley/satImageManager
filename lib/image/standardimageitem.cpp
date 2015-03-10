@@ -52,12 +52,6 @@ bool StandardImageItem::isMultichannel(){
 void StandardImageItem::setIsMultichannel(bool value){
     _isMultiChannel = value;
 }
-bool StandardImageItem::root(){
-    return _isRoot;
-}
-void StandardImageItem::setRoot(bool value){
-    _isRoot = value;
-}
 Mat StandardImageItem::getCVImage()
 {
     Mat image;
@@ -103,7 +97,7 @@ bool StandardImageItem::canAcceptMoreChildren()
 void StandardImageItem::onChildrenChanged()
 {
     int count = this->childCount();
-    if(canHaveChildren() && !isRoot())
+    if(canHaveChildren() && !root())
     {
         if(count == 4 || count == 3)
         {

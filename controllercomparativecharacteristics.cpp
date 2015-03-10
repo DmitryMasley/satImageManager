@@ -142,13 +142,13 @@ void ControllerComparativeCharacteristics::calculate()
 {
     if(img1View->image && img2View->image)
     {
-        Mat firstImage  = img1View->image->getCVImage();
-        Mat secondImage = img2View->image->getCVImage();
+        cv::Mat firstImage  = img1View->image->getCVImage();
+        cv::Mat secondImage = img2View->image->getCVImage();
         resultModel->emptyHeaders(Qt::Vertical);
         resultModel->empty();
         if(firstImage.cols != secondImage.cols || firstImage.rows != secondImage.rows)
         {
-            cv::resize(secondImage, secondImage, Size(firstImage.cols, firstImage.rows), 0, 0);
+            cv::resize(secondImage, secondImage, cv::Size(firstImage.cols, firstImage.rows), 0, 0);
         }
         QModelIndexList selected =  characteristicsList->getSelectedIndexes();
         ssimMapContainer->setVisible(false);
@@ -166,10 +166,11 @@ void ControllerComparativeCharacteristics::calculate()
             {
                 case 0:
                 {
-                    Mat mask;
-                    Mat ssim_map;
-                    double ssim_Index = ProcessingCore::calcSSIM(firstImage, secondImage, mask, ssim_map);
-                    AddResultToTable(ssim_Index, name);
+                    cv::Mat mask;
+                    cv::Mat ssim_map;
+//                    double ssim_Index = ProcessingCore::calcSSIM(firstImage, secondImage, mask, ssim_map);
+                    cv::Scalar ssim_Index = ProcessingCore::getMSSIM(firstImage, secondImage, ssim_map);
+                    AddResultToTable(ssim_Index[0], name);
                     ssimMapContainer->setVisible(true);
                     ssimMap->setImageItem(new ImageItem(ssim_map, QString("SSIM Map")));
                     break;
@@ -272,7 +273,7 @@ void ControllerComparativeCharacteristics::saveSsimMap()
 {
     if(ssimMap->image)
     {
-        Mat image = ssimMap->image->getCVImage();
+        cv::Mat image = ssimMap->image->getCVImage();
         QString fileName = QFileDialog::getSaveFileName(_MainWindow, QString("Save Image"), QString(), tr("Images (*.jpg *.png *.tif *.tiff *.jpeg);;(*.png);;(*.jpg *.jpeg);;(*.tif *.tiff)"));
         if(!fileName.isEmpty())
         {

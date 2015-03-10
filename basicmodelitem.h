@@ -1,6 +1,7 @@
 #ifndef BASEMODELITEM_H
 #define BASEMODELITEM_H
-
+#include <QStringList>
+#include <QVariant>
 #include <QObject>
 
 class BasicModelItem : public QObject

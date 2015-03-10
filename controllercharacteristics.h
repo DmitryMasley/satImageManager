@@ -7,6 +7,8 @@
 #include "characteristicsproggresbar.h"
 #include "characteristicsmodel.h"
 #include "ui_mainwindow.h"
+#include "ImagePropertiesEvaluating.h"
+#include <QFileDialog>
 
 class ControllerCharacteristics : public QObject
 {
@@ -15,7 +17,7 @@ public:
     explicit ControllerCharacteristics(Ui::MainWindow *ui,
                                        QMainWindow* mainWindow);
     ~ControllerCharacteristics();
-    typedef double (*ImagePropMethod) (Mat&);
+    typedef double (*ImagePropMethod) (cv::Mat&);
     QList<ImagePropMethod> ImgPropMethodsList;
     QPushButton* EvalStart;
     QPushButton* SaveResults;

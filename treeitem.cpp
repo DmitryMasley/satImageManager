@@ -15,8 +15,8 @@ TreeItem::TreeItem(QString & filename, TreeItem *parent):BasicModelItem(parent)
     _headers << QString("Item Title")
              << QString("File Name")
              << QString("Channel");
-    Mat m = imread(ProcessingCore::convertToStdString(filename), -1);
-    Mat temp;
+    cv::Mat m = cv::imread(ProcessingCore::convertToStdString(filename), -1);
+    cv::Mat temp;
     m.copyTo(temp);
     int channelsCount = m.channels();
     QImage * image = ProcessingCore::convertToQImage(temp);
@@ -43,7 +43,7 @@ TreeItem::TreeItem(QString & filename, TreeItem *parent):BasicModelItem(parent)
     {
         for(int i=0; i<channelsCount;i++)
         {
-            Mat ch = ProcessingCore::getChannel(Channels(i), m);
+            cv::Mat ch = ProcessingCore::getChannel(Channels(i), m);
             QPixmap pix = QPixmap::fromImage(*(ProcessingCore::convertToQImage(ch)));
             QIcon icon = QIcon(pix.scaled(40, 40));
             QList<QVariant> title;
@@ -132,13 +132,13 @@ int TreeItem::containsImage(QString fileName)
 }
 cv::Mat TreeItem::getCVImage()
 {
-    Mat m;
+    cv::Mat m;
     QString fileName = this->data(1, Qt::DisplayRole).toString();
     int channel = this->data(2, Qt::DisplayRole).toInt();
     QFile file(fileName);
     if (file.exists())
     {
-        m = imread(ProcessingCore::convertToStdString(fileName), -1);
+        m = cv::imread(ProcessingCore::convertToStdString(fileName), -1);
         if (channel>=0)
         {
             m = ProcessingCore::getChannel(Channels(channel), m);

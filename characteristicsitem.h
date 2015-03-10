@@ -1,6 +1,8 @@
 #ifndef IMAGECHARACTERISTICSITEM_H
 #define IMAGECHARACTERISTICSITEM_H
 #include "stdafx.h"
+#include <QList>
+#include <QVariant>
 
 class CharacteristicsItem
 {

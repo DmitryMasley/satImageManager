@@ -3,12 +3,16 @@
 #include "stdafx.h"
 #include <QObject>
 #include "matmodelitem.h"
+#include <QAbstractItemModel>
+#include <QModelIndex>
+#include <QVariant>
+#include <opencv2/core.hpp>
 
 class MatModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    explicit MatModel(Mat matrix, int type=NULL, QObject *parent = 0);
+    explicit MatModel(cv::Mat matrix, int type=NULL, QObject *parent = 0);
     virtual ~MatModel();
     QVariant data(const QModelIndex &index, int role) const;
     Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -23,7 +27,7 @@ signals:
     
 public slots:
 private:
-    Mat _matrix;
+    cv::Mat _matrix;
     int _type;
     MatModelItem* _item;
 };

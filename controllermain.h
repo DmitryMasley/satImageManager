@@ -4,6 +4,8 @@
 #include <QObject>
 #include "mainmodel.h"
 #include "ui_mainwindow.h"
+#include <QFileDialog>
+#include "ProcessingCore.h"
 
 class ControllerMain : public QObject
 {

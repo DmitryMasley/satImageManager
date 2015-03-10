@@ -2,6 +2,7 @@
 #define DDMIMEDATA_H
 #include "stdafx.h"
 #include <QMimeData>
+#include <QModelIndexList>
 
 class DDMimeData : public QMimeData
 {

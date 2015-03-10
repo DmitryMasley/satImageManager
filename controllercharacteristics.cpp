@@ -54,10 +54,10 @@ void ControllerCharacteristics::evalCharacteristics()
     ImageItem* item = TableModel->getCurrentItem();
     if (item && item->parent())
     {
-        Mat image = item->getCVImage();
+        cv::Mat image = item->getCVImage();
         int chrCount = characteristicsSelection.count();
 
-        Mat m; double chr=0;
+        cv::Mat m; double chr=0;
         emit caracteristicEvaluatred(0, chrCount);
         emit ChEvalStarted();
         for (int i=0; i<chrCount; i++)

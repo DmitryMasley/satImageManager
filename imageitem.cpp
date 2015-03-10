@@ -1,6 +1,6 @@
 #include "imageitem.h"
 
-ImageItem::ImageItem(Mat image, QString name, QString fileName, int channel, ImageItem *parent, bool isRoot) :
+ImageItem::ImageItem(cv::Mat image, QString name, QString fileName, int channel, ImageItem *parent, bool isRoot) :
     BasicModelItem(parent, isRoot)
 {
     this->initImageData(image, name, fileName, channel);
@@ -16,8 +16,10 @@ ImageItem::ImageItem(const QList<QList<QVariant> > &data, bool isRoot): BasicMod
     headers << QString("Item Title");
     setHeaders(headers);
     setItemData(data);
-    Mat image = getCVImage();
-    delete _tempimage;
+    cv::Mat image = getCVImage();
+    if(_tempimage!=0){
+        delete _tempimage;
+    }
     _tempimage = ProcessingCore::convertToQImage(image);
 }
 ImageItem::ImageItem(ImageItem &item):BasicModelItem(item)
@@ -26,7 +28,7 @@ ImageItem::ImageItem(ImageItem &item):BasicModelItem(item)
     headers << QString("Item Title");
     setHeaders(headers);
     setItemData(item.getData());
-    Mat image = getCVImage();
+    cv::Mat image = getCVImage();
     delete _tempimage;
     _tempimage = ProcessingCore::convertToQImage(image);
 }
@@ -39,17 +41,17 @@ ImageItem::~ImageItem()
 {
     delete _tempimage;
 }
-Mat ImageItem::getCVImage()
+cv::Mat ImageItem::getCVImage()
 {
-    Mat image;
+    cv::Mat image;
     QVariant imageValue = data(1, 0);
     if(imageValue.isValid())
     {
-        image = data(1, 0).value<Mat>();
+        image = data(1, 0).value<cv::Mat>();
     }
     return image;
 }
-void ImageItem::setCVImage(Mat image)
+void ImageItem::setCVImage(cv::Mat image)
 {
     setData(1, QVariant::fromValue(image), 0);
     QImage* _qimage = ProcessingCore::convertToQImage(image);
@@ -88,14 +90,14 @@ void ImageItem::onChildrenChanged()
     {
         if(count == 4 || count == 3)
         {
-            Mat image;
-            Mat firstChannel = static_cast<ImageItem*>(child(0))->getCVImage();
+            cv::Mat image;
+            cv::Mat firstChannel = static_cast<ImageItem*>(child(0))->getCVImage();
             int rows = firstChannel.rows;
             int cols = firstChannel.cols;
-            vector<Mat> channels;
+            vector<cv::Mat> channels;
             for(int i = 0; i<count; i++)
             {
-                Mat channel;
+                cv::Mat channel;
                 channel = static_cast<ImageItem*>(child(i))->getCVImage();               
                 if(channel.cols != cols || channel.rows != rows)
                 {
@@ -118,7 +120,7 @@ void ImageItem::onChildrenChanged()
 bool ImageItem::isValid()
 {
     QVariant value = data(1, 0);
-    Mat image = value.value<Mat>();
+    cv::Mat image = value.value<cv::Mat>();
     return value.isValid() && image.rows && image.cols;
 }
 bool ImageItem::canHaveChildren()
@@ -147,7 +149,7 @@ void ImageItem::_addCharacteristicsModel()
 }
 bool ImageItem::isMultichannel()
 {
-    Mat image = this->getCVImage();
+    cv::Mat image = this->getCVImage();
     return this->childCount()>0 && image.channels() > 1;
 }
 QString ImageItem::getName()
@@ -155,7 +157,7 @@ QString ImageItem::getName()
     return this->data(0, Qt::DisplayRole).toString();
 }
 
-void ImageItem::initImageData(Mat image, QString name, QString fileName, int channel)
+void ImageItem::initImageData(cv::Mat image, QString name, QString fileName, int channel)
 {
     QIcon icon;
     if(image.rows && image.cols)
@@ -201,7 +203,7 @@ void ImageItem::initImageData(Mat image, QString name, QString fileName, int cha
 void ImageItem::initImageData(QString name, QString fileName)
 {
     QIcon icon;
-    Mat image;
+    cv::Mat image;
     icon.addFile(QStringLiteral(":/resource/icons/images/icons.png"), QSize(), QIcon::Normal, QIcon::Off);
     initImageData(image, name, fileName);
 }

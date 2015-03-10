@@ -9,7 +9,7 @@ void ImageModel::AddBlankItem()
 {
     this->AddItem(new ImageItem(QString("Blank Image")));
 }
-void ImageModel::AddMultichannelImage(const Mat image,const QString fileName)
+void ImageModel::AddMultichannelImage(const cv::Mat image,const QString fileName)
 {
     QFileInfo fileInfo(fileName);
     QString name = fileInfo.fileName();
@@ -22,7 +22,7 @@ void ImageModel::AddMultichannelImage(const Mat image,const QString fileName)
         ChannelsStrings[1] = QString("Green");
         ChannelsStrings[2] = QString("Red");
         ChannelsStrings[3] = QString("Alpha");
-        vector<Mat> imageChannels;
+        vector<cv::Mat> imageChannels;
         cv::split(image, imageChannels);
         for(int i = 0; i<channelsCount; i++)
         {
@@ -32,7 +32,7 @@ void ImageModel::AddMultichannelImage(const Mat image,const QString fileName)
     }
     this->AddItem(multichannelImage);
 }
-void ImageModel::AddImage(const Mat image, const QString fileName)
+void ImageModel::AddImage(const cv::Mat image, const QString fileName)
 {
     QFileInfo fileInfo(fileName);
     QString name = fileInfo.fileName();
@@ -46,7 +46,7 @@ void ImageModel::AddImage(const Mat image, const QString fileName)
     if(channelsCount>1)
     {
         ImageItem* multichannelImage = new ImageItem(name, fileName);
-        vector<Mat> imageChannels;
+        vector<cv::Mat> imageChannels;
         cv::split(image, imageChannels);
         QHash<int, QString> ChannelsStrings;
         ChannelsStrings[0] = QString("Red");

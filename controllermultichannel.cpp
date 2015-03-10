@@ -42,7 +42,7 @@ void ControllerMultichannel::SaveImage()
         item = static_cast<ImageItem*>(index.internalPointer());
         if(item->isValid())
         {
-            Mat image = item->getCVImage();
+            cv::Mat image = item->getCVImage();
             QString fileName = QFileDialog::getSaveFileName(_MainWindow, QString("Save Image"), QString(), tr("Images (*.jpg *.png *.tif *.tiff *.jpeg);;(*.png);;(*.jpg *.jpeg);;(*.tif *.tiff)"));
             if(!fileName.isEmpty())
             {
@@ -66,8 +66,8 @@ void ControllerMultichannel::ResultPreview()
         if(item->isValid())
         {
             QString name = item->data(0, Qt::DisplayRole).toString();
-            namedWindow(ProcessingCore::convertToStdString(name), CV_WINDOW_NORMAL | CV_WINDOW_KEEPRATIO);
-            imshow(ProcessingCore::convertToStdString(name), ProcessingCore::RGB2BGR(item->getCVImage()));
+            cv::namedWindow(ProcessingCore::convertToStdString(name), cv::WINDOW_NORMAL | cv::WINDOW_KEEPRATIO);
+            cv::imshow(ProcessingCore::convertToStdString(name), ProcessingCore::RGB2BGR(item->getCVImage()));
         }
     }
 }

@@ -1,6 +1,6 @@
 #include "matmodel.h"
 
-MatModel::MatModel(Mat matrix, int type, QObject *parent) :
+MatModel::MatModel(cv::Mat matrix, int type, QObject *parent) :
     QAbstractItemModel(parent)
 {
     _item = new MatModelItem();

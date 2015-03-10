@@ -102,7 +102,7 @@ void ControllerMain::AddImage()
     if (fileNames.count())
     {
         foreach (QString fileName, fileNames) {
-            Mat image = ProcessingCore::readImage(fileName);
+            cv::Mat image = ProcessingCore::readImage(fileName);
             MainViewModel->AddImage(image, fileName);
             emit ImageAdded(image, fileName);
         }
@@ -119,13 +119,13 @@ void ControllerMain::viewCurrentImage()
         {
             ImageItem* item =  static_cast<ImageItem*>(index.internalPointer());
             QString name = item->data(0, 0).toString();
-            namedWindow(ProcessingCore::convertToStdString(name), CV_WINDOW_NORMAL | CV_WINDOW_KEEPRATIO);
-            imshow(ProcessingCore::convertToStdString(name), ProcessingCore::RGB2BGR(item->getCVImage()));
+            cv::namedWindow(ProcessingCore::convertToStdString(name), cv::WINDOW_NORMAL | cv::WINDOW_KEEPRATIO);
+            cv::imshow(ProcessingCore::convertToStdString(name), ProcessingCore::RGB2BGR(item->getCVImage()));
         }
     }
 }
 void ControllerMain::loadSavedImage(QString fileName)
 {
-    Mat image = ProcessingCore::readImage(fileName);
+    cv::Mat image = ProcessingCore::readImage(fileName);
     MainViewModel->AddImage(image, fileName);
 }

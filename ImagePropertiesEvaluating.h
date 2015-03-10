@@ -1,30 +1,33 @@
 #pragma once
 #include "stdafx.h"
+#include <opencv2/core.hpp>
+#include <vector>
+using namespace std;
 class ImagePropertiesEvaluating
 {
 public:
     //ImagePropertiesEvaluating(Mat & M);
     ~ImagePropertiesEvaluating(void);
 	void EvalAllCharatceristics();
-    static double ShannonEntropyEval(Mat&);
-    static double SignalEntropyEval(Mat&);
-    static double GradiationsUsingCoefficientEval(Mat&);
-    static double AdaptationLevelEval(Mat&);
-    static double MaxDynamicContrastEval(Mat&);
+    static double ShannonEntropyEval(cv::Mat&);
+    static double SignalEntropyEval(cv::Mat&);
+    static double GradiationsUsingCoefficientEval(cv::Mat&);
+    static double AdaptationLevelEval(cv::Mat&);
+    static double MaxDynamicContrastEval(cv::Mat&);
 private:
     //Mat image;
 	template<class T>
-    static double ShannonEntropy(Mat&, int);
+    static double ShannonEntropy(cv::Mat&, int);
     template<class T>
-    static double SignalEntropy(Mat&, int);
+    static double SignalEntropy(cv::Mat&, int);
     template<class T>
-    static double GradiationsUsingCoefficient(Mat&, double, int);
+    static double GradiationsUsingCoefficient(cv::Mat&, double, int);
     template<class T>
-    static double AdaptationLevel(Mat&, int);
+    static double AdaptationLevel(cv::Mat&, int);
     template<class T>
-    static double MaxDynamicContrast(Mat&, int);
+    static double MaxDynamicContrast(cv::Mat&, int);
     template<class T>
-    static Mat GetFrequenses(Mat&, int);
+    static cv::Mat GetFrequenses(cv::Mat&, int);
     static bool isRangeWider(vector<double> el, vector<double> newEl);
     template<class T>
     static vector<T> diffVector(vector<T> sq);

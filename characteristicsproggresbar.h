@@ -1,6 +1,7 @@
 #ifndef CHARACTERISTICSPROGGRESBAR_H
 #define CHARACTERISTICSPROGGRESBAR_H
 #include "stdafx.h"
+#include <QProgressBar>
 
 class characteristicsProggresBar : public QProgressBar
 {

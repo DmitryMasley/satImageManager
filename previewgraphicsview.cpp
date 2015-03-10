@@ -86,7 +86,7 @@ void previewGraphicsView::dropEvent(QDropEvent *event)
         if(this->_gray)
         {
             // check if we have colored image. If so, prevent to add it to the view.
-            Mat image = data.at(1).at(0).value<Mat>();
+            cv::Mat image = data.at(1).at(0).value<cv::Mat>();
             if(image.channels()>1)
             {
                 return;

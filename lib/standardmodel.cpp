@@ -3,7 +3,9 @@
 StandardModel::StandardModel(QObject *parent) :
     QAbstractItemModel(parent)
 {
-    this->setRoot(new AbstractItem());
+    AbstractItem* root = new AbstractItem();
+    root->setRoot(true);
+    this->setRoot(root);
 }
 StandardModel::StandardModel(AbstractItem *rootObj, QObject *parent) :
     QAbstractItemModel(parent)

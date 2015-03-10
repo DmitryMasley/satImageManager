@@ -21,7 +21,7 @@ imageTreeNode::imageTreeNode(QString file):QTreeWidgetItem(1)
 {
     channel = -1;
     fileName = file;
-    Mat m = imread(ProcessingCore::convertToStdString(fileName), -1);
+    cv::Mat m = cv::imread(ProcessingCore::convertToStdString(fileName), -1);
         this->setText(1, fileName);
         image = ProcessingCore::convertToQImage(m);
         QPixmap pixmap = QPixmap::fromImage(*image);

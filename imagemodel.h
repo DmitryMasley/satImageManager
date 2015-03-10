@@ -2,7 +2,12 @@
 #define IMAGEMODEL_H
 #include "stdafx.h"
 #include "imageitem.h"
+#include <opencv2/core/mat.hpp>
+#include <opencv2/core.hpp>
+#include <opencv2/core/cuda.hpp>
 #include <QObject>
+#include "basicmodel.h"
+#include <QFileInfo>
 
 class ImageModel : public BasicModel
 {
@@ -10,8 +15,8 @@ class ImageModel : public BasicModel
 public:
     explicit ImageModel(const QList<QList<QVariant> > &data, QObject *parent = 0);
     void AddBlankItem();
-    void AddMultichannelImage(const Mat image, const QString fileName);
-    void AddImage(const Mat image, const QString fileName);
+    void AddMultichannelImage(const cv::Mat image, const QString fileName);
+    void AddImage(const cv::Mat image, const QString fileName);
     ImageItem* findImage(QString fileName);
 signals:
     

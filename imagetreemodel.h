@@ -1,6 +1,8 @@
 #ifndef IMAGETREEMODEL_H
 #define IMAGETREEMODEL_H
 #include "treeitem.h"
+#include "basicmodel.h"
+#include "imageitem.h"
 
 class ImageTreeModel:public BasicModel
 {

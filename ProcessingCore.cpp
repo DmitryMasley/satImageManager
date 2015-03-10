@@ -1,8 +1,9 @@
 #include "StdAfx.h"
+#include "ProcessingCore.h"
+#include <opencv2/core.hpp>
 #include "opencv2\core\types_c.h"
 #include <cmath>
 using namespace std;
-using namespace cv;
 
 
     ProcessingCore::ProcessingCore(void)
@@ -14,26 +15,26 @@ using namespace cv;
         std::string stds = s.toLocal8Bit().constData();
         return stds;
 	}
-    Mat ProcessingCore::readImage(QString & s)
+    cv::Mat ProcessingCore::readImage(QString & s)
     {
-        Mat image = imread(ProcessingCore::convertToStdString(s), -1);
+        cv::Mat image = cv::imread(ProcessingCore::convertToStdString(s), -1);
         int channelsNumber = image.channels();
         switch(channelsNumber)
         {
             case 1:
                 break;
             case 3:
-                cvtColor(image, image, CV_BGR2RGB);
+                cvtColor(image, image, cv::COLOR_BGR2RGB);
                 break;
             case 4:
-                cvtColor(image, image, CV_BGRA2RGBA);
+                cvtColor(image, image, cv::COLOR_BGRA2RGBA);
                 break;
         }
         return image;
     }
-    Mat ProcessingCore::RGB2BGR(Mat image)
+    cv::Mat ProcessingCore::RGB2BGR(cv::Mat image)
     {
-        Mat newImage;
+        cv::Mat newImage;
         int channelsNumber = image.channels();
         switch(channelsNumber)
         {
@@ -41,23 +42,23 @@ using namespace cv;
                 newImage = image;
                 break;
             case 3:
-                cvtColor(image, newImage, CV_RGB2BGR);
+                cvtColor(image, newImage, cv::COLOR_RGB2BGR);
                 break;
             case 4:
-                cvtColor(image, newImage, CV_RGBA2BGRA);
+                cvtColor(image, newImage, cv::COLOR_RGBA2BGRA);
                 break;
         }
         return newImage;
     }
-    bool ProcessingCore::writeImage(QString fileName, Mat image)
+    bool ProcessingCore::writeImage(QString fileName, cv::Mat image)
     {
         bool success = false;
-        Mat newImage = ProcessingCore::RGB2BGR(image);
+        cv::Mat newImage = ProcessingCore::RGB2BGR(image);
         success = cv::imwrite(ProcessingCore::convertToStdString(fileName), newImage);
 
         return success;
     }
-    QImage* ProcessingCore::convertToQImage( Mat& matrix)
+    QImage* ProcessingCore::convertToQImage( cv::Mat& matrix)
     {
         QImage* img;
         int channelsNumber;
@@ -81,46 +82,46 @@ using namespace cv;
         }
         return img;
     }
-    vector<QImage*> ProcessingCore::splitToQImage(Mat matrix)
+    vector<QImage*> ProcessingCore::splitToQImage(cv::Mat matrix)
     {
         vector<QImage*> result;
-        vector<Mat> channels;
+        vector<cv::Mat> channels;
         int channelsNumber;
         channelsNumber = matrix.channels();
         cv::split(matrix, channels);
         for (int i = channelsNumber-1; i>=0; i--)
         {
-            Mat* ch = new Mat(channels[i]);
+            cv::Mat* ch = new cv::Mat(channels[i]);
             result.push_back(new QImage((uchar*)ch->data, ch->cols, ch->rows, ch->step, QImage::Format_Indexed8));
         }
         return result;
     }
-    Mat ProcessingCore::getChannel(Channels ch, Mat & matrix)
+    cv::Mat ProcessingCore::getChannel(Channels ch, cv::Mat & matrix)
     {
-        Mat result;
+        cv::Mat result;
         int channelsNumber = matrix.channels();
         if (channelsNumber>ch && ch>=0)
         {
-            vector<Mat> channels;
+            vector<cv::Mat> channels;
             cv::split(matrix, channels);
             result = channels[ch];
         }
         return result;
     }
-    QRresult ProcessingCore::mgs_qr(Mat& A)
+    QRresult ProcessingCore::mgs_qr(cv::Mat& A)
 	{
         QRresult result;
         result.Q = A;
         result.Q.convertTo(result.Q, CV_32F);
         int Width = result.Q.cols;
-        result.R = Mat::zeros(Width, Width, CV_32F);
+        result.R = cv::Mat::zeros(Width, Width, CV_32F);
         for (int j = 0; j<Width; j++)
         {
             result.R.at<float>(j ,j) = norm(result.Q.col(j));
             result.Q.col(j) = result.Q.col(j)/result.R.at<float>(j ,j);
             for (int k=j+1; k<Width;k++)
             {
-                Mat temp = result.Q.col(j).t()*result.Q.col(k);
+                cv::Mat temp = result.Q.col(j).t()*result.Q.col(k);
                 int rows = temp.rows; int cols = temp.cols;
                 result.R.at<float>(j ,k)=	temp.at<float>(0, 0);
                 result.Q.col(k) = result.Q.col(k)-result.R.at<float>(j ,k)*result.Q.col(j);
@@ -129,7 +130,7 @@ using namespace cv;
         return result;
 	}
     template<class T>
-    void ProcessingCore::matIteration(Mat M,  void (*callback)(T Value))
+    void ProcessingCore::matIteration(cv::Mat M,  void (*callback)(T Value))
 	{
 		for(int i = 0; i < M.rows; i++)
 		{
@@ -141,28 +142,28 @@ using namespace cv;
 
 		}
 	}
-    cv::Mat ProcessingCore::FFT(Mat image)
+    cv::Mat ProcessingCore::FFT(cv::Mat image)
     {
         if (image.channels() > 1)
         {
-            vector<Mat> ch;
+            vector<cv::Mat> ch;
             cv::split(image, ch);
             image = ch[0];
         }
-        Size dftSize;
-        dftSize.width = getOptimalDFTSize(image.cols);
-        dftSize.height = getOptimalDFTSize(image.rows);
+        cv::Size dftSize;
+        dftSize.width = cv::getOptimalDFTSize(image.cols);
+        dftSize.height = cv::getOptimalDFTSize(image.rows);
 
-        Mat temp=Mat::zeros(dftSize, CV_64FC1), result;
-        Mat roi_temp(temp, Rect(0, 0, image.cols, image.rows));
+        cv::Mat temp=cv::Mat::zeros(dftSize, CV_64FC1), result;
+        cv::Mat roi_temp(temp, cv::Rect(0, 0, image.cols, image.rows));
         image.convertTo(roi_temp, CV_64F);
-        cv::dft(temp, result, DFT_COMPLEX_OUTPUT );
+        cv::dft(temp, result, cv::DFT_COMPLEX_OUTPUT );
         return result;
     }
-    cv::Mat ProcessingCore::IFT(Mat transform, int origType)
+    cv::Mat ProcessingCore::IFT(cv::Mat transform, int origType)
     {
-        Mat iftm;
-        cv::dft(transform, iftm, DFT_INVERSE + DFT_SCALE + DFT_REAL_OUTPUT );
+        cv::Mat iftm;
+        cv::dft(transform, iftm, cv::DFT_INVERSE + cv::DFT_SCALE + cv::DFT_REAL_OUTPUT );
         iftm.convertTo(iftm, origType);
         return iftm;
     }
@@ -217,313 +218,367 @@ using namespace cv;
 	}
 	return !exist;*/
     //	}
-QIcon ProcessingCore::convertToQIcon(Mat image, int width, int height)
+cv::Scalar ProcessingCore::getMSSIM( const cv::Mat& i1, const cv::Mat& i2, cv::Mat& ssim_map)
+    {
+     const double C1 = 6.5025, C2 = 58.5225;
+     /***************************** INITS **********************************/
+     int d     = CV_32F;
+
+     cv::Mat I1, I2;
+     i1.convertTo(I1, d);           // cannot calculate on one byte large values
+     i2.convertTo(I2, d);
+
+     cv::Mat I2_2   = I2.mul(I2);        // I2^2
+     cv::Mat I1_2   = I1.mul(I1);        // I1^2
+     cv::Mat I1_I2  = I1.mul(I2);        // I1 * I2
+
+     /***********************PRELIMINARY COMPUTING ******************************/
+
+     cv::Mat mu1, mu2;   //
+     cv::GaussianBlur(I1, mu1, cv::Size(11, 11), 1.5);
+     cv::GaussianBlur(I2, mu2, cv::Size(11, 11), 1.5);
+
+     cv::Mat mu1_2   =   mu1.mul(mu1);
+     cv::Mat mu2_2   =   mu2.mul(mu2);
+     cv::Mat mu1_mu2 =   mu1.mul(mu2);
+
+     cv::Mat sigma1_2, sigma2_2, sigma12;
+
+     cv::GaussianBlur(I1_2, sigma1_2, cv::Size(11, 11), 1.5);
+     sigma1_2 -= mu1_2;
+
+     cv::GaussianBlur(I2_2, sigma2_2, cv::Size(11, 11), 1.5);
+     sigma2_2 -= mu2_2;
+
+     GaussianBlur(I1_I2, sigma12, cv::Size(11, 11), 1.5);
+     sigma12 -= mu1_mu2;
+
+     ///////////////////////////////// FORMULA ////////////////////////////////
+     cv::Mat t1, t2, t3;
+
+     t1 = 2 * mu1_mu2 + C1;
+     t2 = 2 * sigma12 + C2;
+     t3 = t1.mul(t2);              // t3 = ((2*mu1_mu2 + C1).*(2*sigma12 + C2))
+
+     t1 = mu1_2 + mu2_2 + C1;
+     t2 = sigma1_2 + sigma2_2 + C2;
+     t1 = t1.mul(t2);               // t1 =((mu1_2 + mu2_2 + C1).*(sigma1_2 + sigma2_2 + C2))
+
+     divide(t3, t1, ssim_map);      // ssim_map =  t3./t1;
+
+     cv::Scalar mssim = mean( ssim_map ); // mssim = average of ssim map
+     ssim_map = ssim_map*255;
+     ssim_map.convertTo(ssim_map, CV_8U);
+     return mssim;
+}
+QIcon ProcessingCore::convertToQIcon(cv::Mat image, int width, int height)
 {
     QImage* qimage = convertToQImage(image);
     QPixmap pixmap = QPixmap::fromImage(*qimage);
     QIcon ic = QIcon(pixmap.scaled(width, height));
     return ic;
 }
-static double getSSIM(IplImage* src1, IplImage* src2, IplImage* mask,
-                      const double K1,
-                      const double K2,
-                      const int L,
-                      const int downsamplewidth,
-                      const int gaussian_window,
-                      const double gaussian_sigma,
-                      IplImage* dest)
-{
-    // default settings
-    const double C1 = (K1 * L) * (K1 * L); //6.5025 C1 = (K(1)*L)^2;
-    const double C2 = (K2 * L) * (K2 * L); //58.5225 C2 = (K(2)*L)^2;
+//static double getSSIM(IplImage* src1, IplImage* src2, IplImage* mask,
+//                      const double K1,
+//                      const double K2,
+//                      const int L,
+//                      const int downsamplewidth,
+//                      const int gaussian_window,
+//                      const double gaussian_sigma,
+//                      IplImage* dest)
+//{
+//    // default settings
+//    const double C1 = (K1 * L) * (K1 * L); //6.5025 C1 = (K(1)*L)^2;
+//    const double C2 = (K2 * L) * (K2 * L); //58.5225 C2 = (K(2)*L)^2;
 
-    //�@get width and height
-    int x=src1->width, y=src1->height;
+//    //�@get width and height
+//    int x=src1->width, y=src1->height;
 
-    //�@distance (down sampling) setting
-    int rate_downsampling = std::max(1, int((std::min(x,y) / downsamplewidth) + 0.5));
+//    //�@distance (down sampling) setting
+//    int rate_downsampling = std::max(1, int((std::min(x,y) / downsamplewidth) + 0.5));
 
-    int nChan=1, d=IPL_DEPTH_32F;
+//    int nChan=1, d=IPL_DEPTH_32F;
 
-    //�@size before down sampling
-    CvSize size_L = cvSize(x, y);
+//    //�@size before down sampling
+//    CvSize size_L = cvSize(x, y);
 
-    //�@size after down sampling
-    CvSize size = cvSize(x / rate_downsampling, y / rate_downsampling);
+//    //�@size after down sampling
+//    CvSize size = cvSize(x / rate_downsampling, y / rate_downsampling);
 
-    //�@image allocation
-    cv::Ptr<IplImage> img1 = cvCreateImage( size, d, nChan);
-    cv::Ptr<IplImage> img2 = cvCreateImage( size, d, nChan);
-
-
-    //�@convert 8 bit to 32 bit float value
-    cv::Ptr<IplImage> img1_L = cvCreateImage( size_L, d, nChan);
-    cv::Ptr<IplImage> img2_L = cvCreateImage( size_L, d, nChan);
-    cvConvert(src1, img1_L);
-    cvConvert(src2, img2_L);
-
-    //�@down sampling
-    cvResize(img1_L, img1);
-    cvResize(img2_L, img2);
-
-    //�@buffer alocation
-    cv::Ptr<IplImage> img1_sq = cvCreateImage( size, d, nChan);
-    cv::Ptr<IplImage> img2_sq = cvCreateImage( size, d, nChan);
-    cv::Ptr<IplImage> img1_img2 = cvCreateImage( size, d, nChan);
-
-    //�@pow and mul
-    cvPow( img1, img1_sq, 2 );
-    cvPow( img2, img2_sq, 2 );
-    cvMul( img1, img2, img1_img2, 1 );
-
-    //�@get sigma
-    cv::Ptr<IplImage> mu1 = cvCreateImage( size, d, nChan);
-    cv::Ptr<IplImage> mu2 = cvCreateImage( size, d, nChan);
-    cv::Ptr<IplImage> mu1_sq = cvCreateImage( size, d, nChan);
-    cv::Ptr<IplImage> mu2_sq = cvCreateImage( size, d, nChan);
-    cv::Ptr<IplImage> mu1_mu2 = cvCreateImage( size, d, nChan);
+//    //�@image allocation
+//    cv::Ptr<IplImage> img1 = cvCreateImage( size, d, nChan);
+//    cv::Ptr<IplImage> img2 = cvCreateImage( size, d, nChan);
 
 
-    cv::Ptr<IplImage> sigma1_sq = cvCreateImage( size, d, nChan);
-    cv::Ptr<IplImage> sigma2_sq = cvCreateImage( size, d, nChan);
-    cv::Ptr<IplImage> sigma12 = cvCreateImage( size, d, nChan);
+//    //�@convert 8 bit to 32 bit float value
+//    cv::Ptr<IplImage> img1_L = cvCreateImage( size_L, d, nChan);
+//    cv::Ptr<IplImage> img2_L = cvCreateImage( size_L, d, nChan);
+//    cvConvert(src1, img1_L);
+//    cvConvert(src2, img2_L);
 
-    //�@allocate buffer
-    cv::Ptr<IplImage> temp1 = cvCreateImage( size, d, nChan);
-    cv::Ptr<IplImage> temp2 = cvCreateImage( size, d, nChan);
-    cv::Ptr<IplImage> temp3 = cvCreateImage( size, d, nChan);
+//    //�@down sampling
+//    cvResize(img1_L, img1);
+//    cvResize(img2_L, img2);
 
-    //ssim map
-    cv::Ptr<IplImage> ssim_map = cvCreateImage( size, d, nChan);
+//    //�@buffer alocation
+//    cv::Ptr<IplImage> img1_sq = cvCreateImage( size, d, nChan);
+//    cv::Ptr<IplImage> img2_sq = cvCreateImage( size, d, nChan);
+//    cv::Ptr<IplImage> img1_img2 = cvCreateImage( size, d, nChan);
 
+//    //�@pow and mul
+//    cvPow( img1, img1_sq, 2 );
+//    cvPow( img2, img2_sq, 2 );
+//    cvMul( img1, img2, img1_img2, 1 );
 
-    //////////////////////////////////////////////////////////////////////////
-    // 	// PRELIMINARY COMPUTING
-
-    //�@gaussian smooth
-    cvSmooth( img1, mu1, CV_GAUSSIAN, gaussian_window, gaussian_window, gaussian_sigma );
-    cvSmooth( img2, mu2, CV_GAUSSIAN, gaussian_window, gaussian_window, gaussian_sigma );
-
-    //�@get mu
-    cvPow( mu1, mu1_sq, 2 );
-    cvPow( mu2, mu2_sq, 2 );
-    cvMul( mu1, mu2, mu1_mu2, 1 );
-
-    //�@calc sigma
-    cvSmooth( img1_sq, sigma1_sq, CV_GAUSSIAN, gaussian_window, gaussian_window, gaussian_sigma );
-    cvAddWeighted( sigma1_sq, 1, mu1_sq, -1, 0, sigma1_sq );
-
-    cvSmooth( img2_sq, sigma2_sq, CV_GAUSSIAN, gaussian_window, gaussian_window, gaussian_sigma);
-    cvAddWeighted( sigma2_sq, 1, mu2_sq, -1, 0, sigma2_sq );
-
-    cvSmooth( img1_img2, sigma12, CV_GAUSSIAN, gaussian_window, gaussian_window, gaussian_sigma );
-    cvAddWeighted( sigma12, 1, mu1_mu2, -1, 0, sigma12 );
+//    //�@get sigma
+//    cv::Ptr<IplImage> mu1 = cvCreateImage( size, d, nChan);
+//    cv::Ptr<IplImage> mu2 = cvCreateImage( size, d, nChan);
+//    cv::Ptr<IplImage> mu1_sq = cvCreateImage( size, d, nChan);
+//    cv::Ptr<IplImage> mu2_sq = cvCreateImage( size, d, nChan);
+//    cv::Ptr<IplImage> mu1_mu2 = cvCreateImage( size, d, nChan);
 
 
-    //////////////////////////////////////////////////////////////////////////
-    // FORMULA
+//    cv::Ptr<IplImage> sigma1_sq = cvCreateImage( size, d, nChan);
+//    cv::Ptr<IplImage> sigma2_sq = cvCreateImage( size, d, nChan);
+//    cv::Ptr<IplImage> sigma12 = cvCreateImage( size, d, nChan);
 
-    // (2*mu1_mu2 + C1)
-    cvScale( mu1_mu2, temp1, 2 );
-    cvAddS( temp1, cvScalarAll(C1), temp1 );
+//    //�@allocate buffer
+//    cv::Ptr<IplImage> temp1 = cvCreateImage( size, d, nChan);
+//    cv::Ptr<IplImage> temp2 = cvCreateImage( size, d, nChan);
+//    cv::Ptr<IplImage> temp3 = cvCreateImage( size, d, nChan);
 
-    // (2*sigma12 + C2)
-    cvScale( sigma12, temp2, 2 );
-    cvAddS( temp2, cvScalarAll(C2), temp2 );
-
-    // ((2*mu1_mu2 + C1).*(2*sigma12 + C2))
-    cvMul( temp1, temp2, temp3, 1 );
-
-    // (mu1_sq + mu2_sq + C1)
-    cvAdd( mu1_sq, mu2_sq, temp1 );
-    cvAddS( temp1, cvScalarAll(C1), temp1 );
-
-    // (sigma1_sq + sigma2_sq + C2)
-    cvAdd( sigma1_sq, sigma2_sq, temp2 );
-    cvAddS( temp2, cvScalarAll(C2), temp2 );
-
-    // ((mu1_sq + mu2_sq + C1).*(sigma1_sq + sigma2_sq + C2))
-    cvMul( temp1, temp2, temp1, 1 );
-
-    // ((2*mu1_mu2 + C1).*(2*sigma12 + C2))./((mu1_sq + mu2_sq + C1).*(sigma1_sq + sigma2_sq + C2))
-    cvDiv( temp3, temp1, ssim_map, 1 );
-
-    cv::Ptr<IplImage> stemp = cvCreateImage( size, IPL_DEPTH_8U, 1);
-    cv::Ptr<IplImage> mask2 = cvCreateImage( size, IPL_DEPTH_8U, 1);
-
-    cvConvertScale(ssim_map, stemp, 255.0, 0.0);
-    cvResize(stemp,dest);
-    cvResize(mask,mask2);
-
-    CvScalar index_scalar = cvAvg( ssim_map, mask2 );
-
-    // through observation, there is approximately
-    // 1% error max with the original matlab program
-
-    return index_scalar.val[0];
-}
+//    //ssim map
+//    cv::Ptr<IplImage> ssim_map = cvCreateImage( size, d, nChan);
 
 
-double xcvCalcSSIM(IplImage* src, IplImage* dest, int channel, int method, IplImage* _mask,
-                   const double K1,
-                   const double K2,
-                   const int L,
-                   const int downsamplewidth,
-                   const int gaussian_window,
-                   const double gaussian_sigma,
-                   IplImage* ssim_map
-                   )
-{
-    IplImage* mask;
-    IplImage* __mask=cvCreateImage(cvGetSize(src),8,1);
-    IplImage* smap=cvCreateImage(cvGetSize(src),8,1);
+//    //////////////////////////////////////////////////////////////////////////
+//    // 	// PRELIMINARY COMPUTING
 
-    cvSet(__mask,cvScalarAll(255));
+//    //�@gaussian smooth
+//    cvSmooth( img1, mu1, CV_GAUSSIAN, gaussian_window, gaussian_window, gaussian_sigma );
+//    cvSmooth( img2, mu2, CV_GAUSSIAN, gaussian_window, gaussian_window, gaussian_sigma );
+
+//    //�@get mu
+//    cvPow( mu1, mu1_sq, 2 );
+//    cvPow( mu2, mu2_sq, 2 );
+//    cvMul( mu1, mu2, mu1_mu2, 1 );
+
+//    //�@calc sigma
+//    cvSmooth( img1_sq, sigma1_sq, CV_GAUSSIAN, gaussian_window, gaussian_window, gaussian_sigma );
+//    cvAddWeighted( sigma1_sq, 1, mu1_sq, -1, 0, sigma1_sq );
+
+//    cvSmooth( img2_sq, sigma2_sq, CV_GAUSSIAN, gaussian_window, gaussian_window, gaussian_sigma);
+//    cvAddWeighted( sigma2_sq, 1, mu2_sq, -1, 0, sigma2_sq );
+
+//    cvSmooth( img1_img2, sigma12, CV_GAUSSIAN, gaussian_window, gaussian_window, gaussian_sigma );
+//    cvAddWeighted( sigma12, 1, mu1_mu2, -1, 0, sigma12 );
 
 
-    if(_mask==NULL)mask=__mask;
-    else mask=_mask;
-    IplImage* ssrc;
-    IplImage* sdest;
-    if(src->nChannels==1)
-    {
-        ssrc=cvCreateImage(cvGetSize(src),8,3);
-        sdest=cvCreateImage(cvGetSize(src),8,3);
-        cvCvtColor(src,ssrc,CV_GRAY2BGR);
-        cvCvtColor(dest,sdest,CV_GRAY2BGR);
-    }
-    else
-    {
-        ssrc = cvCloneImage(src);
-        sdest = cvCloneImage(dest);
-        cvCvtColor(dest,sdest,method);
-        cvCvtColor(src,ssrc,method);
-    }
+//    //////////////////////////////////////////////////////////////////////////
+//    // FORMULA
 
-    IplImage* gray[4];
-    IplImage* sgray[4];
-    for(int i=0;i<4;i++)
-    {
-        gray[i] = cvCreateImage(cvGetSize(src),8,1);
-        sgray[i] = cvCreateImage(cvGetSize(src),8,1);
-    }
+//    // (2*mu1_mu2 + C1)
+//    cvScale( mu1_mu2, temp1, 2 );
+//    cvAddS( temp1, cvScalarAll(C1), temp1 );
 
-    cvSplit(sdest,gray[0],gray[1],gray[2],NULL);
-    cvSplit(ssrc,sgray[0],sgray[1],sgray[2],NULL);
+//    // (2*sigma12 + C2)
+//    cvScale( sigma12, temp2, 2 );
+//    cvAddS( temp2, cvScalarAll(C2), temp2 );
 
-    double sn=0.0;
+//    // ((2*mu1_mu2 + C1).*(2*sigma12 + C2))
+//    cvMul( temp1, temp2, temp3, 1 );
 
-    if(channel==ALLCHANNEL)
-    {
-        for(int i=0;i<src->nChannels;i++)
-        {
-            sn+=getSSIM(sgray[i],gray[i],mask,K1,K2,L,downsamplewidth,gaussian_window,gaussian_sigma,smap);
-        }
-        sn/=(double)src->nChannels;
-    }
-    else
-    {
-        sn	= getSSIM(sgray[channel],gray[channel],mask,K1,K2,L,downsamplewidth,gaussian_window,gaussian_sigma,smap);
-    }
+//    // (mu1_sq + mu2_sq + C1)
+//    cvAdd( mu1_sq, mu2_sq, temp1 );
+//    cvAddS( temp1, cvScalarAll(C1), temp1 );
 
-    for(int i=0;i<4;i++)
-    {
-        cvReleaseImage(&gray[i]);
-        cvReleaseImage(&sgray[i]);
-    }
+//    // (sigma1_sq + sigma2_sq + C2)
+//    cvAdd( sigma1_sq, sigma2_sq, temp2 );
+//    cvAddS( temp2, cvScalarAll(C2), temp2 );
 
-    if(ssim_map!=NULL)cvCopy(smap,ssim_map);
-    cvReleaseImage(&smap);
-    cvReleaseImage(&__mask);
-    cvReleaseImage(&ssrc);
-    cvReleaseImage(&sdest);
-    return sn;
-}
+//    // ((mu1_sq + mu2_sq + C1).*(sigma1_sq + sigma2_sq + C2))
+//    cvMul( temp1, temp2, temp1, 1 );
 
-double xcvCalcDSSIM(IplImage* src, IplImage* dest, int channel, int method, IplImage* _mask,
-                    const double K1,
-                    const double K2,
-                    const int L,
-                    const int downsamplewidth,
-                    const int gaussian_window,
-                    const double gaussian_sigma,
-                    IplImage* ssim_map
-                    )
-{
-    double ret = xcvCalcSSIM(src, dest, channel, method, _mask, K1,K2,L,downsamplewidth,gaussian_window,gaussian_sigma,ssim_map);
-    if(ret==0)ret=-1.0;
-    else ret =(1.0 / ret) - 1.0;
-    return ret;
-}
-double xcvCalcSSIMBB(IplImage* src, IplImage* dest, int channel, int method, int boundx,int boundy,const double K1,	const double K2,	const int L, const int downsamplewidth, const int gaussian_window, const double gaussian_sigma, IplImage* ssim_map)
-{
-    IplImage* mask = cvCreateImage(cvGetSize(src),8,1);
-    cvZero(mask);
-    cvRectangle(mask,cvPoint(boundx,boundy),cvPoint(src->width-boundx,src->height-boundy),cvScalarAll(255),CV_FILLED);
+//    // ((2*mu1_mu2 + C1).*(2*sigma12 + C2))./((mu1_sq + mu2_sq + C1).*(sigma1_sq + sigma2_sq + C2))
+//    cvDiv( temp3, temp1, ssim_map, 1 );
 
-    double ret = xcvCalcSSIM(src,dest,channel,method,mask,K1,K2,L,downsamplewidth,gaussian_window,gaussian_sigma,ssim_map);
-    cvReleaseImage(&mask);
-    return ret;
-}
+//    cv::Ptr<IplImage> stemp = cvCreateImage( size, IPL_DEPTH_8U, 1);
+//    cv::Ptr<IplImage> mask2 = cvCreateImage( size, IPL_DEPTH_8U, 1);
 
-double xcvCalcDSSIMBB(IplImage* src, IplImage* dest, int channel, int method, int boundx,int boundy,const double K1,	const double K2,	const int L, const int downsamplewidth, const int gaussian_window, const double gaussian_sigma, IplImage* ssim_map)
-{
-    IplImage* mask = cvCreateImage(cvGetSize(src),8,1);
-    cvZero(mask);
-    cvRectangle(mask,cvPoint(boundx,boundy),cvPoint(src->width-boundx,src->height-boundy),cvScalarAll(255),CV_FILLED);
+//    cvConvertScale(ssim_map, stemp, 255.0, 0.0);
+//    cvResize(stemp,dest);
+//    cvResize(mask,mask2);
 
-    double ret = xcvCalcSSIM(src,dest,channel,method,mask,K1,K2,L,downsamplewidth,gaussian_window,gaussian_sigma,ssim_map);
-    cvReleaseImage(&mask);
+//    CvScalar index_scalar = cvAvg( ssim_map, mask2 );
 
-    if(ret==0)ret=-1.0;
-    else ret = (1.0 / ret) - 1.0;
-    return ret;
-}
+//    // through observation, there is approximately
+//    // 1% error max with the original matlab program
+
+//    return index_scalar.val[0];
+//}
+
+
+//double xcvCalcSSIM(IplImage* src, IplImage* dest, int channel, int method, IplImage* _mask,
+//                   const double K1,
+//                   const double K2,
+//                   const int L,
+//                   const int downsamplewidth,
+//                   const int gaussian_window,
+//                   const double gaussian_sigma,
+//                   IplImage* ssim_map
+//                   )
+//{
+//    cv::IplImage* mask;
+//    cv::IplImage* __mask=cv::cvCreateImage(cv::cvGetSize(src),8,1);
+//    cv::IplImage* smap=cvCreateImage(cv::cvGetSize(src),8,1);
+
+//    cvSet(__mask,cvScalarAll(255));
+
+
+//    if(_mask==NULL)mask=__mask;
+//    else mask=_mask;
+//    IplImage* ssrc;
+//    IplImage* sdest;
+//    if(src->nChannels==1)
+//    {
+//        ssrc=cvCreateImage(cvGetSize(src),8,3);
+//        sdest=cvCreateImage(cvGetSize(src),8,3);
+//        cvCvtColor(src,ssrc,CV_GRAY2BGR);
+//        cvCvtColor(dest,sdest,CV_GRAY2BGR);
+//    }
+//    else
+//    {
+//        ssrc = cvCloneImage(src);
+//        sdest = cvCloneImage(dest);
+//        cvCvtColor(dest,sdest,method);
+//        cvCvtColor(src,ssrc,method);
+//    }
+
+//    IplImage* gray[4];
+//    IplImage* sgray[4];
+//    for(int i=0;i<4;i++)
+//    {
+//        gray[i] = cvCreateImage(cvGetSize(src),8,1);
+//        sgray[i] = cvCreateImage(cvGetSize(src),8,1);
+//    }
+
+//    cvSplit(sdest,gray[0],gray[1],gray[2],NULL);
+//    cvSplit(ssrc,sgray[0],sgray[1],sgray[2],NULL);
+
+//    double sn=0.0;
+
+//    if(channel==ALLCHANNEL)
+//    {
+//        for(int i=0;i<src->nChannels;i++)
+//        {
+//            sn+=getSSIM(sgray[i],gray[i],mask,K1,K2,L,downsamplewidth,gaussian_window,gaussian_sigma,smap);
+//        }
+//        sn/=(double)src->nChannels;
+//    }
+//    else
+//    {
+//        sn	= getSSIM(sgray[channel],gray[channel],mask,K1,K2,L,downsamplewidth,gaussian_window,gaussian_sigma,smap);
+//    }
+
+//    for(int i=0;i<4;i++)
+//    {
+//        cvReleaseImage(&gray[i]);
+//        cvReleaseImage(&sgray[i]);
+//    }
+
+//    if(ssim_map!=NULL)cvCopy(smap,ssim_map);
+//    cvReleaseImage(&smap);
+//    cvReleaseImage(&__mask);
+//    cvReleaseImage(&ssrc);
+//    cvReleaseImage(&sdest);
+//    return sn;
+//}
+
+//double xcvCalcDSSIM(IplImage* src, IplImage* dest, int channel, int method, IplImage* _mask,
+//                    const double K1,
+//                    const double K2,
+//                    const int L,
+//                    const int downsamplewidth,
+//                    const int gaussian_window,
+//                    const double gaussian_sigma,
+//                    IplImage* ssim_map
+//                    )
+//{
+//    double ret = xcvCalcSSIM(src, dest, channel, method, _mask, K1,K2,L,downsamplewidth,gaussian_window,gaussian_sigma,ssim_map);
+//    if(ret==0)ret=-1.0;
+//    else ret =(1.0 / ret) - 1.0;
+//    return ret;
+//}
+//double xcvCalcSSIMBB(IplImage* src, IplImage* dest, int channel, int method, int boundx,int boundy,const double K1,	const double K2,	const int L, const int downsamplewidth, const int gaussian_window, const double gaussian_sigma, IplImage* ssim_map)
+//{
+//    IplImage* mask = cvCreateImage(cvGetSize(src),8,1);
+//    cvZero(mask);
+//    cvRectangle(mask,cvPoint(boundx,boundy),cvPoint(src->width-boundx,src->height-boundy),cvScalarAll(255),CV_FILLED);
+
+//    double ret = xcvCalcSSIM(src,dest,channel,method,mask,K1,K2,L,downsamplewidth,gaussian_window,gaussian_sigma,ssim_map);
+//    cvReleaseImage(&mask);
+//    return ret;
+//}
+
+//double xcvCalcDSSIMBB(IplImage* src, IplImage* dest, int channel, int method, int boundx,int boundy,const double K1,	const double K2,	const int L, const int downsamplewidth, const int gaussian_window, const double gaussian_sigma, IplImage* ssim_map)
+//{
+//    IplImage* mask = cvCreateImage(cvGetSize(src),8,1);
+//    cvZero(mask);
+//    cvRectangle(mask,cvPoint(boundx,boundy),cvPoint(src->width-boundx,src->height-boundy),cvScalarAll(255),CV_FILLED);
+
+//    double ret = xcvCalcSSIM(src,dest,channel,method,mask,K1,K2,L,downsamplewidth,gaussian_window,gaussian_sigma,ssim_map);
+//    cvReleaseImage(&mask);
+
+//    if(ret==0)ret=-1.0;
+//    else ret = (1.0 / ret) - 1.0;
+//    return ret;
+//}
 
 double ProcessingCore::calcSSIM(cv::Mat& src1, cv::Mat& src2, int channel, int method, const double K1, const double K2,	const int L, const int downsamplewidth, const int gaussian_window, const double gaussian_sigma)
 {
-    Mat mask; Mat map;
-    return calcSSIM(src1, src2, mask, map, channel,  method, K1, K2, L, downsamplewidth, gaussian_window, gaussian_sigma);
+    cv::Mat mask; cv::Mat map;
+    return 0;
 }
 
 double ProcessingCore::calcSSIM(cv::Mat& src1, cv::Mat& src2, cv::Mat& mask, cv::Mat& ssim_map, int channel, int method, const double K1, const double K2,	const int L, const int downsamplewidth, const int gaussian_window, const double gaussian_sigma)
 {
-    if(ssim_map.empty())ssim_map.create(src1.size(),CV_8U);
-    IplImage Src1 = IplImage(src1);
-    IplImage Src2 = IplImage(src2);
-    IplImage Ssim_map = IplImage(ssim_map);
-    IplImage* iplSrc1 = &Src1;
-    IplImage* iplSrc2 = &Src2;
-    IplImage* iplSsim_map = &Ssim_map;
-    if(mask.empty())
-    {
+    return 0;
+//    if(ssim_map.empty())ssim_map.create(src1.size(),CV_8U);
+//    IplImage Src1 = IplImage(src1);
+//    IplImage Src2 = IplImage(src2);
+//    IplImage Ssim_map = IplImage(ssim_map);
+//    IplImage* iplSrc1 = &Src1;
+//    IplImage* iplSrc2 = &Src2;
+//    IplImage* iplSsim_map = &Ssim_map;
+//    if(mask.empty())
+//    {
 
-        xcvCalcSSIM(iplSrc1,iplSrc2,channel,method,NULL,K1,K2,L,downsamplewidth,gaussian_window,gaussian_sigma, iplSsim_map);
-        return xcvCalcSSIM(iplSrc1,iplSrc2,channel,method,NULL,K1,K2,L,downsamplewidth,gaussian_window,gaussian_sigma, iplSsim_map);
-    }
-    else
-    {
-        IplImage Mask = IplImage(mask);
-        IplImage* iplMask = &Mask;
-        return xcvCalcSSIM(iplSrc1,iplSrc2,channel,method,iplMask,K1,K2,L,downsamplewidth,gaussian_window,gaussian_sigma, iplSsim_map);
-    }
+//        xcvCalcSSIM(iplSrc1,iplSrc2,channel,method,NULL,K1,K2,L,downsamplewidth,gaussian_window,gaussian_sigma, iplSsim_map);
+//        return xcvCalcSSIM(iplSrc1,iplSrc2,channel,method,NULL,K1,K2,L,downsamplewidth,gaussian_window,gaussian_sigma, iplSsim_map);
+//    }
+//    else
+//    {
+//        IplImage Mask = IplImage(mask);
+//        IplImage* iplMask = &Mask;
+//        return xcvCalcSSIM(iplSrc1,iplSrc2,channel,method,iplMask,K1,K2,L,downsamplewidth,gaussian_window,gaussian_sigma, iplSsim_map);
+//    }
 }
-double ProcessingCore::calcSSIMBB(cv::Mat& src1, cv::Mat& src2, int channel, int method, int boundx, int boundy, const double K1, const double K2, const int L, const int downsamplewidth, const int gaussian_window, const double gaussian_sigma)
-{
-    Mat ssim_map;
-    return calcSSIMBB(src1, src2, ssim_map, channel, method, boundx, boundy, K1, K2, L, downsamplewidth, gaussian_window, gaussian_sigma);
-}
-double ProcessingCore::calcSSIMBB(cv::Mat& src1, cv::Mat& src2, cv::Mat& ssim_map, int channel, int method, int boundx, int boundy, const double K1, const double K2, const int L, const int downsamplewidth, const int gaussian_window, const double gaussian_sigma)
-{
-    IplImage Src1 = IplImage(src1);
-    IplImage Src2 = IplImage(src2);
-    IplImage Ssim_map = IplImage(ssim_map);
-    IplImage* iplSrc1 = &Src1;
-    IplImage* iplSrc2 = &Src2;
-    IplImage* iplSsim_map = &Ssim_map;
-    if(ssim_map.empty())ssim_map.create(src1.size(),CV_8U);
-    return xcvCalcSSIMBB(iplSrc1,iplSrc2,channel,method,boundx,boundy,K1,K2,L,downsamplewidth,gaussian_window,gaussian_sigma, iplSsim_map);
-}
+//double ProcessingCore::calcSSIMBB(cv::Mat& src1, cv::Mat& src2, int channel, int method, int boundx, int boundy, const double K1, const double K2, const int L, const int downsamplewidth, const int gaussian_window, const double gaussian_sigma)
+//{
+//    Mat ssim_map;
+//    return calcSSIMBB(src1, src2, ssim_map, channel, method, boundx, boundy, K1, K2, L, downsamplewidth, gaussian_window, gaussian_sigma);
+//}
+//double ProcessingCore::calcSSIMBB(cv::Mat& src1, cv::Mat& src2, cv::Mat& ssim_map, int channel, int method, int boundx, int boundy, const double K1, const double K2, const int L, const int downsamplewidth, const int gaussian_window, const double gaussian_sigma)
+//{
+//    IplImage Src1 = IplImage(src1);
+//    IplImage Src2 = IplImage(src2);
+//    IplImage Ssim_map = IplImage(ssim_map);
+//    IplImage* iplSrc1 = &Src1;
+//    IplImage* iplSrc2 = &Src2;
+//    IplImage* iplSsim_map = &Ssim_map;
+//    if(ssim_map.empty())ssim_map.create(src1.size(),CV_8U);
+//    return xcvCalcSSIMBB(iplSrc1,iplSrc2,channel,method,boundx,boundy,K1,K2,L,downsamplewidth,gaussian_window,gaussian_sigma, iplSsim_map);
+//}
 
 //double calcDSSIM(cv::Mat& src1, cv::Mat& src2, int channel, int method, cv::Mat& mask, const double K1, const double K2,	const int L, const int downsamplewidth, const int gaussian_window, const double gaussian_sigma, cv::Mat& ssim_map)
 //{
@@ -552,51 +607,51 @@ double ProcessingCore::calcSSIMBB(cv::Mat& src1, cv::Mat& src2, cv::Mat& ssim_ma
 //    return xcvCalcDSSIMBB(iplSrc1,iplSrc2,channel,method,boundx,boundy,K1,K2,L,downsamplewidth,gaussian_window,gaussian_sigma, iplSsim_map);
 //}
 
-double ProcessingCore::meanDiff(Mat img1, Mat img2)
+double ProcessingCore::meanDiff(cv::Mat img1, cv::Mat img2)
 {
-    Mat diff;
+    cv::Mat diff;
     cv::absdiff(img1, img2, diff);
-    Scalar result = cv::mean(diff);
+    cv::Scalar result = cv::mean(diff);
     return result.val[0];
 }
 
-double ProcessingCore::normCorrelation(Mat img1, Mat img2)
+double ProcessingCore::normCorrelation(cv::Mat img1, cv::Mat img2)
 {
-    Mat img1pow2, mult;
+    cv::Mat img1pow2, mult;
     cv::pow(img1, 2.0, img1pow2);
     cv::multiply(img1, img2, mult);
     cv::Scalar result = cv::sum(mult)/cv::sum(img1pow2);
     return result.val[0];
 }
-double ProcessingCore::correlationQuality(Mat img1, Mat img2)
+double ProcessingCore::correlationQuality(cv::Mat img1, cv::Mat img2)
 {
-    Mat mult;
+    cv::Mat mult;
     cv::multiply(img1, img2, mult);
     cv::Scalar result = cv::sum(mult)/cv::sum(img1);
     return result.val[0];
 }
-double ProcessingCore::maxDiff(Mat img1, Mat img2)
+double ProcessingCore::maxDiff(cv::Mat img1, cv::Mat img2)
 {
-    Mat diff;
+    cv::Mat diff;
     cv::absdiff(img1, img2, diff);
     double max;
     cv::minMaxLoc(diff, NULL, &max);
     return max;
 }
-double ProcessingCore::imageFidelity(Mat img1, Mat img2)
+double ProcessingCore::imageFidelity(cv::Mat img1, cv::Mat img2)
 {
-    Mat img1pow2, diff;
+    cv::Mat img1pow2, diff;
     cv::pow(img1, 2.0, img1pow2);
     cv::absdiff(img1, img2, diff);
     cv::pow(diff, 2.0, diff);
-    Scalar value = cv::sum(diff)/cv::sum(img1pow2);
+    cv::Scalar value = cv::sum(diff)/cv::sum(img1pow2);
     return 1.0-value.val[0];
 
 }
 template<class T>
-Mat ProcessingCore::getO(Mat img)
+cv::Mat ProcessingCore::getO(cv::Mat img)
 {
-    Mat o = Mat::zeros(img.rows, img.cols, CV_32F);
+    cv::Mat o = cv::Mat::zeros(img.rows, img.cols, CV_32F);
     for(int i = 0; i < img.rows; i++)
     {
         for(int j = 0; j < img.cols; j++)
@@ -624,9 +679,9 @@ Mat ProcessingCore::getO(Mat img)
     return o;
 }
 
-double ProcessingCore::laplMeanSqError(Mat img1, Mat img2)
+double ProcessingCore::laplMeanSqError(cv::Mat img1, cv::Mat img2)
 {
-    Mat oImg1,oImg2;
+    cv::Mat oImg1,oImg2;
     switch(img1.depth())
     {
     case CV_8U:
@@ -656,56 +711,56 @@ double ProcessingCore::laplMeanSqError(Mat img1, Mat img2)
         break;
     }
 
-    Mat oImg1Pow;
+    cv::Mat oImg1Pow;
     pow(oImg1, 2.0, oImg1Pow);
-    Scalar value = cv::sum(oImg1-oImg2)/cv::sum(oImg1Pow);
+    cv::Scalar value = cv::sum(oImg1-oImg2)/cv::sum(oImg1Pow);
     return value.val[0];
 }
-double ProcessingCore::meanSqError(Mat img1, Mat img2)
+double ProcessingCore::meanSqError(cv::Mat img1, cv::Mat img2)
 {
-    Mat pow2;
+    cv::Mat pow2;
     cv::pow(img1-img2, 2.0, pow2);
-    Scalar result = cv::mean(pow2);
+    cv::Scalar result = cv::mean(pow2);
     return result.val[0];
 }
-double ProcessingCore::peakMeanSqError(Mat img1, Mat img2)
+double ProcessingCore::peakMeanSqError(cv::Mat img1, cv::Mat img2)
 {
-    Mat pow2;
+    cv::Mat pow2;
     cv::pow(img1-img2, 2.0, pow2);
 
     double max;
     cv::minMaxLoc(img1, NULL, &max);
     max = pow(max, 2.0);
-    Scalar result = cv::mean(pow2);
+    cv::Scalar result = cv::mean(pow2);
 ;
     return result.val[0]/pow(max, 2.0);
 }
-double ProcessingCore::normalizedAbsoluteError(Mat img1, Mat img2)
+double ProcessingCore::normalizedAbsoluteError(cv::Mat img1, cv::Mat img2)
 {
-    Scalar result = cv::sum(img1-img2)/cv::sum(img1);
+    cv::Scalar result = cv::sum(img1-img2)/cv::sum(img1);
     return result.val[0];
 }
-double ProcessingCore::normalizedMeanSquareError(Mat img1, Mat img2)
+double ProcessingCore::normalizedMeanSquareError(cv::Mat img1, cv::Mat img2)
 {
-    Mat img1pow2, diff;
+    cv::Mat img1pow2, diff;
     cv::pow(img1, 2.0, img1pow2);
     cv::absdiff(img1, img2, diff);
     cv::pow(diff, 2.0, diff);
-    Scalar value = cv::sum(diff)/cv::sum(img1pow2);
+    cv::Scalar value = cv::sum(diff)/cv::sum(img1pow2);
     return value.val[0];
 }
-double ProcessingCore::snr(Mat img1, Mat img2)
+double ProcessingCore::snr(cv::Mat img1, cv::Mat img2)
 {
-    Mat img1pow2;
+    cv::Mat img1pow2;
     cv::pow(img1, 2.0, img1pow2);
-    Mat img1img2pow2;
+    cv::Mat img1img2pow2;
     cv::pow(img1-img2, 2.0, img1img2pow2);
     cv::Scalar result = cv::sum(img1pow2)/cv::sum(img1img2pow2);
     return 10.0*std::log10(result.val[0]);
 }
-double ProcessingCore::psnr(Mat img1, Mat img2)
+double ProcessingCore::psnr(cv::Mat img1, cv::Mat img2)
 {
-    Mat pow2 = img1-img2;
+    cv::Mat pow2 = img1-img2;
     cv::pow(pow2, 2.0, pow2);
     cv::Scalar mean = cv::mean(pow2);
     double max;

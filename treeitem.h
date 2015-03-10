@@ -1,7 +1,15 @@
 #ifndef TREEITEM_H
 #define TREEITEM_H
-#include "stdafx.h"
+#include "basicmodelitem.h"
 #include "characteristicsitem.h"
+#include <opencv2/core.hpp>
+#include <QStringList>
+#include "ProcessingCore.h"
+#include <QVariant>
+#include <QPixmap>
+#include <QIcon>
+#include <QFileInfo>
+#include <QFile>
 class TreeItem : public BasicModelItem
 {
 public:

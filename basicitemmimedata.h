@@ -2,6 +2,7 @@
 #define BASICITEMMIMEDATA_H
 
 #include <QObject>
+#include <QVariant>
 
 class BasicItemMimeData : public QObject
 {
