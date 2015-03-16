@@ -29,8 +29,8 @@
    <string>Image processing</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/resourse/icons/images/icons.png</normaloff>:/resourse/icons/images/icons.png</iconset>
+   <iconset resource="resource.qrc">
+    <normaloff>:/resource/icons/images/icons.png</normaloff>:/resource/icons/images/icons.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">MainWindow
@@ -177,7 +177,7 @@ MainWindow QToolTip
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -1489,7 +1489,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>1052</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="defaultUp">
@@ -1576,7 +1576,7 @@ p, li { white-space: pre-wrap; }
   <customwidget>
    <class>previewGraphicsView</class>
    <extends>QGraphicsView</extends>
-   <header location="global">previewgraphicsview.h</header>
+   <header>previewgraphicsview.h</header>
    <slots>
     <slot>showPreview(QImage*)</slot>
    </slots>
