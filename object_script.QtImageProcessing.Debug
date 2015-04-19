@@ -45,6 +45,7 @@ INPUT(
 ./debug\standardimagemodel.o
 ./debug\standardimageitem.o
 ./debug\controllermultichannelimages.o
+./debug\edgedetectioncontroller.o
 ./debug\qrc_resource.o
 ./debug\moc_mainwindow.o
 ./debug\moc_imagetree.o
@@ -83,4 +84,5 @@ INPUT(
 ./debug\moc_standardimagemodel.o
 ./debug\moc_standardimageitem.o
 ./debug\moc_controllermultichannelimages.o
+./debug\moc_edgedetectioncontroller.o
 );

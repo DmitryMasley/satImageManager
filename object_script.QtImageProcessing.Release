@@ -45,6 +45,7 @@ INPUT(
 ./release\standardimagemodel.o
 ./release\standardimageitem.o
 ./release\controllermultichannelimages.o
+./release\edgedetectioncontroller.o
 ./release\qrc_resource.o
 ./release\moc_mainwindow.o
 ./release\moc_imagetree.o
@@ -83,4 +84,5 @@ INPUT(
 ./release\moc_standardimagemodel.o
 ./release\moc_standardimageitem.o
 ./release\moc_controllermultichannelimages.o
+./release\moc_edgedetectioncontroller.o
 );

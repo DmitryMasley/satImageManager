@@ -153,6 +153,15 @@ public:
     QPushButton *comp_char_widget_prev;
     QSpacerItem *horizontalSpacer_6;
     QPushButton *comp_char_widget_next;
+    QWidget *contours;
+    QGridLayout *gridLayout_15;
+    QFrame *frame_3;
+    QHBoxLayout *horizontalLayout;
+    QLabel *label_4;
+    QComboBox *edge_detection_type;
+    QFrame *frame_4;
+    QPushButton *edge_get;
+    previewGraphicsView *graphicsView;
     ImageTreeView *mainTreeView;
     QMenuBar *menuBar;
     QMenu *menu_file;
@@ -1003,16 +1012,69 @@ public:
         gridLayout_9->addWidget(comp_char_widget_next, 1, 2, 1, 1);
 
         operations->addTab(comparative_characteristics, QString());
+        contours = new QWidget();
+        contours->setObjectName(QStringLiteral("contours"));
+        gridLayout_15 = new QGridLayout(contours);
+        gridLayout_15->setSpacing(6);
+        gridLayout_15->setContentsMargins(11, 11, 11, 11);
+        gridLayout_15->setObjectName(QStringLiteral("gridLayout_15"));
+        frame_3 = new QFrame(contours);
+        frame_3->setObjectName(QStringLiteral("frame_3"));
+        sizePolicy19.setHeightForWidth(frame_3->sizePolicy().hasHeightForWidth());
+        frame_3->setSizePolicy(sizePolicy19);
+        frame_3->setFrameShape(QFrame::StyledPanel);
+        frame_3->setFrameShadow(QFrame::Raised);
+        horizontalLayout = new QHBoxLayout(frame_3);
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        label_4 = new QLabel(frame_3);
+        label_4->setObjectName(QStringLiteral("label_4"));
+
+        horizontalLayout->addWidget(label_4);
+
+        edge_detection_type = new QComboBox(frame_3);
+        edge_detection_type->setObjectName(QStringLiteral("edge_detection_type"));
+        QSizePolicy sizePolicy20(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy20.setHorizontalStretch(0);
+        sizePolicy20.setVerticalStretch(0);
+        sizePolicy20.setHeightForWidth(edge_detection_type->sizePolicy().hasHeightForWidth());
+        edge_detection_type->setSizePolicy(sizePolicy20);
+        edge_detection_type->setEditable(false);
+
+        horizontalLayout->addWidget(edge_detection_type);
+
+
+        gridLayout_15->addWidget(frame_3, 0, 0, 1, 1);
+
+        frame_4 = new QFrame(contours);
+        frame_4->setObjectName(QStringLiteral("frame_4"));
+        sizePolicy19.setHeightForWidth(frame_4->sizePolicy().hasHeightForWidth());
+        frame_4->setSizePolicy(sizePolicy19);
+        frame_4->setFrameShape(QFrame::StyledPanel);
+        frame_4->setFrameShadow(QFrame::Raised);
+        edge_get = new QPushButton(frame_4);
+        edge_get->setObjectName(QStringLiteral("edge_get"));
+        edge_get->setGeometry(QRect(10, 10, 75, 23));
+
+        gridLayout_15->addWidget(frame_4, 0, 1, 1, 1);
+
+        graphicsView = new previewGraphicsView(contours);
+        graphicsView->setObjectName(QStringLiteral("graphicsView"));
+
+        gridLayout_15->addWidget(graphicsView, 1, 0, 1, 2);
+
+        operations->addTab(contours, QString());
 
         gridLayout_3->addWidget(operations, 0, 1, 1, 1);
 
         mainTreeView = new ImageTreeView(centralWidget);
         mainTreeView->setObjectName(QStringLiteral("mainTreeView"));
-        QSizePolicy sizePolicy20(QSizePolicy::Preferred, QSizePolicy::Expanding);
-        sizePolicy20.setHorizontalStretch(0);
-        sizePolicy20.setVerticalStretch(0);
-        sizePolicy20.setHeightForWidth(mainTreeView->sizePolicy().hasHeightForWidth());
-        mainTreeView->setSizePolicy(sizePolicy20);
+        QSizePolicy sizePolicy21(QSizePolicy::Preferred, QSizePolicy::Expanding);
+        sizePolicy21.setHorizontalStretch(0);
+        sizePolicy21.setVerticalStretch(0);
+        sizePolicy21.setHeightForWidth(mainTreeView->sizePolicy().hasHeightForWidth());
+        mainTreeView->setSizePolicy(sizePolicy21);
         mainTreeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         mainTreeView->setTabKeyNavigation(true);
         mainTreeView->setDragEnabled(true);
@@ -1059,7 +1121,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        operations->setCurrentIndex(0);
+        operations->setCurrentIndex(6);
         comp_char_widget->setCurrentIndex(0);
 
 
@@ -1154,6 +1216,12 @@ public:
         comp_char_widget_prev->setText(QApplication::translate("MainWindow", "Previous", 0));
         comp_char_widget_next->setText(QApplication::translate("MainWindow", "Next", 0));
         operations->setTabText(operations->indexOf(comparative_characteristics), QApplication::translate("MainWindow", "Comparative Characteristics", 0));
+#ifndef QT_NO_TOOLTIP
+        contours->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Detecting Contours on given image</p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
+        label_4->setText(QApplication::translate("MainWindow", "Detection type", 0));
+        edge_get->setText(QApplication::translate("MainWindow", "Detect Edges", 0));
+        operations->setTabText(operations->indexOf(contours), QApplication::translate("MainWindow", "Edge Detection", 0));
         menu_file->setTitle(QApplication::translate("MainWindow", "File", 0));
     } // retranslateUi
 

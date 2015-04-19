@@ -54,7 +54,8 @@ SOURCES +=stdafx.cpp \
     lib/standardmimedata.cpp \
     lib/image/standardimagemodel.cpp \
     lib/image/standardimageitem.cpp \
-    multichannel/controllermultichannelimages.cpp
+    multichannel/controllermultichannelimages.cpp \
+    controllers/edgedetectioncontroller.cpp
 
 HEADERS  +=stdafx.h \
     mainwindow.h \
@@ -103,7 +104,8 @@ HEADERS  +=stdafx.h \
     lib/image/standardimagemodel.h \
     lib/image/standardimageitem.h \
     multichannel/controllermultichannelimages.h \
-    metatypes.h
+    metatypes.h \
+    controllers/edgedetectioncontroller.h
 
 FORMS+= mainwindow.ui
 
