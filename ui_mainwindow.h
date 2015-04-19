@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.4.1
+** Created by: Qt User Interface Compiler version 5.3.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -36,11 +36,11 @@
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
-#include <previewgraphicsview.h>
 #include "basiclistview.h"
 #include "basictreeview.h"
 #include "characteristicstable.h"
 #include "imagetreeview.h"
+#include "previewgraphicsview.h"
 #include "slidingstackedwidget.h"
 
 QT_BEGIN_NAMESPACE
@@ -181,7 +181,7 @@ public:
         MainWindow->setMinimumSize(QSize(750, 550));
         MainWindow->setCursor(QCursor(Qt::ArrowCursor));
         QIcon icon;
-        icon.addFile(QStringLiteral(":/resourse/icons/images/icons.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QStringLiteral(":/resource/icons/images/icons.png"), QSize(), QIcon::Normal, QIcon::Off);
         MainWindow->setWindowIcon(icon);
         MainWindow->setStyleSheet(QLatin1String("MainWindow\n"
 "{\n"
@@ -1095,7 +1095,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1052, 21));
+        menuBar->setGeometry(QRect(0, 0, 1052, 26));
         menuBar->setDefaultUp(false);
         menu_file = new QMenu(menuBar);
         menu_file->setObjectName(QStringLiteral("menu_file"));
@@ -1121,7 +1121,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        operations->setCurrentIndex(6);
+        operations->setCurrentIndex(1);
         comp_char_widget->setCurrentIndex(0);
 
 
