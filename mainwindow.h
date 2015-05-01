@@ -13,6 +13,7 @@
 #include "controllercharacteristics.h"
 #include "controllermultichannel.h"
 #include "./multichannel/controllermultichannelimages.h"
+#include "./controllers/edgedetectioncontroller.h"
 #include "metatypes.h"
 namespace Ui {
 class MainWindow;
@@ -30,6 +31,7 @@ public:
     ControllerFilter* filterController;
     ControllerComparativeCharacteristics* comparativeCharacteristicsController;
     ControllerMultichannelImages* multiChannelController;
+    edgeDetectionController* edgeDetectionCntlr;
     ImageItem *getSelectedItem();
     void dropEvent(QDropEvent *event);
     ~MainWindow();

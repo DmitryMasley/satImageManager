@@ -21,7 +21,10 @@ public:
     QMainWindow* MainWindow;
     cv::Mat sourceImage;
     cv::Mat edges;
+    cv::Mat getCannyEdges(cv::Mat source);
+public slots:
     void getEdges();
+    void sourceImageChanged(ImageItem* item);
 
 signals:
 

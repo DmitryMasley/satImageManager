@@ -38,6 +38,8 @@ private:
     qreal maxFactor = 10.0;
     double scaleFactor = 1.25;
     QImage* currentImage = 0;
+signals:
+    void imageChanged(ImageItem* item);
 };
 
 #endif // PREVIEWGRAPHICSVIEW_H

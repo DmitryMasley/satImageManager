@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.3.2
+** Created by: Qt User Interface Compiler version 5.4.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -161,7 +161,7 @@ public:
     QComboBox *edge_detection_type;
     QFrame *frame_4;
     QPushButton *edge_get;
-    previewGraphicsView *graphicsView;
+    previewGraphicsView *edges_source;
     ImageTreeView *mainTreeView;
     QMenuBar *menuBar;
     QMenu *menu_file;
@@ -1059,10 +1059,10 @@ public:
 
         gridLayout_15->addWidget(frame_4, 0, 1, 1, 1);
 
-        graphicsView = new previewGraphicsView(contours);
-        graphicsView->setObjectName(QStringLiteral("graphicsView"));
+        edges_source = new previewGraphicsView(contours);
+        edges_source->setObjectName(QStringLiteral("edges_source"));
 
-        gridLayout_15->addWidget(graphicsView, 1, 0, 1, 2);
+        gridLayout_15->addWidget(edges_source, 1, 0, 1, 2);
 
         operations->addTab(contours, QString());
 
@@ -1095,7 +1095,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1052, 26));
+        menuBar->setGeometry(QRect(0, 0, 1052, 21));
         menuBar->setDefaultUp(false);
         menu_file = new QMenu(menuBar);
         menu_file->setObjectName(QStringLiteral("menu_file"));
@@ -1121,7 +1121,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        operations->setCurrentIndex(1);
+        operations->setCurrentIndex(6);
         comp_char_widget->setCurrentIndex(0);
 
 

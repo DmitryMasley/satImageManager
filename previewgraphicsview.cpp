@@ -95,9 +95,10 @@ void previewGraphicsView::dropEvent(QDropEvent *event)
         delete image;
         image = new ImageItem(data);
         showPreview(image->getQImage());
-
+        emit this->imageChanged(image);
     }
 }
+
 void previewGraphicsView::wheelEvent(QWheelEvent *event)
 {
     const int degrees = event->delta();

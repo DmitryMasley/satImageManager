@@ -45,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
     filterController = new ControllerFilter(ui,this);
     comparativeCharacteristicsController = new ControllerComparativeCharacteristics(ui, this);
     multiChannelController = new ControllerMultichannelImages(ui, this);
+    edgeDetectionCntlr = new edgeDetectionController(ui, this);
 
     // controllers connections
     QObject::connect(mainController, SIGNAL(MainViewSelectionChanged(ImageItem*)),
