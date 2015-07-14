@@ -1,5 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+#include "QtAwesome.h"
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QProgressDialog>
@@ -33,6 +34,7 @@ public:
     ControllerMultichannelImages* multiChannelController;
     edgeDetectionController* edgeDetectionCntlr;
     ImageItem *getSelectedItem();
+    QtAwesome* awesome;
     void dropEvent(QDropEvent *event);
     ~MainWindow();
 private slots:

@@ -5,9 +5,20 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    QFontDatabase database;
+    int id = database.addApplicationFont(":/resource/icons/fonts/FontAwesome.otf");
+
+
+    awesome = new QtAwesome(QApplication::instance());
+    awesome->initFontAwesome();
     qRegisterMetaTypeStreamOperators<QList<QList<QVariant> > >("QList<QList<QVariant> >");
 //    qRegisterMetaTypeStreamOperators<cv::Mat>("Mat");
     ui->setupUi(this);
+    QVariantMap options;
+    options.insert( "color" , QColor("white"));
+    ui->actionAdd->setIcon(awesome->icon(fa::plus, options));
+    ui->actionRemove->setIcon(awesome->icon(fa::remove, options));
+    ui->actionPreview->setIcon(awesome->icon(fa::image, options));
     ui->menu_file->addAction(ui->actionAdd);
     ui->menu_file->addAction(ui->actionRemove);
     ui->menu_file->addAction(ui->actionPreview);
@@ -81,6 +92,7 @@ MainWindow::~MainWindow()
     delete mainController;
     delete _modalProgress;
     delete multiChannelController;
+    delete awesome;
 }
 void MainWindow::openModalProgress()
 {

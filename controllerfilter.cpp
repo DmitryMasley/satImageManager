@@ -42,21 +42,21 @@ void ControllerFilter::start()
     {
         MainWindow* main = static_cast<MainWindow*>(_MainWindow);
         main->openModalProgress();
-        Mat image = _sourceView->image->getCVImage();
+        cv::Mat image = _sourceView->image->getCVImage();
         _result = filterImage(image);
         QImage* img = ProcessingCore::convertToQImage(_result);
         _resultView->showImage(img);
         main->ProgressChanged(100);
     }
 }
-Mat ControllerFilter::filterImage(Mat image)
+cv::Mat ControllerFilter::filterImage(cv::Mat image)
 {
     int cols = image.cols;
     int rows = image.rows;
-    Mat imageFFT = ProcessingCore::FFT(image);
-    Mat filter = this->BuildFilter(imageFFT.size());
+    cv::Mat imageFFT = ProcessingCore::FFT(image);
+    cv::Mat filter = this->BuildFilter(imageFFT.size());
 
-    vector<Mat> channels;
+    vector<cv::Mat> channels;
     cv::split(imageFFT, channels);
 //    Mat magn;
 //    cv::magnitude(channels[0], channels[1], magn);
@@ -74,13 +74,13 @@ Mat ControllerFilter::filterImage(Mat image)
     cv::divide(channels[0], filter, channels[0]);
     cv::divide(channels[1], filter, channels[1]);
     cv::merge(channels, imageFFT);
-    Mat imageIFFT = ProcessingCore::IFT(imageFFT, image.type());
-    imageIFFT = imageIFFT(Rect(0, 0, cols, rows));
+    cv::Mat imageIFFT = ProcessingCore::IFT(imageFFT, image.type());
+    imageIFFT = imageIFFT(cv::Rect(0, 0, cols, rows));
     return imageIFFT;
 }
-Mat ControllerFilter::BuildFilter(Size imageSize)
+cv::Mat ControllerFilter::BuildFilter(cv::Size imageSize)
 {
-    Mat filter = Mat::ones(imageSize, CV_64F);
+    cv::Mat filter = cv::Mat::ones(imageSize, CV_64F);
     double dpi = _DPI->value()/2.54E-2;
     double lambda = _WaveLength->value()*1E-9;
     double D = _LensRadius->value()*1E-3;

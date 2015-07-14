@@ -20,7 +20,7 @@ void StandardImageModel::AddBlankItem()
 {
     this->addItem(new StandardImageItem(QString("Blank Image")));
 }
-void StandardImageModel::AddImage(const Mat image, const QString fileName)
+void StandardImageModel::AddImage(const cv::Mat image, const QString fileName)
 {
     emit layoutAboutToBeChanged();
     QFileInfo fileInfo(fileName);
@@ -35,7 +35,7 @@ void StandardImageModel::AddImage(const Mat image, const QString fileName)
     if(channelsCount>1)
     {
         StandardImageItem* multichannelImage = new StandardImageItem(name, fileName);
-        vector<Mat> imageChannels;
+        vector<cv::Mat> imageChannels;
         cv::split(image, imageChannels);
         QHash<int, QString> ChannelsStrings;
         ChannelsStrings[0] = QString("Red");

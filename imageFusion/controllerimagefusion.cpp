@@ -121,9 +121,9 @@ ImageItem* ControllerImageFusion::getPanItem()
     return pan;
 }
 
-Mat ControllerImageFusion::getImage(ImageItem* item)
+cv::Mat ControllerImageFusion::getImage(ImageItem* item)
 {
-    Mat image = item->getCVImage();
+    cv::Mat image = item->getCVImage();
     return image;
 }
 QString ControllerImageFusion::getName(ImageItem* item)
@@ -131,14 +131,14 @@ QString ControllerImageFusion::getName(ImageItem* item)
     QString panName = item->data(0, Qt::DisplayRole).toString();
     return panName;
 }
-Mat ControllerImageFusion::getInputMatrix(int cols, int rows, int type, QList<BasicModelItem*> sources)
+cv::Mat ControllerImageFusion::getInputMatrix(int cols, int rows, int type, QList<BasicModelItem*> sources)
 {
-    Mat inputMatrix = Mat::zeros(rows*cols, sources.count()+1, type);
-    Mat temp;
+    cv::Mat inputMatrix = cv::Mat::zeros(rows*cols, sources.count()+1, type);
+    cv::Mat temp;
     for(int i = 0; i<sources.count(); i++)
     {
         temp = static_cast<ImageItem*>(sources.at(i))->getCVImage();
-        cv::resize(temp, temp, cv::Size(cols, rows), INTER_NEAREST);
+        cv::resize(temp, temp, cv::Size(cols, rows), cv::INTER_NEAREST);
         inputMatrix.col(i+1) = temp.reshape(0, 1).t()*1;
     }
     temp.release();
@@ -167,12 +167,12 @@ void ControllerImageFusion::fusion()
     // get pan info
     ImageItem* pan = static_cast<ImageItem*>(_PanModel->getRootNode()->child(0));
     QString panName = pan->getName();
-    Mat panImage = getImage(pan);
+    cv::Mat panImage = getImage(pan);
     int panRows = panImage.rows;
     int panType = panImage.type();
 
     //build input matrix
-    Mat inputMatrix = getInputMatrix(panImage.cols, panImage.rows, panImage.type(), sources);
+    cv::Mat inputMatrix = getInputMatrix(panImage.cols, panImage.rows, panImage.type(), sources);
     ImageFusionProcessor* processor = new ImageFusionProcessor(inputMatrix, panImage, panType, _OrthogonalizationType->currentIndex());
     QThread* thread = new QThread();
     processor->moveToThread(thread);
@@ -194,7 +194,7 @@ void ControllerImageFusion::fusion()
         temp = temp.reshape(0, panRows);
         if(_UseNormalization->isChecked())
         {
-            Mat source = sourceItem->getCVImage();
+            cv::Mat source = sourceItem->getCVImage();
 //            for(int i = 1; i<=windowSize; i++)
 //            {
 //                this->scaledNormalization(temp, source, i);
@@ -208,7 +208,7 @@ void ControllerImageFusion::fusion()
 
     emit this->FusionProgress(100);
 }
-void ControllerImageFusion::scaledNormalization(Mat &image, Mat source, int windowSize)
+void ControllerImageFusion::scaledNormalization(cv::Mat &image, cv::Mat source, int windowSize)
 {
     if(windowSize <= 0)
     {
@@ -227,7 +227,7 @@ void ControllerImageFusion::scaledNormalization(Mat &image, Mat source, int wind
     {
         return;
     }
-    Mat sourceConverted;
+    cv::Mat sourceConverted;
     source.convertTo(sourceConverted, CV_32F);
     int rows = source.rows;
     int cols = source.cols;
@@ -236,23 +236,23 @@ void ControllerImageFusion::scaledNormalization(Mat &image, Mat source, int wind
         const float* Mi = sourceConverted.ptr<float>(i);
         for(int j = 0; j<cols-windowSize+1; j++)
         {
-            Mat temp = Mat(image, Rect(j*colRatio, i*rowRatio, colRatio*windowSize, rowRatio*windowSize));
-            Scalar mean = cv::mean(temp);
+            cv::Mat temp = cv::Mat(image, cv::Rect(j*colRatio, i*rowRatio, colRatio*windowSize, rowRatio*windowSize));
+            cv::Scalar mean = cv::mean(temp);
             if(windowSize == 1)
             {
                 mean.val[0] = Mi[j]-mean.val[0];
             }
             else
             {
-                Mat sourseWindow = Mat(sourceConverted, Rect(j, i, windowSize, windowSize));
-                Scalar sourseWindowMean = cv::mean(sourseWindow);
+                cv::Mat sourseWindow = cv::Mat(sourceConverted, cv::Rect(j, i, windowSize, windowSize));
+                cv::Scalar sourseWindowMean = cv::mean(sourseWindow);
                 mean.val[0] = sourseWindowMean.val[0]-mean.val[0];
             }
             cv::add(temp, mean, temp);
         }
     }
 }
-void ControllerImageFusion::windowNormalization(Mat &image, Mat source)
+void ControllerImageFusion::windowNormalization(cv::Mat &image, cv::Mat source)
 {
     float colRatioDb = image.cols/source.cols;
     float rowRatioDb = image.rows/source.rows;
@@ -267,7 +267,7 @@ void ControllerImageFusion::windowNormalization(Mat &image, Mat source)
     {
         return;
     }
-    Mat sourceConverted;
+    cv::Mat sourceConverted;
     source.convertTo(sourceConverted, CV_32F);
     int rows = image.rows;
     int cols = image.cols;
@@ -275,11 +275,11 @@ void ControllerImageFusion::windowNormalization(Mat &image, Mat source)
     {
         for(int j = 0; j<=cols-colRatio; j++)
         {
-            Mat temp = Mat(image, Rect(j, i, colRatio, rowRatio));
-            Scalar mean = cv::mean(temp);
+            cv::Mat temp = cv::Mat(image, cv::Rect(j, i, colRatio, rowRatio));
+            cv::Scalar mean = cv::mean(temp);
             div_t  rowDiv = std::div(i, rowRatio);
             div_t  colDiv = std::div(j, colRatio);
-            Mat sourceTemp;
+            cv::Mat sourceTemp;
             // if we reached to the age do not go outside of the image
             int roiCols=2, roiRows=2;
             if(i==rows-rowRatio)
@@ -290,7 +290,7 @@ void ControllerImageFusion::windowNormalization(Mat &image, Mat source)
             {
                 roiCols = 1;
             }
-            Mat sourceRoi = Mat(sourceConverted, Rect(colDiv.quot, rowDiv.quot, roiCols, roiRows));
+            cv::Mat sourceRoi = cv::Mat(sourceConverted, cv::Rect(colDiv.quot, rowDiv.quot, roiCols, roiRows));
             sourceRoi.copyTo(sourceTemp);
 
             sourceTemp.at<float>(0, 0) = sourceTemp.at<float>(0, 0)*(colRatio-colDiv.rem)*(rowRatio-rowDiv.rem);
@@ -308,7 +308,7 @@ void ControllerImageFusion::windowNormalization(Mat &image, Mat source)
             }
 
             sourceTemp = sourceTemp*(1.0/(rowRatio*colRatio));
-            Scalar sourceMean = cv::sum(sourceTemp);
+            cv::Scalar sourceMean = cv::sum(sourceTemp);
 
             mean.val[0] = sourceMean.val[0]-mean.val[0];
             cv::add(temp, mean, temp);
@@ -341,7 +341,7 @@ void ControllerImageFusion::correctBritness(cv::Mat& image, cv::Mat source)
         const float* Mi = sourceConverted.ptr<float>(i);
         for(int j = 0; j<cols-1; j++)
         {
-            cv::Mat temp = cv::Mat(image, Rect(j*colRatio, i*rowRatio, colRatio, rowRatio));
+            cv::Mat temp = cv::Mat(image, cv::Rect(j*colRatio, i*rowRatio, colRatio, rowRatio));
             cv::Scalar mean = cv::mean(temp);
             mean.val[0] = Mi[j]-mean.val[0];
             cv::add(temp, mean, temp);

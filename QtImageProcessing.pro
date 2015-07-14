@@ -55,7 +55,9 @@ SOURCES +=stdafx.cpp \
     lib/image/standardimagemodel.cpp \
     lib/image/standardimageitem.cpp \
     multichannel/controllermultichannelimages.cpp \
-    controllers/edgedetectioncontroller.cpp
+    controllers/edgedetectioncontroller.cpp \
+    object.cpp \
+    UICore.cpp
 
 HEADERS  +=stdafx.h \
     mainwindow.h \
@@ -105,7 +107,12 @@ HEADERS  +=stdafx.h \
     lib/image/standardimageitem.h \
     multichannel/controllermultichannelimages.h \
     metatypes.h \
-    controllers/edgedetectioncontroller.h
+    controllers/edgedetectioncontroller.h \
+    controllerimagefusion.h \
+    object.h \
+    ui_helperdialog.h \
+    ui_mainwindow.h \
+    UICore.h
 
 FORMS+= mainwindow.ui
 
@@ -206,3 +213,4 @@ LIBS += "C:/opencv/build-current/lib/libopencv_videostab300.dll.a"
 
 RESOURCES += \
     resource.qrc
+include(./QtAwesome/QtAwesome.pri)

@@ -4,5 +4,6 @@
         <file>images/Delete-icon.png</file>
         <file>images/icons.png</file>
         <file>images/loader.gif</file>
+        <file>fonts/FontAwesome.otf</file>
     </qresource>
 </RCC>

@@ -2,9 +2,12 @@
 #define IMAGEFUSIONCONTROLLER_H
 #include <QObject>
 #include "stdafx.h"
+#include <opencv2/opencv.hpp>
+#include <opencv2/core/cuda.hpp>
 #include "imagetreeview.h"
 #include "ui_mainwindow.h"
-#include "imagefusionprocessor.h"
+#include "imagemodel.h"
+#include "imageFusion/imagefusionprocessor.h"
 
 class ControllerImageFusion : public QObject
 {
@@ -47,14 +50,14 @@ private:
     QObject* _parent;
     QComboBox* _OrthogonalizationType;
     void fusion();
-    void correctBritness(Mat &image, Mat source);
-    void scaledNormalization(Mat &image, Mat source, int windowSize = 2);
-    void windowNormalization(Mat &image, Mat source);
-    Mat getPanImage();
+    void correctBritness(cv::Mat &image, cv::Mat source);
+    void scaledNormalization(cv::Mat &image, cv::Mat source, int windowSize = 2);
+    void windowNormalization(cv::Mat &image, cv::Mat source);
+    cv::Mat getPanImage();
     QString getName(ImageItem* item);
     ImageItem* getPanItem();
-    Mat getInputMatrix(int cols, int rows, int type, QList<BasicModelItem *> sources);
-    Mat getImage(ImageItem* item);
+    cv::Mat getInputMatrix(int cols, int rows, int type, QList<BasicModelItem *> sources);
+    cv::Mat getImage(ImageItem* item);
 };
 
 #endif // IMAGEFUSIONCONTROLLER_H

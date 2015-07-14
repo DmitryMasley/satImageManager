@@ -123,14 +123,21 @@ public:
     QPushButton *MI_preview;
     QPushButton *MI_save;
     QWidget *comparative_characteristics;
-    QGridLayout *gridLayout_9;
+    QHBoxLayout *horizontalLayout_6;
+    QPushButton *comp_char_widget_prev;
     SlidingStackedWidget *comp_char_widget;
     QWidget *page;
+    QGridLayout *gridLayout_16;
+    QFrame *frame_5;
+    QVBoxLayout *verticalLayout_2;
+    QGroupBox *groupBox_11;
     QGridLayout *gridLayout;
-    previewGraphicsView *comp_char_img2_view;
     QPushButton *comp_char_set_img1;
     previewGraphicsView *comp_char_img1_view;
+    QGroupBox *groupBox_12;
+    QGridLayout *gridLayout_9;
     QPushButton *comp_char_set_img2;
+    previewGraphicsView *comp_char_img2_view;
     QWidget *page_2;
     QHBoxLayout *horizontalLayout_5;
     QGroupBox *groupBox_6;
@@ -150,8 +157,6 @@ public:
     QPushButton *comp_char_results_table_save;
     QSpacerItem *horizontalSpacer_2;
     QTableView *comp_char_results_table;
-    QPushButton *comp_char_widget_prev;
-    QSpacerItem *horizontalSpacer_6;
     QPushButton *comp_char_widget_next;
     QWidget *contours;
     QGridLayout *gridLayout_15;
@@ -159,8 +164,8 @@ public:
     QHBoxLayout *horizontalLayout;
     QLabel *label_4;
     QComboBox *edge_detection_type;
-    QFrame *frame_4;
     QPushButton *edge_get;
+    QFrame *frame_4;
     previewGraphicsView *edges_source;
     ImageTreeView *mainTreeView;
     QMenuBar *menuBar;
@@ -186,6 +191,12 @@ public:
         MainWindow->setStyleSheet(QLatin1String("MainWindow\n"
 "{\n"
 "\n"
+"}\n"
+"#comp_char_widget_prev {\n"
+"	font: 20pt \"FontAwesome\";\n"
+"}\n"
+"#comp_char_widget_next {\n"
+"	font: 20pt \"FontAwesome\";\n"
 "}\n"
 "MainWindow QGroupBox\n"
 "{\n"
@@ -215,14 +226,14 @@ public:
 "	border:2px solid rgb(120, 120, 120);\n"
 "	border-radius:0px;	\n"
 "}\n"
-"MainWindow QListView:focus, QTableView:focus, QTreeView:focus\n"
+"MainWindow QListView:focus"
+                        ", QTableView:focus, QTreeView:focus\n"
 "{\n"
 "	border-color:rgb(53, 106, 159);\n"
 "	border-style:outset;\n"
 "	\n"
 "}\n"
-"MainWindow QLis"
-                        "tView:blur, QTableView:blur, QTreeView:blur::item:selected\n"
+"MainWindow QListView:blur, QTableView:blur, QTreeView:blur::item:selected\n"
 "{\n"
 "	color:white;	\n"
 "}\n"
@@ -243,15 +254,15 @@ public:
 "}\n"
 "MainWindow QListView::item:selected, QTreeView::item:selected\n"
 "{\n"
-"	background:qlineargradient(spread:pad, x1:1, y1:0, x2:1, y2:1, stop:0 rgba(186, 62, 0, 255), stop:1 rgba(255, 80, 0, 255));\n"
+"	background:qlineargradient(spread:pad, x1:1, y1:0, x2:1, y2:1, stop:0 rgba(186, 62, 0, 255), stop:1 rgba(255, 80, 0, "
+                        "255));\n"
 "	color:white;\n"
 "}\n"
 "MainWindow QPushButton, QToolButton \n"
 "{\n"
 "	color:white;\n"
 "	padding:10px 15px;	\n"
-"	border:1px"
-                        " solid rgb(89, 89, 89);	\n"
+"	border:1px solid rgb(89, 89, 89);	\n"
 "	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(100, 100, 100, 255), stop:1 rgba(127, 127, 127, 255));\n"
 "	border-radius:2px;\n"
 "}\n"
@@ -272,11 +283,11 @@ public:
 "{\n"
 "	padding:10px;\n"
 "	color:white;\n"
-"	background: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(120, 120, 120, 255), stop:1 rgba(147, 147, 147, 255));\n"
+"	background: qlineargradient(spread:pad, x1:1, y1:1"
+                        ", x2:1, y2:0, stop:0 rgba(120, 120, 120, 255), stop:1 rgba(147, 147, 147, 255));\n"
 "	border:1px solid rgb(255, 255, 255);\n"
 "}\n"
-"Mai"
-                        "nWindow QTabBar::tab:hover:!selected\n"
+"MainWindow QTabBar::tab:hover:!selected\n"
 "{\n"
 "	background:qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(51, 98, 141, 255), stop:1 rgba(93, 155, 218, 255));\n"
 "	border:1px solid rgb(100, 100, 100)\n"
@@ -292,6 +303,9 @@ public:
 "	color: rgb(53, 106, 159);	\n"
 "	font-weight:bold;\n"
 "	background-color: rgb(216, 232, 255);\n"
+"}\n"
+"MainWindow QButton {\n"
+"	min-height:30px;\n"
 "}"));
         MainWindow->setDockNestingEnabled(true);
         MainWindow->setDockOptions(QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks|QMainWindow::ForceTabbedDocks);
@@ -299,6 +313,7 @@ public:
         actionRemove = new QAction(MainWindow);
         actionRemove->setObjectName(QStringLiteral("actionRemove"));
         actionRemove->setCheckable(false);
+        actionRemove->setEnabled(true);
         QIcon icon1;
         icon1.addFile(QStringLiteral(":/resource/icons/images/Delete-icon.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionRemove->setIcon(icon1);
@@ -851,10 +866,17 @@ public:
         operations->addTab(multispecrum_images, QString());
         comparative_characteristics = new QWidget();
         comparative_characteristics->setObjectName(QStringLiteral("comparative_characteristics"));
-        gridLayout_9 = new QGridLayout(comparative_characteristics);
-        gridLayout_9->setSpacing(6);
-        gridLayout_9->setContentsMargins(11, 11, 11, 11);
-        gridLayout_9->setObjectName(QStringLiteral("gridLayout_9"));
+        horizontalLayout_6 = new QHBoxLayout(comparative_characteristics);
+        horizontalLayout_6->setSpacing(6);
+        horizontalLayout_6->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
+        comp_char_widget_prev = new QPushButton(comparative_characteristics);
+        comp_char_widget_prev->setObjectName(QStringLiteral("comp_char_widget_prev"));
+        sizePolicy17.setHeightForWidth(comp_char_widget_prev->sizePolicy().hasHeightForWidth());
+        comp_char_widget_prev->setSizePolicy(sizePolicy17);
+
+        horizontalLayout_6->addWidget(comp_char_widget_prev);
+
         comp_char_widget = new SlidingStackedWidget(comparative_characteristics);
         comp_char_widget->setObjectName(QStringLiteral("comp_char_widget"));
         comp_char_widget->setFrameShape(QFrame::StyledPanel);
@@ -863,32 +885,66 @@ public:
         comp_char_widget->setMidLineWidth(0);
         page = new QWidget();
         page->setObjectName(QStringLiteral("page"));
-        gridLayout = new QGridLayout(page);
+        gridLayout_16 = new QGridLayout(page);
+        gridLayout_16->setSpacing(6);
+        gridLayout_16->setContentsMargins(11, 11, 11, 11);
+        gridLayout_16->setObjectName(QStringLiteral("gridLayout_16"));
+        frame_5 = new QFrame(page);
+        frame_5->setObjectName(QStringLiteral("frame_5"));
+        frame_5->setFrameShape(QFrame::StyledPanel);
+        frame_5->setFrameShadow(QFrame::Raised);
+        verticalLayout_2 = new QVBoxLayout(frame_5);
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        groupBox_11 = new QGroupBox(frame_5);
+        groupBox_11->setObjectName(QStringLiteral("groupBox_11"));
+        gridLayout = new QGridLayout(groupBox_11);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        comp_char_img2_view = new previewGraphicsView(page);
+        comp_char_set_img1 = new QPushButton(groupBox_11);
+        comp_char_set_img1->setObjectName(QStringLiteral("comp_char_set_img1"));
+
+        gridLayout->addWidget(comp_char_set_img1, 0, 0, 1, 1);
+
+        comp_char_img1_view = new previewGraphicsView(groupBox_11);
+        comp_char_img1_view->setObjectName(QStringLiteral("comp_char_img1_view"));
+        QSizePolicy sizePolicy18(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy18.setHorizontalStretch(0);
+        sizePolicy18.setVerticalStretch(0);
+        sizePolicy18.setHeightForWidth(comp_char_img1_view->sizePolicy().hasHeightForWidth());
+        comp_char_img1_view->setSizePolicy(sizePolicy18);
+        comp_char_img1_view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+
+        gridLayout->addWidget(comp_char_img1_view, 1, 0, 1, 1);
+
+
+        verticalLayout_2->addWidget(groupBox_11);
+
+        groupBox_12 = new QGroupBox(frame_5);
+        groupBox_12->setObjectName(QStringLiteral("groupBox_12"));
+        gridLayout_9 = new QGridLayout(groupBox_12);
+        gridLayout_9->setSpacing(6);
+        gridLayout_9->setContentsMargins(11, 11, 11, 11);
+        gridLayout_9->setObjectName(QStringLiteral("gridLayout_9"));
+        comp_char_set_img2 = new QPushButton(groupBox_12);
+        comp_char_set_img2->setObjectName(QStringLiteral("comp_char_set_img2"));
+
+        gridLayout_9->addWidget(comp_char_set_img2, 0, 0, 1, 1);
+
+        comp_char_img2_view = new previewGraphicsView(groupBox_12);
         comp_char_img2_view->setObjectName(QStringLiteral("comp_char_img2_view"));
         comp_char_img2_view->setDragMode(QGraphicsView::ScrollHandDrag);
         comp_char_img2_view->setResizeAnchor(QGraphicsView::AnchorUnderMouse);
 
-        gridLayout->addWidget(comp_char_img2_view, 3, 1, 1, 1);
+        gridLayout_9->addWidget(comp_char_img2_view, 1, 0, 1, 1);
 
-        comp_char_set_img1 = new QPushButton(page);
-        comp_char_set_img1->setObjectName(QStringLiteral("comp_char_set_img1"));
 
-        gridLayout->addWidget(comp_char_set_img1, 2, 0, 1, 1);
+        verticalLayout_2->addWidget(groupBox_12);
 
-        comp_char_img1_view = new previewGraphicsView(page);
-        comp_char_img1_view->setObjectName(QStringLiteral("comp_char_img1_view"));
-        comp_char_img1_view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
-        gridLayout->addWidget(comp_char_img1_view, 2, 1, 1, 1);
-
-        comp_char_set_img2 = new QPushButton(page);
-        comp_char_set_img2->setObjectName(QStringLiteral("comp_char_set_img2"));
-
-        gridLayout->addWidget(comp_char_set_img2, 3, 0, 1, 1);
+        gridLayout_16->addWidget(frame_5, 0, 0, 1, 1);
 
         comp_char_widget->addWidget(page);
         page_2 = new QWidget();
@@ -905,11 +961,11 @@ public:
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
         comp_char_list = new BasicListView(groupBox_6);
         comp_char_list->setObjectName(QStringLiteral("comp_char_list"));
-        QSizePolicy sizePolicy18(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy18.setHorizontalStretch(1);
-        sizePolicy18.setVerticalStretch(0);
-        sizePolicy18.setHeightForWidth(comp_char_list->sizePolicy().hasHeightForWidth());
-        comp_char_list->setSizePolicy(sizePolicy18);
+        QSizePolicy sizePolicy19(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy19.setHorizontalStretch(1);
+        sizePolicy19.setVerticalStretch(0);
+        sizePolicy19.setHeightForWidth(comp_char_list->sizePolicy().hasHeightForWidth());
+        comp_char_list->setSizePolicy(sizePolicy19);
         comp_char_list->setEditTriggers(QAbstractItemView::NoEditTriggers);
         comp_char_list->setSelectionMode(QAbstractItemView::MultiSelection);
 
@@ -917,11 +973,11 @@ public:
 
         groupBox_7 = new QGroupBox(groupBox_6);
         groupBox_7->setObjectName(QStringLiteral("groupBox_7"));
-        QSizePolicy sizePolicy19(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        sizePolicy19.setHorizontalStretch(1);
-        sizePolicy19.setVerticalStretch(0);
-        sizePolicy19.setHeightForWidth(groupBox_7->sizePolicy().hasHeightForWidth());
-        groupBox_7->setSizePolicy(sizePolicy19);
+        QSizePolicy sizePolicy20(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy20.setHorizontalStretch(1);
+        sizePolicy20.setVerticalStretch(0);
+        sizePolicy20.setHeightForWidth(groupBox_7->sizePolicy().hasHeightForWidth());
+        groupBox_7->setSizePolicy(sizePolicy20);
         spinBox = new QSpinBox(groupBox_7);
         spinBox->setObjectName(QStringLiteral("spinBox"));
         spinBox->setGeometry(QRect(10, 40, 221, 31));
@@ -991,25 +1047,14 @@ public:
 
         comp_char_widget->addWidget(page_3);
 
-        gridLayout_9->addWidget(comp_char_widget, 0, 0, 1, 3);
-
-        comp_char_widget_prev = new QPushButton(comparative_characteristics);
-        comp_char_widget_prev->setObjectName(QStringLiteral("comp_char_widget_prev"));
-        sizePolicy.setHeightForWidth(comp_char_widget_prev->sizePolicy().hasHeightForWidth());
-        comp_char_widget_prev->setSizePolicy(sizePolicy);
-
-        gridLayout_9->addWidget(comp_char_widget_prev, 1, 0, 1, 1);
-
-        horizontalSpacer_6 = new QSpacerItem(529, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        gridLayout_9->addItem(horizontalSpacer_6, 1, 1, 1, 1);
+        horizontalLayout_6->addWidget(comp_char_widget);
 
         comp_char_widget_next = new QPushButton(comparative_characteristics);
         comp_char_widget_next->setObjectName(QStringLiteral("comp_char_widget_next"));
-        sizePolicy.setHeightForWidth(comp_char_widget_next->sizePolicy().hasHeightForWidth());
-        comp_char_widget_next->setSizePolicy(sizePolicy);
+        sizePolicy17.setHeightForWidth(comp_char_widget_next->sizePolicy().hasHeightForWidth());
+        comp_char_widget_next->setSizePolicy(sizePolicy17);
 
-        gridLayout_9->addWidget(comp_char_widget_next, 1, 2, 1, 1);
+        horizontalLayout_6->addWidget(comp_char_widget_next);
 
         operations->addTab(comparative_characteristics, QString());
         contours = new QWidget();
@@ -1020,8 +1065,8 @@ public:
         gridLayout_15->setObjectName(QStringLiteral("gridLayout_15"));
         frame_3 = new QFrame(contours);
         frame_3->setObjectName(QStringLiteral("frame_3"));
-        sizePolicy19.setHeightForWidth(frame_3->sizePolicy().hasHeightForWidth());
-        frame_3->setSizePolicy(sizePolicy19);
+        sizePolicy20.setHeightForWidth(frame_3->sizePolicy().hasHeightForWidth());
+        frame_3->setSizePolicy(sizePolicy20);
         frame_3->setFrameShape(QFrame::StyledPanel);
         frame_3->setFrameShadow(QFrame::Raised);
         horizontalLayout = new QHBoxLayout(frame_3);
@@ -1030,32 +1075,42 @@ public:
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         label_4 = new QLabel(frame_3);
         label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setMinimumSize(QSize(0, 0));
 
         horizontalLayout->addWidget(label_4);
 
         edge_detection_type = new QComboBox(frame_3);
         edge_detection_type->setObjectName(QStringLiteral("edge_detection_type"));
-        QSizePolicy sizePolicy20(QSizePolicy::Expanding, QSizePolicy::Fixed);
-        sizePolicy20.setHorizontalStretch(0);
-        sizePolicy20.setVerticalStretch(0);
-        sizePolicy20.setHeightForWidth(edge_detection_type->sizePolicy().hasHeightForWidth());
-        edge_detection_type->setSizePolicy(sizePolicy20);
+        QSizePolicy sizePolicy21(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy21.setHorizontalStretch(0);
+        sizePolicy21.setVerticalStretch(0);
+        sizePolicy21.setHeightForWidth(edge_detection_type->sizePolicy().hasHeightForWidth());
+        edge_detection_type->setSizePolicy(sizePolicy21);
+        edge_detection_type->setMinimumSize(QSize(0, 0));
         edge_detection_type->setEditable(false);
 
         horizontalLayout->addWidget(edge_detection_type);
+
+        edge_get = new QPushButton(frame_3);
+        edge_get->setObjectName(QStringLiteral("edge_get"));
+        QSizePolicy sizePolicy22(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy22.setHorizontalStretch(0);
+        sizePolicy22.setVerticalStretch(0);
+        sizePolicy22.setHeightForWidth(edge_get->sizePolicy().hasHeightForWidth());
+        edge_get->setSizePolicy(sizePolicy22);
+        edge_get->setMinimumSize(QSize(1, 0));
+
+        horizontalLayout->addWidget(edge_get);
 
 
         gridLayout_15->addWidget(frame_3, 0, 0, 1, 1);
 
         frame_4 = new QFrame(contours);
         frame_4->setObjectName(QStringLiteral("frame_4"));
-        sizePolicy19.setHeightForWidth(frame_4->sizePolicy().hasHeightForWidth());
-        frame_4->setSizePolicy(sizePolicy19);
+        sizePolicy20.setHeightForWidth(frame_4->sizePolicy().hasHeightForWidth());
+        frame_4->setSizePolicy(sizePolicy20);
         frame_4->setFrameShape(QFrame::StyledPanel);
         frame_4->setFrameShadow(QFrame::Raised);
-        edge_get = new QPushButton(frame_4);
-        edge_get->setObjectName(QStringLiteral("edge_get"));
-        edge_get->setGeometry(QRect(10, 10, 75, 23));
 
         gridLayout_15->addWidget(frame_4, 0, 1, 1, 1);
 
@@ -1070,11 +1125,11 @@ public:
 
         mainTreeView = new ImageTreeView(centralWidget);
         mainTreeView->setObjectName(QStringLiteral("mainTreeView"));
-        QSizePolicy sizePolicy21(QSizePolicy::Preferred, QSizePolicy::Expanding);
-        sizePolicy21.setHorizontalStretch(0);
-        sizePolicy21.setVerticalStretch(0);
-        sizePolicy21.setHeightForWidth(mainTreeView->sizePolicy().hasHeightForWidth());
-        mainTreeView->setSizePolicy(sizePolicy21);
+        QSizePolicy sizePolicy23(QSizePolicy::Preferred, QSizePolicy::Expanding);
+        sizePolicy23.setHorizontalStretch(0);
+        sizePolicy23.setVerticalStretch(0);
+        sizePolicy23.setHeightForWidth(mainTreeView->sizePolicy().hasHeightForWidth());
+        mainTreeView->setSizePolicy(sizePolicy23);
         mainTreeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         mainTreeView->setTabKeyNavigation(true);
         mainTreeView->setDragEnabled(true);
@@ -1121,7 +1176,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        operations->setCurrentIndex(6);
+        operations->setCurrentIndex(5);
         comp_char_widget->setCurrentIndex(0);
 
 
@@ -1205,16 +1260,18 @@ public:
         MI_preview->setText(QApplication::translate("MainWindow", "Preview", 0));
         MI_save->setText(QApplication::translate("MainWindow", "Save", 0));
         operations->setTabText(operations->indexOf(multispecrum_images), QApplication::translate("MainWindow", "Multispecrum images", 0));
-        comp_char_set_img1->setText(QApplication::translate("MainWindow", "Set Source", 0));
-        comp_char_set_img2->setText(QApplication::translate("MainWindow", "Set Processed Image", 0));
+        comp_char_widget_prev->setText(QApplication::translate("MainWindow", "\357\204\204", 0));
+        groupBox_11->setTitle(QApplication::translate("MainWindow", "First Image", 0));
+        comp_char_set_img1->setText(QApplication::translate("MainWindow", "Pick selected", 0));
+        groupBox_12->setTitle(QApplication::translate("MainWindow", "GroupBox", 0));
+        comp_char_set_img2->setText(QApplication::translate("MainWindow", "PIck selected", 0));
         groupBox_6->setTitle(QApplication::translate("MainWindow", "Options", 0));
         groupBox_7->setTitle(QApplication::translate("MainWindow", "Config", 0));
         comp_char_ssim_map_container->setTitle(QApplication::translate("MainWindow", "SSIM Map", 0));
         comp_char_ssim_map_save->setText(QApplication::translate("MainWindow", "Save", 0));
         groupBox_9->setTitle(QApplication::translate("MainWindow", "Results", 0));
         comp_char_results_table_save->setText(QApplication::translate("MainWindow", "Save", 0));
-        comp_char_widget_prev->setText(QApplication::translate("MainWindow", "Previous", 0));
-        comp_char_widget_next->setText(QApplication::translate("MainWindow", "Next", 0));
+        comp_char_widget_next->setText(QApplication::translate("MainWindow", "\357\204\205", 0));
         operations->setTabText(operations->indexOf(comparative_characteristics), QApplication::translate("MainWindow", "Comparative Characteristics", 0));
 #ifndef QT_NO_TOOLTIP
         contours->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Detecting Contours on given image</p></body></html>", 0));

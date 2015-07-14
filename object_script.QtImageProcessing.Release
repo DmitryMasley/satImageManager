@@ -46,7 +46,11 @@ INPUT(
 ./release\standardimageitem.o
 ./release\controllermultichannelimages.o
 ./release\edgedetectioncontroller.o
+./release\object.o
+./release\UICore.o
+./release\QtAwesome.o
 ./release\qrc_resource.o
+./release\qrc_QtAwesome.o
 ./release\moc_mainwindow.o
 ./release\moc_imagetree.o
 ./release\moc_previewgraphicsview.o
@@ -85,4 +89,6 @@ INPUT(
 ./release\moc_standardimageitem.o
 ./release\moc_controllermultichannelimages.o
 ./release\moc_edgedetectioncontroller.o
+./release\moc_object.o
+./release\moc_QtAwesome.o
 );

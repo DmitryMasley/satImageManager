@@ -1,10 +1,9 @@
 #include "standardimageitem.h"
-
+#include "imageitem.h"
 StandardImageItem::StandardImageItem(QObject *parent) :
     AbstractItem(parent)
 {
 }
-#include "imageitem.h"
 
 StandardImageItem::StandardImageItem(Mat image, QString name, QString fileName, bool isRoot, QObject *parent) :
     AbstractItem(parent)
