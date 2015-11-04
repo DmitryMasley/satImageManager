@@ -16,6 +16,7 @@
 #include "./multichannel/controllermultichannelimages.h"
 #include "./controllers/edgedetectioncontroller.h"
 #include "metatypes.h"
+#include "workspace.h"
 namespace Ui {
 class MainWindow;
 }

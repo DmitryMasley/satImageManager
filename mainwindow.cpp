@@ -8,7 +8,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QFontDatabase database;
     int id = database.addApplicationFont(":/resource/icons/fonts/FontAwesome.otf");
 
-
+    Workspace* w = new Workspace(this);
+    w->show();
     awesome = new QtAwesome(QApplication::instance());
     awesome->initFontAwesome();
     qRegisterMetaTypeStreamOperators<QList<QList<QVariant> > >("QList<QList<QVariant> >");

@@ -92,6 +92,7 @@ SOURCES       = stdafx.cpp \
 		controllers\edgedetectioncontroller.cpp \
 		object.cpp \
 		UICore.cpp \
+		workspace.cpp \
 		QtAwesome\QtAwesome.cpp release\qrc_resource.cpp \
 		release\qrc_QtAwesome.cpp \
 		release\moc_mainwindow.cpp \
@@ -133,6 +134,7 @@ SOURCES       = stdafx.cpp \
 		release\moc_controllermultichannelimages.cpp \
 		release\moc_edgedetectioncontroller.cpp \
 		release\moc_object.cpp \
+		release\moc_workspace.cpp \
 		release\moc_QtAwesome.cpp
 OBJECTS       = release/stdafx.o \
 		release/main.o \
@@ -183,6 +185,7 @@ OBJECTS       = release/stdafx.o \
 		release/edgedetectioncontroller.o \
 		release/object.o \
 		release/UICore.o \
+		release/workspace.o \
 		release/QtAwesome.o \
 		release/qrc_resource.o \
 		release/qrc_QtAwesome.o \
@@ -225,6 +228,7 @@ OBJECTS       = release/stdafx.o \
 		release/moc_controllermultichannelimages.o \
 		release/moc_edgedetectioncontroller.o \
 		release/moc_object.o \
+		release/moc_workspace.o \
 		release/moc_QtAwesome.o
 
 DIST          =  stdafx.h \
@@ -279,6 +283,7 @@ DIST          =  stdafx.h \
 		ui_helperdialog.h \
 		ui_mainwindow.h \
 		UICore.h \
+		workspace.h \
 		QtAwesome\QtAwesome.h stdafx.cpp \
 		main.cpp \
 		mainwindow.cpp \
@@ -328,6 +333,7 @@ DIST          =  stdafx.h \
 		controllers\edgedetectioncontroller.cpp \
 		object.cpp \
 		UICore.cpp \
+		workspace.cpp \
 		QtAwesome\QtAwesome.cpp
 QMAKE_TARGET  = QtImageProcessing
 DESTDIR        = release\ #avoid trailing-slash linebreak
@@ -355,7 +361,7 @@ DESTDIR_TARGET = release\QtImageProcessing.exe
 first: all
 all: Makefile.Release  $(DESTDIR_TARGET)
 
-$(DESTDIR_TARGET): ui_mainwindow.h $(OBJECTS) 
+$(DESTDIR_TARGET): ui_mainwindow.h ui_workspace.h $(OBJECTS) 
 	$(LINKER) $(LFLAGS) -o $(DESTDIR_TARGET) object_script.QtImageProcessing.Release  $(LIBS)
 
 qmake: FORCE
@@ -367,8 +373,8 @@ dist:
 	$(ZIP) QtImageProcessing.zip $(SOURCES) $(DIST) QtImageProcessing.pro C:\Qt\5.4\mingw491_32\mkspecs\features\spec_pre.prf C:\Qt\5.4\mingw491_32\mkspecs\qdevice.pri C:\Qt\5.4\mingw491_32\mkspecs\features\device_config.prf C:\Qt\5.4\mingw491_32\mkspecs\common\shell-win32.conf C:\Qt\5.4\mingw491_32\mkspecs\qconfig.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_axbase.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_axbase_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_axcontainer.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_axcontainer_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_axserver.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_axserver_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_bluetooth.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_bluetooth_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_bootstrap_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_clucene_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_core.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_core_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_dbus.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_dbus_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_declarative.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_declarative_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_designer.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_enginio.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_enginio_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_gui.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_help.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_help_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_location.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_location_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_multimedia.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_multimedia_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_multimediawidgets.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_multimediawidgets_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_network.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_network_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_nfc.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_nfc_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_opengl.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_openglextensions.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_openglextensions_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_platformsupport_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_positioning.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_qml.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_qmldevtools_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_quick.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_script.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_script_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_scripttools.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_scripttools_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_sensors.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_sensors_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_serialport.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_serialport_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_sql.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_svg.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_testlib.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_uitools.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webchannel.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webchannel_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webkit.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webkit_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webkitwidgets.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webkitwidgets_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_websockets.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webview.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webview_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_widgets.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_winextras.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_winextras_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_xml.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_xmlpatterns.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_xmlpatterns_private.pri C:\Qt\5.4\mingw491_32\mkspecs\features\qt_functions.prf C:\Qt\5.4\mingw491_32\mkspecs\features\qt_config.prf C:\Qt\5.4\mingw491_32\mkspecs\features\win32\qt_config.prf C:\Qt\5.4\mingw491_32\mkspecs\win32-g++\qmake.conf C:\Qt\5.4\mingw491_32\mkspecs\features\spec_post.prf C:\Qt\5.4\mingw491_32\mkspecs\features\exclusive_builds.prf C:\Qt\5.4\mingw491_32\mkspecs\features\default_pre.prf C:\Qt\5.4\mingw491_32\mkspecs\features\win32\default_pre.prf QtAwesome\QtAwesome.pri C:\Qt\5.4\mingw491_32\mkspecs\features\resolve_config.prf C:\Qt\5.4\mingw491_32\mkspecs\features\exclusive_builds_post.prf C:\Qt\5.4\mingw491_32\mkspecs\features\default_post.prf C:\Qt\5.4\mingw491_32\mkspecs\features\build_pass.prf C:\Qt\5.4\mingw491_32\mkspecs\features\qml_debug.prf C:\Qt\5.4\mingw491_32\mkspecs\features\declarative_debug.prf C:\Qt\5.4\mingw491_32\mkspecs\features\win32\rtti.prf C:\Qt\5.4\mingw491_32\mkspecs\features\precompile_header.prf C:\Qt\5.4\mingw491_32\mkspecs\features\warn_on.prf C:\Qt\5.4\mingw491_32\mkspecs\features\qt.prf C:\Qt\5.4\mingw491_32\mkspecs\features\resources.prf C:\Qt\5.4\mingw491_32\mkspecs\features\moc.prf C:\Qt\5.4\mingw491_32\mkspecs\features\win32\opengl.prf C:\Qt\5.4\mingw491_32\mkspecs\features\uic.prf C:\Qt\5.4\mingw491_32\mkspecs\features\win32\windows.prf C:\Qt\5.4\mingw491_32\mkspecs\features\testcase_targets.prf C:\Qt\5.4\mingw491_32\mkspecs\features\exceptions.prf C:\Qt\5.4\mingw491_32\mkspecs\features\yacc.prf C:\Qt\5.4\mingw491_32\mkspecs\features\lex.prf QtImageProcessing.pro resource.qrc QtAwesome\QtAwesome.qrc C:/Qt/5.4/mingw491_32/lib/qtmain.prl C:/Qt/5.4/mingw491_32/lib/Qt5Core.prl C:/Qt/5.4/mingw491_32/lib/Qt5QuickWidgets.prl C:/Qt/5.4/mingw491_32/lib/Qt5Widgets.prl C:/Qt/5.4/mingw491_32/lib/Qt5WebKit.prl C:/Qt/5.4/mingw491_32/lib/Qt5Quick.prl C:/Qt/5.4/mingw491_32/lib/Qt5Gui.prl C:/Qt/5.4/mingw491_32/lib/Qt5Qml.prl C:/Qt/5.4/mingw491_32/lib/Qt5Network.prl  NO_PCH_SOURCES RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES FORMS YACCSOURCES YACCSOURCES LEXSOURCES 
 
 clean: compiler_clean 
-	-$(DEL_FILE) release\stdafx.o release\main.o release\mainwindow.o release\ImagePropertiesEvaluating.o release\ProcessingCore.o release\imagetree.o release\previewgraphicsview.o release\imagetreenode.o release\imagetreemodel.o release\treeitem.o release\imagetreeview.o release\characteristicsitem.o release\characteristicstable.o release\characteristicsmodel.o release\characteristicslist.o release\characteristicsproggresbar.o release\progressdialog.o release\basiclistview.o release\controllercharacteristics.o release\controllermain.o release\controllerfilter.o release\imageitem.o release\imagemodel.o release\basicmodel.o release\basicmodelitem.o release\matmodel.o release\matmodelitem.o release\ddmimedata.o release\basictreeview.o release\imagecharacteristics.o release\basicitemmimedata.o release\slidingstackedwidget.o release\grayscaleimagemodel.o release\controllercomparativecharacteristics.o release\controllermultichannel.o release\mainmodel.o release\helperdialog.o release\imagefusionprocessor.o release\controllerimagefusion.o release\listitemdelegate.o release\abstractitem.o release\standardmodel.o release\standardmimedata.o release\standardimagemodel.o release\standardimageitem.o release\controllermultichannelimages.o release\edgedetectioncontroller.o release\object.o release\UICore.o release\QtAwesome.o release\qrc_resource.o release\qrc_QtAwesome.o release\moc_mainwindow.o release\moc_imagetree.o release\moc_previewgraphicsview.o release\moc_imagetreemodel.o release\moc_imagetreeview.o release\moc_characteristicstable.o release\moc_characteristicslist.o release\moc_characteristicsproggresbar.o release\moc_basiclistview.o release\moc_controllercharacteristics.o release\moc_controllermain.o release\moc_controllerfilter.o release\moc_imageitem.o release\moc_imagemodel.o release\moc_basicmodel.o release\moc_basicmodelitem.o release\moc_matmodel.o release\moc_matmodelitem.o release\moc_ddmimedata.o release\moc_basictreeview.o release\moc_imagecharacteristics.o release\moc_basicitemmimedata.o
-	-$(DEL_FILE) release\moc_slidingstackedwidget.o release\moc_grayscaleimagemodel.o release\moc_controllercomparativecharacteristics.o release\moc_controllermultichannel.o release\moc_mainmodel.o release\moc_helperdialog.o release\moc_imagefusionprocessor.o release\moc_controllerimagefusion.o release\moc_listitemdelegate.o release\moc_abstractitem.o release\moc_standardmodel.o release\moc_standardmimedata.o release\moc_standardimagemodel.o release\moc_standardimageitem.o release\moc_controllermultichannelimages.o release\moc_edgedetectioncontroller.o release\moc_object.o release\moc_QtAwesome.o
+	-$(DEL_FILE) release\stdafx.o release\main.o release\mainwindow.o release\ImagePropertiesEvaluating.o release\ProcessingCore.o release\imagetree.o release\previewgraphicsview.o release\imagetreenode.o release\imagetreemodel.o release\treeitem.o release\imagetreeview.o release\characteristicsitem.o release\characteristicstable.o release\characteristicsmodel.o release\characteristicslist.o release\characteristicsproggresbar.o release\progressdialog.o release\basiclistview.o release\controllercharacteristics.o release\controllermain.o release\controllerfilter.o release\imageitem.o release\imagemodel.o release\basicmodel.o release\basicmodelitem.o release\matmodel.o release\matmodelitem.o release\ddmimedata.o release\basictreeview.o release\imagecharacteristics.o release\basicitemmimedata.o release\slidingstackedwidget.o release\grayscaleimagemodel.o release\controllercomparativecharacteristics.o release\controllermultichannel.o release\mainmodel.o release\helperdialog.o release\imagefusionprocessor.o release\controllerimagefusion.o release\listitemdelegate.o release\abstractitem.o release\standardmodel.o release\standardmimedata.o release\standardimagemodel.o release\standardimageitem.o release\controllermultichannelimages.o release\edgedetectioncontroller.o release\object.o release\UICore.o release\workspace.o release\QtAwesome.o release\qrc_resource.o release\qrc_QtAwesome.o release\moc_mainwindow.o release\moc_imagetree.o release\moc_previewgraphicsview.o release\moc_imagetreemodel.o release\moc_imagetreeview.o release\moc_characteristicstable.o release\moc_characteristicslist.o release\moc_characteristicsproggresbar.o release\moc_basiclistview.o release\moc_controllercharacteristics.o release\moc_controllermain.o release\moc_controllerfilter.o release\moc_imageitem.o release\moc_imagemodel.o release\moc_basicmodel.o release\moc_basicmodelitem.o release\moc_matmodel.o release\moc_matmodelitem.o release\moc_ddmimedata.o release\moc_basictreeview.o release\moc_imagecharacteristics.o release\moc_basicitemmimedata.o
+	-$(DEL_FILE) release\moc_slidingstackedwidget.o release\moc_grayscaleimagemodel.o release\moc_controllercomparativecharacteristics.o release\moc_controllermultichannel.o release\moc_mainmodel.o release\moc_helperdialog.o release\moc_imagefusionprocessor.o release\moc_controllerimagefusion.o release\moc_listitemdelegate.o release\moc_abstractitem.o release\moc_standardmodel.o release\moc_standardmimedata.o release\moc_standardimagemodel.o release\moc_standardimageitem.o release\moc_controllermultichannelimages.o release\moc_edgedetectioncontroller.o release\moc_object.o release\moc_workspace.o release\moc_QtAwesome.o
 	-$(DEL_FILE) release\stdafx.h.gch\c release\stdafx.h.gch\c++
 
 distclean: clean 
@@ -397,9 +403,9 @@ release/qrc_QtAwesome.cpp: QtAwesome/QtAwesome.qrc \
 		QtAwesome/fonts/fontawesome-4.3.0.ttf
 	C:\Qt\5.4\mingw491_32\bin\rcc.exe -name QtAwesome QtAwesome\QtAwesome.qrc -o release\qrc_QtAwesome.cpp
 
-compiler_moc_header_make_all: release/moc_mainwindow.cpp release/moc_imagetree.cpp release/moc_previewgraphicsview.cpp release/moc_imagetreemodel.cpp release/moc_imagetreeview.cpp release/moc_characteristicstable.cpp release/moc_characteristicslist.cpp release/moc_characteristicsproggresbar.cpp release/moc_basiclistview.cpp release/moc_controllercharacteristics.cpp release/moc_controllermain.cpp release/moc_controllerfilter.cpp release/moc_imageitem.cpp release/moc_imagemodel.cpp release/moc_basicmodel.cpp release/moc_basicmodelitem.cpp release/moc_matmodel.cpp release/moc_matmodelitem.cpp release/moc_ddmimedata.cpp release/moc_basictreeview.cpp release/moc_imagecharacteristics.cpp release/moc_basicitemmimedata.cpp release/moc_slidingstackedwidget.cpp release/moc_grayscaleimagemodel.cpp release/moc_controllercomparativecharacteristics.cpp release/moc_controllermultichannel.cpp release/moc_mainmodel.cpp release/moc_helperdialog.cpp release/moc_imagefusionprocessor.cpp release/moc_controllerimagefusion.cpp release/moc_listitemdelegate.cpp release/moc_abstractitem.cpp release/moc_standardmodel.cpp release/moc_standardmimedata.cpp release/moc_standardimagemodel.cpp release/moc_standardimageitem.cpp release/moc_controllermultichannelimages.cpp release/moc_edgedetectioncontroller.cpp release/moc_controllerimagefusion.cpp release/moc_object.cpp release/moc_QtAwesome.cpp
+compiler_moc_header_make_all: release/moc_mainwindow.cpp release/moc_imagetree.cpp release/moc_previewgraphicsview.cpp release/moc_imagetreemodel.cpp release/moc_imagetreeview.cpp release/moc_characteristicstable.cpp release/moc_characteristicslist.cpp release/moc_characteristicsproggresbar.cpp release/moc_basiclistview.cpp release/moc_controllercharacteristics.cpp release/moc_controllermain.cpp release/moc_controllerfilter.cpp release/moc_imageitem.cpp release/moc_imagemodel.cpp release/moc_basicmodel.cpp release/moc_basicmodelitem.cpp release/moc_matmodel.cpp release/moc_matmodelitem.cpp release/moc_ddmimedata.cpp release/moc_basictreeview.cpp release/moc_imagecharacteristics.cpp release/moc_basicitemmimedata.cpp release/moc_slidingstackedwidget.cpp release/moc_grayscaleimagemodel.cpp release/moc_controllercomparativecharacteristics.cpp release/moc_controllermultichannel.cpp release/moc_mainmodel.cpp release/moc_helperdialog.cpp release/moc_imagefusionprocessor.cpp release/moc_controllerimagefusion.cpp release/moc_listitemdelegate.cpp release/moc_abstractitem.cpp release/moc_standardmodel.cpp release/moc_standardmimedata.cpp release/moc_standardimagemodel.cpp release/moc_standardimageitem.cpp release/moc_controllermultichannelimages.cpp release/moc_edgedetectioncontroller.cpp release/moc_controllerimagefusion.cpp release/moc_object.cpp release/moc_workspace.cpp release/moc_QtAwesome.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) release\moc_mainwindow.cpp release\moc_imagetree.cpp release\moc_previewgraphicsview.cpp release\moc_imagetreemodel.cpp release\moc_imagetreeview.cpp release\moc_characteristicstable.cpp release\moc_characteristicslist.cpp release\moc_characteristicsproggresbar.cpp release\moc_basiclistview.cpp release\moc_controllercharacteristics.cpp release\moc_controllermain.cpp release\moc_controllerfilter.cpp release\moc_imageitem.cpp release\moc_imagemodel.cpp release\moc_basicmodel.cpp release\moc_basicmodelitem.cpp release\moc_matmodel.cpp release\moc_matmodelitem.cpp release\moc_ddmimedata.cpp release\moc_basictreeview.cpp release\moc_imagecharacteristics.cpp release\moc_basicitemmimedata.cpp release\moc_slidingstackedwidget.cpp release\moc_grayscaleimagemodel.cpp release\moc_controllercomparativecharacteristics.cpp release\moc_controllermultichannel.cpp release\moc_mainmodel.cpp release\moc_helperdialog.cpp release\moc_imagefusionprocessor.cpp release\moc_controllerimagefusion.cpp release\moc_listitemdelegate.cpp release\moc_abstractitem.cpp release\moc_standardmodel.cpp release\moc_standardmimedata.cpp release\moc_standardimagemodel.cpp release\moc_standardimageitem.cpp release\moc_controllermultichannelimages.cpp release\moc_edgedetectioncontroller.cpp release\moc_controllerimagefusion.cpp release\moc_object.cpp release\moc_QtAwesome.cpp
+	-$(DEL_FILE) release\moc_mainwindow.cpp release\moc_imagetree.cpp release\moc_previewgraphicsview.cpp release\moc_imagetreemodel.cpp release\moc_imagetreeview.cpp release\moc_characteristicstable.cpp release\moc_characteristicslist.cpp release\moc_characteristicsproggresbar.cpp release\moc_basiclistview.cpp release\moc_controllercharacteristics.cpp release\moc_controllermain.cpp release\moc_controllerfilter.cpp release\moc_imageitem.cpp release\moc_imagemodel.cpp release\moc_basicmodel.cpp release\moc_basicmodelitem.cpp release\moc_matmodel.cpp release\moc_matmodelitem.cpp release\moc_ddmimedata.cpp release\moc_basictreeview.cpp release\moc_imagecharacteristics.cpp release\moc_basicitemmimedata.cpp release\moc_slidingstackedwidget.cpp release\moc_grayscaleimagemodel.cpp release\moc_controllercomparativecharacteristics.cpp release\moc_controllermultichannel.cpp release\moc_mainmodel.cpp release\moc_helperdialog.cpp release\moc_imagefusionprocessor.cpp release\moc_controllerimagefusion.cpp release\moc_listitemdelegate.cpp release\moc_abstractitem.cpp release\moc_standardmodel.cpp release\moc_standardmimedata.cpp release\moc_standardimagemodel.cpp release\moc_standardimageitem.cpp release\moc_controllermultichannelimages.cpp release\moc_edgedetectioncontroller.cpp release\moc_controllerimagefusion.cpp release\moc_object.cpp release\moc_workspace.cpp release\moc_QtAwesome.cpp
 release/moc_mainwindow.cpp: QtAwesome/QtAwesome.h \
 		C:/Qt/5.4/mingw491_32/include/QtGui/QIcon \
 		C:/Qt/5.4/mingw491_32/include/QtGui/qicon.h \
@@ -895,6 +901,8 @@ release/moc_mainwindow.cpp: QtAwesome/QtAwesome.h \
 		controllermultichannel.h \
 		multichannel/controllermultichannelimages.h \
 		controllers/edgedetectioncontroller.h \
+		workspace.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/QDialog \
 		mainwindow.h
 	C:\Qt\5.4\mingw491_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/5.4/mingw491_32/mkspecs/win32-g++ -ID:/Projects/QtImageProcessing -IC:/opencv/build/include -ID:/Projects/QtImageProcessing/QtAwesome -IC:/Qt/5.4/mingw491_32/include -IC:/Qt/5.4/mingw491_32/include/QtQuickWidgets -IC:/Qt/5.4/mingw491_32/include/QtWidgets -IC:/Qt/5.4/mingw491_32/include/QtWebKit -IC:/Qt/5.4/mingw491_32/include/QtQuick -IC:/Qt/5.4/mingw491_32/include/QtGui -IC:/Qt/5.4/mingw491_32/include/QtQml -IC:/Qt/5.4/mingw491_32/include/QtNetwork -IC:/Qt/5.4/mingw491_32/include/QtCore mainwindow.h -o release\moc_mainwindow.cpp
 
@@ -8722,6 +8730,112 @@ release/moc_object.cpp: C:/Qt/5.4/mingw491_32/include/QtCore/QObject \
 		object.h
 	C:\Qt\5.4\mingw491_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/5.4/mingw491_32/mkspecs/win32-g++ -ID:/Projects/QtImageProcessing -IC:/opencv/build/include -ID:/Projects/QtImageProcessing/QtAwesome -IC:/Qt/5.4/mingw491_32/include -IC:/Qt/5.4/mingw491_32/include/QtQuickWidgets -IC:/Qt/5.4/mingw491_32/include/QtWidgets -IC:/Qt/5.4/mingw491_32/include/QtWebKit -IC:/Qt/5.4/mingw491_32/include/QtQuick -IC:/Qt/5.4/mingw491_32/include/QtGui -IC:/Qt/5.4/mingw491_32/include/QtQml -IC:/Qt/5.4/mingw491_32/include/QtNetwork -IC:/Qt/5.4/mingw491_32/include/QtCore object.h -o release\moc_object.cpp
 
+release/moc_workspace.cpp: C:/Qt/5.4/mingw491_32/include/QtWidgets/QDialog \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qdialog.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qwidget.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qwindowdefs.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qglobal.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qconfig.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qfeatures.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsystemdetection.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qprocessordetection.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qcompilerdetection.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qtypeinfo.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qtypetraits.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsysinfo.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qlogging.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qflags.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qbasicatomic.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_bootstrap.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qgenericatomic.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_msvc.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_armv7.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_armv6.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_armv5.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_ia64.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_mips.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_x86.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_gcc.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_unix.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qglobalstatic.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qmutex.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qnumeric.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobjectdefs.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qnamespace.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobjectdefs_impl.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qwindowdefs_win.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobject.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstring.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qchar.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qbytearray.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qrefcount.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qarraydata.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qlist.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qalgorithms.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qiterator.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qbytearraylist.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qcoreevent.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qscopedpointer.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qmetatype.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qvarlengtharray.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qcontainerfwd.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qisenum.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobject_impl.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qmargins.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpaintdevice.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qrect.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsize.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qpoint.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpalette.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qcolor.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qrgb.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstringlist.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qdatastream.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qiodevice.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qpair.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qregexp.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstringmatcher.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qbrush.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qvector.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qmatrix.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpolygon.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qregion.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qline.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qtransform.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpainterpath.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qimage.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpixelformat.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpixmap.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsharedpointer.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qshareddata.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qhash.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsharedpointer_impl.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qfont.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qfontmetrics.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qfontinfo.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qsizepolicy.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qcursor.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qkeysequence.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qevent.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qvariant.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qmap.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qdebug.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qtextstream.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qlocale.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qset.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qcontiguouscache.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qurl.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qurlquery.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qfile.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qfiledevice.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qvector2d.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qtouchdevice.h \
+		workspace.h
+	C:\Qt\5.4\mingw491_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/5.4/mingw491_32/mkspecs/win32-g++ -ID:/Projects/QtImageProcessing -IC:/opencv/build/include -ID:/Projects/QtImageProcessing/QtAwesome -IC:/Qt/5.4/mingw491_32/include -IC:/Qt/5.4/mingw491_32/include/QtQuickWidgets -IC:/Qt/5.4/mingw491_32/include/QtWidgets -IC:/Qt/5.4/mingw491_32/include/QtWebKit -IC:/Qt/5.4/mingw491_32/include/QtQuick -IC:/Qt/5.4/mingw491_32/include/QtGui -IC:/Qt/5.4/mingw491_32/include/QtQml -IC:/Qt/5.4/mingw491_32/include/QtNetwork -IC:/Qt/5.4/mingw491_32/include/QtCore workspace.h -o release\moc_workspace.cpp
+
 release/moc_QtAwesome.cpp: C:/Qt/5.4/mingw491_32/include/QtGui/QIcon \
 		C:/Qt/5.4/mingw491_32/include/QtGui/qicon.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qglobal.h \
@@ -8826,9 +8940,9 @@ release/moc_QtAwesome.cpp: C:/Qt/5.4/mingw491_32/include/QtGui/QIcon \
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h
+compiler_uic_make_all: ui_mainwindow.h ui_workspace.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h
+	-$(DEL_FILE) ui_mainwindow.h ui_workspace.h
 ui_mainwindow.h: mainwindow.ui \
 		previewgraphicsview.h \
 		imagetreeview.h \
@@ -9871,6 +9985,189 @@ ui_mainwindow.h: mainwindow.ui \
 		C:/Qt/5.4/mingw491_32/include/QtCore/QEasingCurve
 	C:\Qt\5.4\mingw491_32\bin\uic.exe mainwindow.ui -o ui_mainwindow.h
 
+ui_workspace.h: workspace.ui \
+		imagetreeview.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/QTreeView \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qtreeview.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qframe.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qwidget.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qwindowdefs.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qglobal.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qconfig.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qfeatures.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsystemdetection.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qprocessordetection.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qcompilerdetection.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qtypeinfo.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qtypetraits.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsysinfo.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qlogging.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qflags.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qbasicatomic.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_bootstrap.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qgenericatomic.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_msvc.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_armv7.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_armv6.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_armv5.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_ia64.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_mips.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_x86.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_gcc.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_unix.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qglobalstatic.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qmutex.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qnumeric.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobjectdefs.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qnamespace.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobjectdefs_impl.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qwindowdefs_win.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobject.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstring.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qchar.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qbytearray.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qrefcount.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qarraydata.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qlist.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qalgorithms.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qiterator.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qbytearraylist.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qcoreevent.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qscopedpointer.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qmetatype.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qvarlengtharray.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qcontainerfwd.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qisenum.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobject_impl.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qmargins.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpaintdevice.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qrect.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsize.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qpoint.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpalette.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qcolor.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qrgb.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstringlist.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qdatastream.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qiodevice.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qpair.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qregexp.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstringmatcher.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qbrush.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qvector.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qmatrix.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpolygon.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qregion.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qline.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qtransform.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpainterpath.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qimage.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpixelformat.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpixmap.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsharedpointer.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qshareddata.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qhash.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsharedpointer_impl.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qfont.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qfontmetrics.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qfontinfo.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qsizepolicy.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qcursor.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qkeysequence.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qevent.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qvariant.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qmap.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qdebug.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qtextstream.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qlocale.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qset.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qcontiguouscache.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qurl.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qurlquery.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qfile.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qfiledevice.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qvector2d.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qtouchdevice.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qstyleoption.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qvalidator.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qregularexpression.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qicon.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qslider.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qabstractslider.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qstyle.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qtabbar.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qtabwidget.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qrubberband.h \
+		imageitem.h \
+		stdafx.h \
+		C:/opencv/build/include/opencv2/core.hpp \
+		C:/opencv/build/include/opencv2/core/cvdef.h \
+		C:/opencv/build/include/opencv2/core/version.hpp \
+		C:/opencv/build/include/opencv2/core/base.hpp \
+		C:/opencv/build/include/opencv2/core/cvstd.hpp \
+		C:/opencv/build/include/opencv2/core/ptr.inl.hpp \
+		C:/opencv/build/include/opencv2/core/traits.hpp \
+		C:/opencv/build/include/opencv2/core/matx.hpp \
+		C:/opencv/build/include/opencv2/core/types.hpp \
+		C:/opencv/build/include/opencv2/core/mat.hpp \
+		C:/opencv/build/include/opencv2/core/bufferpool.hpp \
+		C:/opencv/build/include/opencv2/core/mat.inl.hpp \
+		C:/opencv/build/include/opencv2/core/persistence.hpp \
+		C:/opencv/build/include/opencv2/core/operations.hpp \
+		C:/opencv/build/include/opencv2/core/cvstd.inl.hpp \
+		C:/opencv/build/include/opencv2/core/utility.hpp \
+		C:/opencv/build/include/opencv2/core/optim.hpp \
+		C:/opencv/build/include/opencv2/core/cuda.hpp \
+		C:/opencv/build/include/opencv2/core/cuda_types.hpp \
+		C:/opencv/build/include/opencv2/core/cuda.inl.hpp \
+		basicmodelitem.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QStringList \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QVariant \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QObject \
+		ProcessingCore.h \
+		C:/opencv/build/include/opencv2/opencv.hpp \
+		C:/opencv/build/include/opencv2/imgproc.hpp \
+		C:/opencv/build/include/opencv2/photo.hpp \
+		C:/opencv/build/include/opencv2/video.hpp \
+		C:/opencv/build/include/opencv2/video/tracking.hpp \
+		C:/opencv/build/include/opencv2/video/background_segm.hpp \
+		C:/opencv/build/include/opencv2/features2d.hpp \
+		C:/opencv/build/include/opencv2/flann/miniflann.hpp \
+		C:/opencv/build/include/opencv2/flann/defines.h \
+		C:/opencv/build/include/opencv2/flann/config.h \
+		C:/opencv/build/include/opencv2/objdetect.hpp \
+		C:/opencv/build/include/opencv2/objdetect/detection_based_tracker.hpp \
+		C:/opencv/build/include/opencv2/calib3d.hpp \
+		C:/opencv/build/include/opencv2/core/affine.hpp \
+		C:/opencv/build/include/opencv2/imgcodecs.hpp \
+		C:/opencv/build/include/opencv2/videoio.hpp \
+		C:/opencv/build/include/opencv2/highgui.hpp \
+		C:/opencv/build/include/opencv2/ml.hpp \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QString \
+		C:/Qt/5.4/mingw491_32/include/QtGui/QImage \
+		C:/Qt/5.4/mingw491_32/include/QtGui/QIcon \
+		C:/Qt/5.4/mingw491_32/include/QtGui/QPixmap \
+		metatypes.h \
+		C:/opencv/build/include/opencv2/imgproc/imgproc.hpp \
+		C:/opencv/build/include/opencv2/core/core.hpp \
+		C:/opencv/build/include/opencv2/highgui/highgui.hpp \
+		C:/opencv/build/include/opencv2/imgproc/imgproc_c.h \
+		C:/opencv/build/include/opencv2/imgproc/types_c.h \
+		C:/opencv/build/include/opencv2/core/core_c.h \
+		C:/opencv/build/include/opencv2/core/types_c.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QList \
+		characteristicsitem.h
+	C:\Qt\5.4\mingw491_32\bin\uic.exe workspace.ui -o ui_workspace.h
+
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
 compiler_yacc_impl_make_all:
@@ -10391,6 +10688,8 @@ release/main.o: main.cpp C:/Qt/5.4/mingw491_32/include/QtWidgets/QApplication \
 		controllermultichannel.h \
 		multichannel/controllermultichannelimages.h \
 		controllers/edgedetectioncontroller.h \
+		workspace.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/QDialog \
 		release/stdafx.h.gch/c++
 	$(CXX) -c -include release\stdafx.h $(CXXFLAGS) $(INCPATH) -o release\main.o main.cpp
 
@@ -10890,6 +11189,8 @@ release/mainwindow.o: mainwindow.cpp mainwindow.h \
 		controllermultichannel.h \
 		multichannel/controllermultichannelimages.h \
 		controllers/edgedetectioncontroller.h \
+		workspace.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/QDialog \
 		release/stdafx.h.gch/c++
 	$(CXX) -c -include release\stdafx.h $(CXXFLAGS) $(INCPATH) -o release\mainwindow.o mainwindow.cpp
 
@@ -14388,6 +14689,8 @@ release/controllerfilter.o: controllerfilter.cpp mainwindow.h \
 		controllermultichannel.h \
 		multichannel/controllermultichannelimages.h \
 		controllers/edgedetectioncontroller.h \
+		workspace.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/QDialog \
 		release/stdafx.h.gch/c++
 	$(CXX) -c -include release\stdafx.h $(CXXFLAGS) $(INCPATH) -o release\controllerfilter.o controllerfilter.cpp
 
@@ -17783,6 +18086,8 @@ release/controllerimagefusion.o: imageFusion/controllerimagefusion.cpp mainwindo
 		controllermultichannel.h \
 		multichannel/controllermultichannelimages.h \
 		controllers/edgedetectioncontroller.h \
+		workspace.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/QDialog \
 		release/stdafx.h.gch/c++
 	$(CXX) -c -include release\stdafx.h $(CXXFLAGS) $(INCPATH) -o release\controllerimagefusion.o imageFusion\controllerimagefusion.cpp
 
@@ -19374,6 +19679,114 @@ release/UICore.o: UICore.cpp stdafx.h \
 		release/stdafx.h.gch/c++
 	$(CXX) -c -include release\stdafx.h $(CXXFLAGS) $(INCPATH) -o release\UICore.o UICore.cpp
 
+release/workspace.o: workspace.cpp workspace.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/QDialog \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qdialog.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qwidget.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qwindowdefs.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qglobal.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qconfig.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qfeatures.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsystemdetection.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qprocessordetection.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qcompilerdetection.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qtypeinfo.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qtypetraits.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsysinfo.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qlogging.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qflags.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qbasicatomic.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_bootstrap.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qgenericatomic.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_msvc.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_armv7.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_armv6.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_armv5.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_ia64.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_mips.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_x86.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_gcc.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_unix.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qglobalstatic.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qmutex.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qnumeric.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobjectdefs.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qnamespace.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobjectdefs_impl.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qwindowdefs_win.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobject.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstring.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qchar.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qbytearray.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qrefcount.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qarraydata.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qlist.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qalgorithms.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qiterator.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qbytearraylist.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qcoreevent.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qscopedpointer.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qmetatype.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qvarlengtharray.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qcontainerfwd.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qisenum.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobject_impl.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qmargins.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpaintdevice.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qrect.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsize.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qpoint.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpalette.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qcolor.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qrgb.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstringlist.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qdatastream.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qiodevice.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qpair.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qregexp.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstringmatcher.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qbrush.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qvector.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qmatrix.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpolygon.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qregion.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qline.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qtransform.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpainterpath.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qimage.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpixelformat.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpixmap.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsharedpointer.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qshareddata.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qhash.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsharedpointer_impl.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qfont.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qfontmetrics.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qfontinfo.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qsizepolicy.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qcursor.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qkeysequence.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qevent.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qvariant.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qmap.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qdebug.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qtextstream.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qlocale.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qset.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qcontiguouscache.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qurl.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qurlquery.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qfile.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qfiledevice.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qvector2d.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qtouchdevice.h \
+		ui_workspace.h \
+		release/stdafx.h.gch/c++
+	$(CXX) -c -include release\stdafx.h $(CXXFLAGS) $(INCPATH) -o release\workspace.o workspace.cpp
+
 release/QtAwesome.o: QtAwesome/QtAwesome.cpp QtAwesome/QtAwesome.h \
 		C:/Qt/5.4/mingw491_32/include/QtGui/QIcon \
 		C:/Qt/5.4/mingw491_32/include/QtGui/qicon.h \
@@ -19605,6 +20018,9 @@ release/moc_edgedetectioncontroller.o: release/moc_edgedetectioncontroller.cpp r
 
 release/moc_object.o: release/moc_object.cpp release/stdafx.h.gch/c++
 	$(CXX) -c -include release\stdafx.h $(CXXFLAGS) $(INCPATH) -o release\moc_object.o release\moc_object.cpp
+
+release/moc_workspace.o: release/moc_workspace.cpp release/stdafx.h.gch/c++
+	$(CXX) -c -include release\stdafx.h $(CXXFLAGS) $(INCPATH) -o release\moc_workspace.o release\moc_workspace.cpp
 
 release/moc_QtAwesome.o: release/moc_QtAwesome.cpp release/stdafx.h.gch/c++
 	$(CXX) -c -include release\stdafx.h $(CXXFLAGS) $(INCPATH) -o release\moc_QtAwesome.o release\moc_QtAwesome.cpp

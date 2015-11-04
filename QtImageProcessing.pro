@@ -57,7 +57,8 @@ SOURCES +=stdafx.cpp \
     multichannel/controllermultichannelimages.cpp \
     controllers/edgedetectioncontroller.cpp \
     object.cpp \
-    UICore.cpp
+    UICore.cpp \
+    workspace.cpp
 
 HEADERS  +=stdafx.h \
     mainwindow.h \
@@ -112,9 +113,11 @@ HEADERS  +=stdafx.h \
     object.h \
     ui_helperdialog.h \
     ui_mainwindow.h \
-    UICore.h
+    UICore.h \
+    workspace.h
 
-FORMS+= mainwindow.ui
+FORMS+= mainwindow.ui \
+    workspace.ui
 
 #OPENCV = C:/opencv
 #OPENCV_LIB = $$OPENCV/build/x86/vc10/lib
