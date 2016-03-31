@@ -20,7 +20,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
-#include "imagetreeview.h"
+#include <views/imagelistview.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -33,7 +33,7 @@ public:
     QSpacerItem *horizontalSpacer;
     QPushButton *workspace_add;
     QPushButton *workspace_remove;
-    ImageTreeView *treeView;
+    ImageListView *workspace_image_list;
     QFrame *frame;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer_2;
@@ -45,7 +45,7 @@ public:
         if (Workspace->objectName().isEmpty())
             Workspace->setObjectName(QStringLiteral("Workspace"));
         Workspace->resize(458, 563);
-        Workspace->setModal(true);
+        Workspace->setModal(false);
         verticalLayout = new QVBoxLayout(Workspace);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         frame_2 = new QFrame(Workspace);
@@ -87,15 +87,15 @@ public:
 
         verticalLayout->addWidget(frame_2);
 
-        treeView = new ImageTreeView(Workspace);
-        treeView->setObjectName(QStringLiteral("treeView"));
+        workspace_image_list = new ImageListView(Workspace);
+        workspace_image_list->setObjectName(QStringLiteral("workspace_image_list"));
         QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Expanding);
         sizePolicy2.setHorizontalStretch(0);
         sizePolicy2.setVerticalStretch(1);
-        sizePolicy2.setHeightForWidth(treeView->sizePolicy().hasHeightForWidth());
-        treeView->setSizePolicy(sizePolicy2);
+        sizePolicy2.setHeightForWidth(workspace_image_list->sizePolicy().hasHeightForWidth());
+        workspace_image_list->setSizePolicy(sizePolicy2);
 
-        verticalLayout->addWidget(treeView);
+        verticalLayout->addWidget(workspace_image_list);
 
         frame = new QFrame(Workspace);
         frame->setObjectName(QStringLiteral("frame"));

@@ -26,6 +26,7 @@ public:
     void clearImage();
     QImage* getQImage();
     QString getName();
+    QString getFileName();
     bool isValid();
     bool canHaveChildren();
     StandardImageItem* findImage(QString fileName);

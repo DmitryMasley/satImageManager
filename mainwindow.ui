@@ -186,7 +186,7 @@ MainWindow QButton {
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>1</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -1619,7 +1619,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>1052</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <property name="defaultUp">

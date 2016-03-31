@@ -14,9 +14,9 @@ ControllerMain::ControllerMain(Ui::MainWindow* ui,
     QTabWidget* tab = ui->operations;
 
     // image tree model
-    QList<QList<QVariant> > modelHeaders;
-    QList<QVariant> Name;
-    Name << QString("File");
+    QList<QMap<int, QVariant> > modelHeaders;
+    QMap<int, QVariant> Name;
+    Name.insert(0, QString("File"));
     modelHeaders.append(Name);
     MainViewModel = new MainModel(modelHeaders);
     MainView->setAcceptDrops(true);
@@ -63,7 +63,7 @@ void ControllerMain::mainViewSelectionChanged(const QItemSelection &selected, co
         QModelIndex index = indexes.first();
         if(index.isValid())
         {
-            ImageItem* item =  static_cast<ImageItem*>(index.internalPointer());
+            StandardImageItem* item =  static_cast<StandardImageItem*>(index.internalPointer());
             item->getQImage();
             emit MainViewSelectionChanged(item);
             emit MainViewSelectionChanged(item->getQImage());
@@ -117,7 +117,7 @@ void ControllerMain::viewCurrentImage()
         QModelIndex index = indexes.first();
         if(index.isValid())
         {
-            ImageItem* item =  static_cast<ImageItem*>(index.internalPointer());
+            StandardImageItem* item =  static_cast<StandardImageItem*>(index.internalPointer());
             QString name = item->data(0, 0).toString();
             cv::namedWindow(ProcessingCore::convertToStdString(name), cv::WINDOW_NORMAL | cv::WINDOW_KEEPRATIO);
             cv::imshow(ProcessingCore::convertToStdString(name), ProcessingCore::RGB2BGR(item->getCVImage()));

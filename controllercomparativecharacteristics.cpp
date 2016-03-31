@@ -172,7 +172,7 @@ void ControllerComparativeCharacteristics::calculate()
                     cv::Scalar ssim_Index = ProcessingCore::getMSSIM(firstImage, secondImage, ssim_map);
                     AddResultToTable(ssim_Index[0], name);
                     ssimMapContainer->setVisible(true);
-                    ssimMap->setImageItem(new ImageItem(ssim_map, QString("SSIM Map")));
+                    ssimMap->setImageItem(new StandardImageItem(ssim_map, QString("SSIM Map")));
                     break;
                 }
                 case 1:

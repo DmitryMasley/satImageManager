@@ -8,13 +8,13 @@ QModelIndexList ImageTreeView::getSelectedIndexes()
 {
     return this->selectedIndexes();
 }
-ImageItem* ImageTreeView::GetSelectedItem()
+StandardImageItem *ImageTreeView::GetSelectedItem()
 {
-    ImageItem *item=0;
+    StandardImageItem *item=0;
     if (this->selectedIndexes().count())
     {
         QModelIndex index = this->selectedIndexes()[0];
-        item = static_cast<ImageItem*>(index.internalPointer());
+        item = static_cast<StandardImageItem*>(index.internalPointer());
     }
     return item;
 }

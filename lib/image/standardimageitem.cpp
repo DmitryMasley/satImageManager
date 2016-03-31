@@ -143,7 +143,7 @@ void StandardImageItem::_addCharacteristicsModel()
     ChList <<
               QString("Shannon Entropy") <<
               QString("Signal Entropy") <<
-              QString("Gradation using coefficient") <<
+              QString("GStandardImageItemradation using coefficient") <<
               QString("Adaptation level of brightness") <<
               QString("Max dynamic contrast");
 
@@ -159,6 +159,9 @@ void StandardImageItem::_addCharacteristicsModel()
 QString StandardImageItem::getName()
 {
     return this->data(0, Qt::DisplayRole).toString();
+}
+QString StandardImageItem::getFileName(){
+     return this->data(2, Qt::DisplayRole).toString();
 }
 
 void StandardImageItem::initImageData(Mat image, QString name, QString fileName)
@@ -214,7 +217,7 @@ int StandardImageItem::getChannel()
 StandardImageItem* StandardImageItem::findImage(QString fileName)
 {
     StandardImageItem* result = 0;
-    AbstractItem* item = this->findItem(QVariant(fileName), 0, 0);
+    AbstractItem* item = this->findItem(QVariant(fileName), 2, 0);
     if(item)
     {
         result = static_cast<StandardImageItem*>(item);

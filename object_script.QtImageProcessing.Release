@@ -49,6 +49,7 @@ INPUT(
 ./release\object.o
 ./release\UICore.o
 ./release\workspace.o
+./release\imagelistview.o
 ./release\QtAwesome.o
 ./release\qrc_resource.o
 ./release\qrc_QtAwesome.o
@@ -92,5 +93,6 @@ INPUT(
 ./release\moc_edgedetectioncontroller.o
 ./release\moc_object.o
 ./release\moc_workspace.o
+./release\moc_imagelistview.o
 ./release\moc_QtAwesome.o
 );

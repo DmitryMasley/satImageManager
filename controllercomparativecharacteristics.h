@@ -5,6 +5,13 @@
 #include "ui_mainwindow.h"
 #include "basicmodel.h"
 #include <QFileDialog>
+#include <QTextDocumentWriter>
+#include <QTextDocument>
+#include <QTextCursor>
+#include <QTextTable>
+#include <QTextCodec>
+#include "lib/standardmodel.h"
+#include "lib/image/standardimageitem.h"
 
 class ControllerComparativeCharacteristics : public QObject
 {

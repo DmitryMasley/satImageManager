@@ -3,10 +3,12 @@
 
 #include <QStackedWidget>
 
-#include <QtGui>
+//#include <QtGui>
 #include <QWidget>
 #include <QDebug>
 #include <QEasingCurve>
+#include <QPropertyAnimation>
+#include <QParallelAnimationGroup>
 
 /*!
 Description

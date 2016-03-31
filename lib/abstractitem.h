@@ -6,7 +6,7 @@
 #include <QStringList>
 #include <QVariant>
 
-typedef QMap<int, QVariant> IntStringMap;
+typedef QMap<int, QVariant> IntVariantMap;
 class AbstractItem : public QObject
 {
     Q_OBJECT
@@ -15,7 +15,7 @@ public:
     Q_INVOKABLE explicit AbstractItem(bool isRoot, QObject* parent = 0);
     Q_INVOKABLE explicit AbstractItem(QList<QMap<int, QVariant> > _data, QObject* parent = 0, bool isRoot = false);
     Q_INVOKABLE explicit AbstractItem(const AbstractItem& item);
-    Q_PROPERTY(IntStringMap _header READ header WRITE setHeader NOTIFY headerChanged)
+    Q_PROPERTY(IntVariantMap _header READ header WRITE setHeader NOTIFY headerChanged)
     Q_PROPERTY(bool _root READ root WRITE setRoot NOTIFY rootChanged)
     ~AbstractItem();
     bool root();

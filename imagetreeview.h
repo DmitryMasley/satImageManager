@@ -2,6 +2,8 @@
 #define IMAGETREEVIEW_H
 #include <QtWidgets/QTreeView>
 #include "imageitem.h"
+#include "lib/image/standardimagemodel.h"
+#include "lib/image/standardimageitem.h"
 
 class ImageTreeView : public QTreeView
 {
@@ -9,7 +11,7 @@ class ImageTreeView : public QTreeView
 
 public:
     ImageTreeView(QWidget* container);
-    ImageItem* GetSelectedItem();
+    StandardImageItem* GetSelectedItem();
     QModelIndexList getSelectedIndexes();
 private slots:
 

@@ -9,10 +9,10 @@ StandardImageModel::StandardImageModel(QObject *parent) :
 }
 #include "imagemodel.h"
 
-StandardImageModel::StandardImageModel(const QList<QMap<int, QVariant> > &data, QObject *parent) :
+StandardImageModel::StandardImageModel(const QList<QMap<int, QVariant> > &headerData, QObject *parent) :
 StandardModel(parent)
 {
-    StandardImageItem* root = new StandardImageItem(data);
+    StandardImageItem* root = new StandardImageItem(headerData);
     root->setRoot(true);
     setRoot(root);
 }
@@ -35,6 +35,7 @@ void StandardImageModel::AddImage(const cv::Mat image, const QString fileName)
     if(channelsCount>1)
     {
         StandardImageItem* multichannelImage = new StandardImageItem(name, fileName);
+        multichannelImage->setIsMultichannel(true);
         vector<cv::Mat> imageChannels;
         cv::split(image, imageChannels);
         QHash<int, QString> ChannelsStrings;
@@ -44,7 +45,7 @@ void StandardImageModel::AddImage(const cv::Mat image, const QString fileName)
         ChannelsStrings[3] = QString("Alpha");
         for(int i = 0; i<channelsCount; i++)
         {
-            StandardImageItem* child = new StandardImageItem(imageChannels[i], name+QString(" ")+ChannelsStrings[i], fileName, i);
+            StandardImageItem* child = new StandardImageItem(imageChannels[i], name+QString(" ")+ChannelsStrings[i], fileName);
             multichannelImage->appendChild(child);
         }
         this->root()->appendChild(multichannelImage);
@@ -60,4 +61,15 @@ StandardImageItem* StandardImageModel::findImage(QString fileName)
 {
     StandardImageItem* root = static_cast<StandardImageItem*>(this->root());
     return root->findImage(fileName);
+}
+void StandardImageModel::addCustomData(QMimeData *data, const QModelIndexList indexes) const{
+    QList<QUrl> urlsList;
+    foreach (QModelIndex index, indexes) {
+        StandardImageItem* item = static_cast<StandardImageItem*>(getItem(index));
+        QVariant name = item->getFileName();
+//        if(!name.isNull() && name.isValid()){
+//            urlsList.append(QUrl(name.toString()));
+//        }
+    }
+    data->setUrls(urlsList);
 }

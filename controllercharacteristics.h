@@ -2,6 +2,7 @@
 #define CONTROLLERCHARACTERISTICS_H
 #include "stdafx.h"
 #include <QObject>
+#include <QStringListModel>
 #include "characteristicslist.h"
 #include "characteristicstable.h"
 #include "characteristicsproggresbar.h"
@@ -9,6 +10,10 @@
 #include "ui_mainwindow.h"
 #include "ImagePropertiesEvaluating.h"
 #include <QFileDialog>
+#include <QTextDocumentWriter>
+#include <QTextTable>
+#include <QTextDocument>
+#include <QTextCodec>
 
 class ControllerCharacteristics : public QObject
 {
@@ -26,6 +31,7 @@ public:
     QStringListModel* chListModel;
     CharacteristicsModel* TableModel;
     QMainWindow* _MainWindow;
+    StandardModel* getParanetersList();
 signals:
     void caracteristicEvaluatred(int, int);
     void ChEvalStarted();

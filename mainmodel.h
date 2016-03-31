@@ -1,18 +1,19 @@
 #ifndef MAINMODEL_H
 #define MAINMODEL_H
-#include "stdafx.h";
+#include "stdafx.h"
 #include <opencv2/core.hpp>
 #include <QRegExp>
 #include "imagemodel.h"
 #include <QMimeData>
 #include <QUrl>
 #include <QList>
+#include "lib/image/standardimagemodel.h"
 
-class MainModel : public ImageModel
+class MainModel : public StandardImageModel
 {
     Q_OBJECT
 public:
-    MainModel(const QList<QList<QVariant> > &data, QObject *parent=0);
+    MainModel(const QList<QMap<int, QVariant> > &data, QObject *parent=0);
     // check if drop can be accepted
     virtual bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
     virtual QStringList mimeTypes() const;

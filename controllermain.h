@@ -25,7 +25,7 @@ public:
     QMainWindow* MainWindow;
 signals:
     void MainViewSelectionChanged(QImage*);
-    void MainViewSelectionChanged(ImageItem*);
+    void MainViewSelectionChanged(StandardImageItem*);
     void SelectionRemoved();
     void ImageAdded(cv::Mat, QString);
     void ImageAdded();

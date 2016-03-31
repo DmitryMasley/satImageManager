@@ -12,6 +12,7 @@ StandardModel::StandardModel(AbstractItem *rootObj, QObject *parent) :
 {
     this->setRoot(rootObj);
 }
+
 AbstractItem* StandardModel::root() const
 {
     return _root;
@@ -211,8 +212,13 @@ QMimeData* StandardModel::mimeData(const QModelIndexList &indexes) const
     mimeData->setText(getItemClassName());
     mimeData->setData(getItemClassName(), array);
     mimeData->setIndexes(newIndexList);
+    this->addCustomData(mimeData, indexes);
     return mimeData;
 }
+void StandardModel::addCustomData(QMimeData *data, const QModelIndexList indexes) const{
+
+}
+
 QString StandardModel::getItemClassName() const {
     return _root->getType();
 }
@@ -355,4 +361,11 @@ Qt::ItemFlags StandardModel::flags(const QModelIndex &index) const
         return Qt::ItemIsDropEnabled;
     }
 
+}
+void StandardModel::removeItem(QModelIndex item){
+    if(item.isValid())
+    {
+        QModelIndex parent = item.parent();
+        removeRows(item.row(), 1, parent);
+    }
 }

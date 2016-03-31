@@ -30,7 +30,7 @@ ControllerFilter::ControllerFilter(Ui::MainWindow* ui,
 void ControllerFilter::setCurrentItem()
 {
     MainWindow* main = static_cast<MainWindow*>(_MainWindow);
-    ImageItem* item = main->getSelectedItem();
+    StandardImageItem* item = main->getSelectedItem();
     if(item)
     {
         _sourceView->copyImageItem(item);

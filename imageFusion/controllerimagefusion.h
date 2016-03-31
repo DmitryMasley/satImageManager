@@ -9,6 +9,7 @@
 #include "../lib/image/standardimagemodel.h"
 #include "../lib/image/standardimageitem.h"
 #include <QMessageBox>
+#include <QThread>
 
 class ControllerImageFusion : public QObject
 {
@@ -42,9 +43,9 @@ private:
     QPushButton* _Preview;
     QPushButton* _Save;
     QPushButton* _AddColoredImage;
-    ImageModel* _TargetSoursesModel;
-    ImageModel* _TargetResultsModel;
-    ImageModel* _PanModel;
+    StandardImageModel* _TargetSoursesModel;
+    StandardImageModel* _TargetResultsModel;
+    StandardImageModel* _PanModel;
     QMainWindow* _MainWindow;
     QCheckBox* _UseNormalization;
     QSpinBox* _WindowSize;
@@ -55,10 +56,10 @@ private:
     void scaledNormalization(cv::Mat &image, cv::Mat source, int windowSize = 2);
     void windowNormalization(cv::Mat &image, cv::Mat source);
     cv::Mat getPanImage();
-    QString getName(ImageItem* item);
-    ImageItem* getPanItem();
-    cv::Mat getInputMatrix(int cols, int rows, int type, QList<BasicModelItem *> sources);
-    cv::Mat getImage(ImageItem* item);
+    QString getName(StandardImageItem *item);
+    StandardImageItem *getPanItem();
+    cv::Mat getInputMatrix(int cols, int rows, int type, QList<AbstractItem *> sources);
+    cv::Mat getImage(StandardImageItem *item);
 };
 
 #endif // IMAGEFUSIONCONTROLLER_H

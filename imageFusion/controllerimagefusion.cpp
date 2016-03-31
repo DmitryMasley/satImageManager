@@ -26,17 +26,17 @@ ControllerImageFusion::ControllerImageFusion(Ui::MainWindow *ui,
     _TargetResultsList->setDropIndicatorShown(true);
     _TargetResultsList->setDefaultDropAction(Qt::MoveAction);
 
-    QList<QList<QVariant> > modelHeaders;
-    QList<QVariant> Name;
-    Name << QString("File");
+    QList<QMap<int, QVariant> > modelHeaders;
+    QMap<int, QVariant> Name;
+    Name.insert(0, QString("File"));
     modelHeaders.append(Name);
 
 
     _TargetSoursesModel = new GrayScaleImageModel(modelHeaders);
     _TargetSoursesList->setModel(_TargetSoursesModel);
-    _TargetResultsModel = new ImageModel(modelHeaders);
+    _TargetResultsModel = new StandardImageModel(modelHeaders);
     _TargetResultsList->setModel(_TargetResultsModel);
-    _PanModel =  new ImageModel(modelHeaders);
+    _PanModel =  new StandardImageModel(modelHeaders);
     _PanList->setModel(_PanModel);
 
     // connect signals and slots
@@ -64,7 +64,7 @@ ControllerImageFusion::~ControllerImageFusion()
 void ControllerImageFusion::SetPanImage()
 {
     MainWindow* main = static_cast<MainWindow*>(_MainWindow);
-    ImageItem* item = main->getSelectedItem();
+    StandardImageItem* item = main->getSelectedItem();
     if(item)
     {
         if (item->childCount()>0 || item->canHaveChildren())
@@ -76,28 +76,28 @@ void ControllerImageFusion::SetPanImage()
         }
         else
         {
-            ImageItem* newItem = new ImageItem(*item);
-            _PanModel->getRootNode()->empty();
-            _PanModel->AddItem(newItem);
+            StandardImageItem* newItem = new StandardImageItem(*item);
+            _PanModel->root()->empty();
+            _PanModel->addItem(newItem);
         }
     }
 }
 void ControllerImageFusion::AddSelectedToSoursesList()
 {
-    ImageItem* item = _MainView->GetSelectedItem();
+    StandardImageItem* item = _MainView->GetSelectedItem();
     if (item!=0)
     {
         if (!item->canHaveChildren())
         {
-            ImageItem* newItem = new ImageItem(*item);
-            _TargetSoursesModel->AddItem(newItem);
+            StandardImageItem* newItem = new StandardImageItem(*item);
+            _TargetSoursesModel->addItem(newItem);
         }
         else
         {
             for(int i=0; i<item->childCount(); i++)
             {
-                ImageItem* newItem = new ImageItem(*(static_cast<ImageItem*>(item->child(i))));
-                _TargetSoursesModel->AddItem(newItem);
+                StandardImageItem* newItem = new StandardImageItem(*(static_cast<StandardImageItem*>(item->child(i))));
+                _TargetSoursesModel->addItem(newItem);
             }
         }
     }
@@ -115,29 +115,29 @@ void ControllerImageFusion::RemoveFromSoursesList()
         }
     }
 }
-ImageItem* ControllerImageFusion::getPanItem()
+StandardImageItem* ControllerImageFusion::getPanItem()
 {
-    ImageItem* pan = static_cast<ImageItem*>(_PanModel->getRootNode()->child(0));
+    StandardImageItem* pan = static_cast<StandardImageItem*>(_PanModel->root()->child(0));
     return pan;
 }
 
-cv::Mat ControllerImageFusion::getImage(ImageItem* item)
+cv::Mat ControllerImageFusion::getImage(StandardImageItem* item)
 {
     cv::Mat image = item->getCVImage();
     return image;
 }
-QString ControllerImageFusion::getName(ImageItem* item)
+QString ControllerImageFusion::getName(StandardImageItem* item)
 {
     QString panName = item->data(0, Qt::DisplayRole).toString();
     return panName;
 }
-cv::Mat ControllerImageFusion::getInputMatrix(int cols, int rows, int type, QList<BasicModelItem*> sources)
+cv::Mat ControllerImageFusion::getInputMatrix(int cols, int rows, int type, QList<AbstractItem*> sources)
 {
     cv::Mat inputMatrix = cv::Mat::zeros(rows*cols, sources.count()+1, type);
     cv::Mat temp;
     for(int i = 0; i<sources.count(); i++)
     {
-        temp = static_cast<ImageItem*>(sources.at(i))->getCVImage();
+        temp = static_cast<StandardImageItem*>(sources.at(i))->getCVImage();
         cv::resize(temp, temp, cv::Size(cols, rows), cv::INTER_NEAREST);
         inputMatrix.col(i+1) = temp.reshape(0, 1).t()*1;
     }
@@ -147,8 +147,8 @@ cv::Mat ControllerImageFusion::getInputMatrix(int cols, int rows, int type, QLis
 
 void ControllerImageFusion::fusion()
 {
-    QList<BasicModelItem*> sources = _TargetSoursesModel->getRootNode()->getChildren();
-    BasicModelItem* panRoot = _PanModel->getRootNode();
+    QList<AbstractItem*> sources = _TargetSoursesModel->root()->getChildren();
+    AbstractItem* panRoot = _PanModel->root();
     if(!panRoot->childCount())
     {
         QMessageBox msgBox;
@@ -165,7 +165,7 @@ void ControllerImageFusion::fusion()
     }
     emit this->FusionStarted();
     // get pan info
-    ImageItem* pan = static_cast<ImageItem*>(_PanModel->getRootNode()->child(0));
+    StandardImageItem* pan = static_cast<StandardImageItem*>(_PanModel->root()->child(0));
     QString panName = pan->getName();
     cv::Mat panImage = getImage(pan);
     int panRows = panImage.rows;
@@ -189,7 +189,7 @@ void ControllerImageFusion::fusion()
     for(int i = 0; i<result.cols; i++)
     {
         cv::Mat temp;
-        ImageItem* sourceItem = static_cast<ImageItem*>(sources.at(i));
+        StandardImageItem* sourceItem = static_cast<StandardImageItem*>(sources.at(i));
         result.col(i).copyTo(temp);
         temp = temp.reshape(0, panRows);
         if(_UseNormalization->isChecked())
@@ -356,12 +356,12 @@ void ControllerImageFusion::StartFuision()
 }
 void ControllerImageFusion::ResultPreview()
 {
-    ImageItem *item=0;
+    StandardImageItem *item=0;
     QModelIndexList selectedIndexes =_TargetResultsList->getSelectedIndexes();
     if (selectedIndexes.count())
     {
         QModelIndex index = selectedIndexes.first();
-        item = static_cast<ImageItem*>(index.internalPointer());
+        item = static_cast<StandardImageItem*>(index.internalPointer());
         if(item->isValid())
         {
             QString name = item->data(0, Qt::DisplayRole).toString();
@@ -376,12 +376,12 @@ void ControllerImageFusion::AddColoredImageToResults()
 }
 void ControllerImageFusion::SaveImage()
 {
-    ImageItem *item=0;
+    StandardImageItem *item=0;
     QModelIndexList selectedIndexes =_TargetResultsList->getSelectedIndexes();
     if (selectedIndexes.count())
     {
         QModelIndex index = selectedIndexes.first();
-        item = static_cast<ImageItem*>(index.internalPointer());
+        item = static_cast<StandardImageItem*>(index.internalPointer());
         if(item->isValid())
         {
             cv::Mat image = item->getCVImage();

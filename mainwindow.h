@@ -17,6 +17,8 @@
 #include "./controllers/edgedetectioncontroller.h"
 #include "metatypes.h"
 #include "workspace.h"
+#include "lib/image/standardimagemodel.h"
+#include "lib/image/standardimageitem.h"
 namespace Ui {
 class MainWindow;
 }
@@ -34,7 +36,7 @@ public:
     ControllerComparativeCharacteristics* comparativeCharacteristicsController;
     ControllerMultichannelImages* multiChannelController;
     edgeDetectionController* edgeDetectionCntlr;
-    ImageItem *getSelectedItem();
+    StandardImageItem *getSelectedItem();
     QtAwesome* awesome;
     void dropEvent(QDropEvent *event);
     ~MainWindow();

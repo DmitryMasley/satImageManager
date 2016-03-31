@@ -26,7 +26,7 @@ ControllerCharacteristics::ControllerCharacteristics(Ui::MainWindow* ui,
             QString("Max dynamic contrast");
     chListModel = new QStringListModel();
     chListModel->setStringList(list);
-    Characteristics->setModel(chListModel);
+    Characteristics->setModel(this->getParanetersList());
 
     // Characteristics result model
     QList<QList<QVariant> > chmodelHeaders;
@@ -43,11 +43,39 @@ ControllerCharacteristics::ControllerCharacteristics(Ui::MainWindow* ui,
                      this, SLOT(saveResultsToFile()));
 
 }
+
 ControllerCharacteristics::~ControllerCharacteristics()
 {
     delete chListModel;
     delete TableModel;
 }
+StandardModel* ControllerCharacteristics::getParanetersList(){
+    StandardModel* parametersList = new StandardModel(this);
+    QStringList names;
+    names <<
+            QString("Shannon entropy") <<
+            QString("Signal entropy") <<
+            QString("Gradation using coefficient") <<
+            QString("Adaptation level of brightness") <<
+            QString("Max dynamic contrast");
+    QStringList values;
+    values <<
+              QString("shannonEntropy") <<
+              QString("signalEntropy") <<
+              QString("gradationUsingCoefficient") <<
+              QString("adaptationLevelOfBrightness") <<
+              QString("maxDynamicContrast");
+    for(int i=0; i<names.count(); i++){
+        QList<QMap<int, QVariant> > data;
+        QMap<int, QVariant> map;
+        map[Qt::DisplayRole] = names[i];
+        map[Qt::UserRole] = values[i];
+        data << map;
+        parametersList->addItem(new AbstractItem(data));
+    }
+    return parametersList;
+}
+
 void ControllerCharacteristics::evalCharacteristics()
 {
     QModelIndexList characteristicsSelection = Characteristics->getSelectedIndexes();

@@ -58,7 +58,9 @@ SOURCES +=stdafx.cpp \
     controllers/edgedetectioncontroller.cpp \
     object.cpp \
     UICore.cpp \
-    workspace.cpp
+    workspace.cpp \
+    views/imagelistview.cpp \
+    lib/image/imageparameter.cpp
 
 HEADERS  +=stdafx.h \
     mainwindow.h \
@@ -114,7 +116,10 @@ HEADERS  +=stdafx.h \
     ui_helperdialog.h \
     ui_mainwindow.h \
     UICore.h \
-    workspace.h
+    workspace.h \
+    ui_workspace.h \
+    views/imagelistview.h \
+    lib/image/imageparameter.h
 
 FORMS+= mainwindow.ui \
     workspace.ui

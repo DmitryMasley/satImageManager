@@ -14,7 +14,7 @@
    <string>Dialog</string>
   </property>
   <property name="modal">
-   <bool>true</bool>
+   <bool>false</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -90,7 +90,7 @@
     </widget>
    </item>
    <item>
-    <widget class="ImageTreeView" name="treeView">
+    <widget class="ImageListView" name="workspace_image_list">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -172,9 +172,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>ImageTreeView</class>
+   <class>ImageListView</class>
    <extends>QTreeView</extends>
-   <header>imagetreeview.h</header>
+   <header location="global">views/imagelistview.h</header>
    <slots>
     <signal>selectionChanged(QItemSelection,QItemSelection)</signal>
     <slot>AddImage()</slot>

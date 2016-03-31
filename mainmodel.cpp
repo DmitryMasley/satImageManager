@@ -1,11 +1,12 @@
 #include "mainmodel.h"
 
-MainModel::MainModel(const QList<QList<QVariant> > &data, QObject *parent) :
-    ImageModel(data, parent)
+MainModel::MainModel(const QList<QMap<int, QVariant> > &data, QObject *parent) :
+    StandardImageModel(data, parent)
 {
 }
 bool MainModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
+    // read only files
     if(!data->hasUrls())
     {
         return false;
@@ -31,7 +32,7 @@ bool MainModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int r
 }
 void MainModel::AddImage(const cv::Mat image, const QString fileName)
 {
-    ImageModel::AddImage(image, fileName);
+    StandardImageModel::AddImage(image, fileName);
     emit imageAdded(image, fileName);
 }
 

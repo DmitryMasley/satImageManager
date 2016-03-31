@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QFontDatabase>
 using namespace cv;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -104,7 +105,7 @@ void MainWindow::ProgressChanged(int value)
 {
    _modalProgress->setValue(value);
 }
-ImageItem* MainWindow::getSelectedItem()
+StandardImageItem *MainWindow::getSelectedItem()
 {
     return ui->mainTreeView->GetSelectedItem();
 }

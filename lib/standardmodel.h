@@ -53,8 +53,10 @@ public:
     void empty();
     void addItem(AbstractItem* item, AbstractItem* parent = 0);
     Qt::ItemFlags flags(const QModelIndex &index) const;
+    void removeItem(QModelIndex item);
 protected:
     InsertPoint findParentForDrop(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex parent);
+    void addCustomData(QMimeData* data, const QModelIndexList indexes) const;
     virtual AbstractItem* createItem();
 private:
     AbstractItem* _root = 0;

@@ -16,15 +16,15 @@ void previewGraphicsView::fitIntoView()
 {
     fitImage();
 }
-void previewGraphicsView::setImageItem(ImageItem *item)
+void previewGraphicsView::setImageItem(StandardImageItem *item)
 {
     image = item;
     showPreview(image->getQImage());
 }
-void previewGraphicsView::copyImageItem(ImageItem *item)
+void previewGraphicsView::copyImageItem(StandardImageItem *item)
 {
     delete image;
-    image = new ImageItem(item->getData());
+    image = new StandardImageItem(item->getData());
     showPreview(image->getQImage());
 }
 void previewGraphicsView::showPreview(QImage* img)
@@ -79,23 +79,31 @@ void previewGraphicsView::dragMoveEvent(QDragMoveEvent *event)
 }
 void previewGraphicsView::dropEvent(QDropEvent *event)
 {
-    const DDMimeData *mimeData = qobject_cast<const DDMimeData*>(event->mimeData());
-    if(mimeData && mimeData->_data.count())
+    const StandardMimeData *mimeData = qobject_cast<const StandardMimeData*>(event->mimeData());
+    if(mimeData && mimeData->getIndexes().count())
     {
-        QList<QList<QVariant> > data  = mimeData->_data.first();
-        if(this->_gray)
+        QModelIndexList indexes = mimeData->getIndexes();
+        QModelIndex index = indexes.first();
+        QList<QMap<int, QVariant> > data;
+        if (index.isValid())
         {
-            // check if we have colored image. If so, prevent to add it to the view.
-            cv::Mat image = data.at(1).at(0).value<cv::Mat>();
-            if(image.channels()>1)
+            StandardImageItem* item = static_cast<StandardImageItem*>(index.internalPointer());
+            data = item->getData();
+
+            if(this->_gray)
             {
-                return;
+                // check if we have colored image. If so, prevent to add it to the view.
+                cv::Mat image = item->getCVImage();
+                if(image.channels()>1)
+                {
+                    return;
+                }
             }
+            delete image;
+            image = new StandardImageItem(data);
+            showPreview(image->getQImage());
+            emit this->imageChanged(image);
         }
-        delete image;
-        image = new ImageItem(data);
-        showPreview(image->getQImage());
-        emit this->imageChanged(image);
     }
 }
 
